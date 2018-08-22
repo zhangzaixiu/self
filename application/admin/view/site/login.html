@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>登录—泰兴后台</title>
+    <link rel="stylesheet" href="/plugins/toastr/toastr.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/supersized.3.2.7.min.js"></script>
+    <script src="/js/supersized-init.js"></script>
+</head>
+<body  id="login">
+<div class="login">
+    <form class="login-form" id="loginForm" >
+        <div class="login1">
+            <h3 style="color: #067fe4;font-size: 40px;text-align: center; padding: 15px 10px;">泰兴后台</h3>
+            <div class="login2">
+                <i class="icon iconfont icon-account"></i>
+                <input type="text" class="form-control name" id="username" name="name" maxlength="11" placeholder="手机号码" value="{$mobile?$mobile:''}">
+            </div>
+            <div class="login2">
+                <i class="icon iconfont icon-password"></i>
+                <input type="password" class="form-control password" id="password" name="password" placeholder="密码" value="{$password?$password:''}">
+            </div>
+            <div class="col-md-12 col-sm-12 padding-0" style="display:flex;align-items:center">
+                <input type="checkbox" placeholder="密码" style="height:12px;line-height:12px;margin-top:0" class="check_pass" name="rember_me" checked="checked">
+                <p class="false animsition-fade errorb" style="margin-bottom:0;color:#62a8ea;margin-left:2px">记住密码</p>
+                <a href="{:url('admin/login/forget')}" style="color:#f38d2b;margin-left: 94px">忘记密码？</a>
+            </div>
+            <div class="login4">
+                <button type="button" class="btn btn-block btn-primary" id="btnlogin">登录</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+<script src="/plugins/toastr/toastr.js"></script>
+<script src="/js/base.js"></script>
+<script>
+    // 登录
+    $("#btnlogin").on("click", function () {
+        var url="{:url('login/login')}";
+        var data=serializeData("loginForm");
+        cstmpost("#btnlogin",url,data, function (data) {
+            if(data["code"]=='1'){
+                toastr.success(data["msg"]);
+                setTimeout(function () {
+                    location.href = data["url"];
+                },2000);
+            }else{
+                toastr.error(data["msg"]);
+            }
+        });
+    });
+
+    $(document).keydown(function(event){
+        e = event ? event :(window.event ? window.event : null);
+        if(e.keyCode == 13){
+            $("#btnlogin").click();
+        }
+    })
+    </script>
+</body>
+</html>

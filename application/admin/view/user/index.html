@@ -1,0 +1,256 @@
+<link rel="stylesheet" href="/adminui/public/vendor/datatables-bootstrap/dataTables.bootstrap.css">
+<link rel="stylesheet" href="/adminui/public/vendor/datatables-responsive/dataTables.responsive.css">
+<link rel="stylesheet" href="/adminui/public/vendor/jstree/jstree.css">
+<link rel="stylesheet" href="/adminui/public/vendor/alertify-js/alertify.css">
+<link rel="stylesheet" href="/adminui/public/vendor/jquery-strength/jquery-strength.css">
+<link rel="stylesheet" href="/adminui/public/vendor/formvalidation/formValidation.css">
+<link rel="stylesheet" href="/adminui/public/vendor/select2/select2.css">
+<style>
+    .dataTables_filter{
+        position: absolute;
+        left: 6px;
+    }
+    .form-control{
+        display: block;
+        /*width: 100%;*/
+        height: 32px;
+        padding: 4px 12px;
+        font-size: 14px;
+        line-height: 1.6;
+        color: #76838f;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #e4eaec;
+        border-radius: 3px;
+    }
+    .select2-container,.select2-search__field{
+        width:auto !important;
+    }
+
+    .user_table .iqbt_div{
+        white-space: normal;
+        word-break: break-all;
+        word-wrap: break-word;
+        width: 100%;
+    }
+    .user_table tbody tr{
+        text-align: center ;
+    }
+</style>
+
+<div class="page-container" id="admui-pageContent">
+        <div class="page page-full bg-white animation-fade page-users">
+            <div class="page-aside">
+                <div class="page-aside-switch">
+                    <i class="icon wb-chevron-left" aria-hidden="true"></i>
+                    <i class="icon wb-chevron-right" aria-hidden="true"></i>
+                </div>
+                <div class="page-aside-inner height-full" data-plugin="slimScroll">
+                    <div class="page-aside-section">
+                        <div class="list-group">
+                            <a class="list-group-item active" href="javascript:;">
+                                <span class="item-right" data-allUsers="{$count}">{$count}</span><i class="icon wb-tag" aria-hidden="true"></i>所有用户
+                            </a>
+                        </div>
+                    </div>
+                    <div class="page-aside-section">
+                        <div class="list-group">
+                            <a class="btn pull-right" style="padding: 6px 12px" href="#" data-toggle="modal" data-target="#roleForm" id="addRoleToggle">
+                                <i class="icon wb-plus" aria-hidden="true"></i>
+                            </a>
+                            <h5 class="page-aside-title" style="color: #62a8ea">角色</h5>
+                        </div>
+                        <div class="list-group has-actions role-contents">
+                            {foreach $roles as $k=>$v}
+                            <div class="list-group-item" data-user="{$v['count']}" data-id="{$v['id']}" data-url="">
+                                <div class="list-content">
+                                    <span class="item-right">{$v['count']}</span> <span class="list-text">{$v['role_name']}</span>
+                                    {if($v['is_lock']==0)}
+                                    <div class="item-actions">
+                                            <span class="btn btn-pure btn-icon btn-edit" data-toggle="modal" data-target="#roleForm"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                                            <span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>
+                                    </div>
+                                    {/if}
+                                </div>
+                            </div>
+                            {/foreach}
+                        </div>
+                        {literal}
+                            <script type="text/html" id="roleTpl">
+                                <div class="list-group-item" data-user="0" data-id="{{role.id}}" data-url="">
+                                    <div class="list-content">
+                                        <span class="item-right">0</span> <span class="list-text">{{role.name}}</span>
+                                        <div class="item-actions">
+                                            <span class="btn btn-pure btn-icon btn-edit" data-toggle="modal" data-target="#roleForm"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                                            <span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </script>
+                        {/literal}
+                    </div>
+                </div>
+            </div>
+            <div class="page-main">
+                <div class="page-content" id="user_tables">
+                        <button class="btn btn-success pull-right add_user" ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;添加用户</button>
+                    <table class="user_table table table-bordered table-hover text-nowrap dataTable table-striped margin-vertical-10 width-full print-hidden-first-column print-hidden-last-column" data-selectable="selectable" data-column-defs='[{ "orderable": false, "targets": 5}]'>
+                        <thead>
+                        <tr>
+                            <th >用户名</th>
+                            <th >联系电话</th>
+                            <th >角色</th>
+                            <th >状态</th>
+                            <th >创建日期</th>
+                            <th >操作</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade in" id="userInfoForm" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-center">
+                <form class="modal-content form-horizontal" id="userAccountInfo">
+                    <div class="modal-header">
+                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                        <h4 class="modal-title" id="myModalLabel">用户信息</h4>
+                    </div>
+                    <div class="modal-body" style="max-height: 600px;overflow-y: scroll">
+                        <script type="text/html" id="userAuth">
+                        <div class="form-group">
+                            <input type="hidden" name="id" value="{{user.id}}" id="user_id">
+                            <label class="col-sm-4 control-label"><span class="required">*</span> 用户名：</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control " name="name" value="{{user.name}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label"><span class="required">*</span> 联系电话：</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="mobile" value="{{user.mobile}}" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label"><span class="required">*</span> 角色：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control "  name="role_id" data-plugin="select2">
+                                    {literal}
+                                    {{each auth}}
+                                    {{if $value.id == user.role_id}}
+                                    <option value="{{$value.id}}" selected>{{$value.text}}</option>
+                                    {{else}}
+                                    <option value="{{$value.id}}">{{$value.text}}</option>
+                                    {{/if}}
+                                    {{/each}}
+                                    {/literal}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label"><span class="required">*</span> 状态：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control"  name="status">
+                                    {literal}
+                                        <option value="1" {{user.status==1?'selected':''}}>正常</option>
+                                        <option value="2" {{user.status==2?'selected':''}}>冻结</option>
+                                    {literal}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group margin-top-25" style="text-align: center">
+                            <button class="btn btn-primary margin-right-10" type="submit">保存</button>
+                            <a class="btn btn-default" data-dismiss="modal">取消</a>
+                        </div>
+                        </script>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal fade" id="roleForm" aria-hidden="true" aria-labelledby="roleForm" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-center">
+                <form class="modal-content" id="roleInfo">
+                    <div class="modal-header">
+                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                        <h4 class="modal-title">角色信息</h4>
+                    </div>
+                    <div class="modal-body" style="max-height: 600px ;overflow-y: scroll">
+                        <div class="form-group">
+                            <label class="control-label"><span class="required">*</span> 角色名称：</label>
+                            <input type="text" class="form-control" name="role_name">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label"><span class="required">*</span> 权限分配：</label>
+                            <div class="treeview-box">
+                                <div class="treeview-tools clearfix">
+                                    <div class="btn-group btn-group-sm pull-right" role="group">
+                                        <button type="button" class="btn btn-icon btn-outline btn-default btn-unfold">
+                                            <i class="icon fa-angle-down"></i></button>
+                                        <button type="button" class="btn btn-icon btn-outline btn-default btn-fold">
+                                            <i class="icon fa-angle-up"></i></button>
+                                    </div>
+                                    <div class="pull-left">
+                                        <div class="input-search">
+                                            <button type="button" class="input-search-btn">
+                                                <i class="icon wb-search" aria-hidden="true"></i></button>
+                                            <input type="text" class="form-control input-sm" name="jstree_search" placeholder="快速查找...">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pagetree margin-top-10">
+                                    <div data-plugin="slimScroll" data-user="240px">
+                                        <div data-plugin="treeview"></div>
+                                    </div>
+                                    <input type="hidden" name="roleId">
+                                    <input type="hidden" name="menu_ids">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-treeview" type="submit">保存</button>
+                        <a class="btn btn-default" data-dismiss="modal">取消</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script src="/adminui/public/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/adminui/public/vendor/datatables-bootstrap/dataTables.bootstrap.min.js"></script>
+<script src="/adminui/public/vendor/datatables-responsive/dataTables.responsive.min.js"></script>
+<script src="/adminui/public/vendor/datatables-buttons/dataTables.buttons.min.js"></script>
+<script src="/adminui/public/vendor/datatables-buttons/buttons.print.min.js"></script>
+<script src="/adminui/public/vendor/datatables-buttons/buttons.html5.min.js"></script>
+<script src="/adminui/public/vendor/jszip/jszip.min.js"></script>
+<script src="/adminui/public/vendor/jstree/jstree.min.js"></script>
+<script src="/adminui/public/vendor/alertify-js/alertify.min.js"></script>
+<script src="/adminui/public/vendor/jquery-strength/jquery-strength.min.js"></script>
+<script src="/adminui/public/vendor/multi-select/jquery.multi-select.min.js"></script>
+<script src="/adminui/public/vendor/formvalidation/formValidation.min.js"></script>
+<script src="/adminui/public/vendor/formvalidation/framework/bootstrap.min.js"></script>
+<script src="/adminui/public/themes/classic/global/js/plugins/sticky-header.js"></script>
+<script src="/adminui/public/themes/classic/global/js/plugins/action-btn.js"></script>
+<script src="/adminui/public/themes/classic/global/js/plugins/selectable.js"></script>
+
+<script src="/adminui/public/vendor/select2/select2.full.min.js"></script>
+<script>
+    edit_role = "1",
+    reset_role = "1",
+    frezy_role = "1",
+    unfrezy_role = "1";
+
+    //切换选择孵化器
+    $('#userInfoForm').on('change','input[name="is_all_iqbt"]',function () {
+        if($(this).val() == 0){
+            $('#iqbt_select').show();
+        }else{
+            $('#iqbt_select').hide();
+            $('#iqbt_select select').select2("val", "");
+        }
+    });
+
+</script>
+<script src="/admin/js/user.js"></script>

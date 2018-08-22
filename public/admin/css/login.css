@@ -1,0 +1,55 @@
+body{font-family:"Microsoft YaHei";color:#fff;margin:0 auto;width:100%;min-width:1200px;}
+	*{padding:0; margin:0; font-family:"微软雅黑";}
+	a{text-decoration:none;margin:0;}
+	ul li{list-style:none;}
+	img{border:none; display:block;}
+	dl,dd{margin:0;}
+	input{margin:0;padding:0;border:none;outline:none;}
+	#supersized-loader{position:absolute;top:50%;left:50%;z-index:0;width:60px;height:60px;margin:-30px 0 0 -30px;text-indent:-999em;}
+	#supersized{display:block;position:fixed;left:0;top:0;overflow:hidden;z-index:-999;height:100%;width:100%}
+	#supersized img{width:auto;height:auto;position:relative;display:none;outline:0;border:none}
+	#supersized.speed img{-ms-interpolation-mode:nearest-neighbor;image-rendering:-moz-crisp-edges}
+	#supersized.quality img{-ms-interpolation-mode:bicubic;image-rendering:optimizeQuality}
+	#supersized li.activeslide img,#supersized li.prevslide img{display:inline;}
+	#supersized img{max-width:none!important;}
+	/*中间*/
+	.login{width:350px;overflow:hidden;position:absolute;top:50%;margin-top:-230px;left:50%;margin-left:-175px;}
+	.login .img1{width:100px;height:auto;margin:20px auto;}
+	.login .img2{width:180px;height:auto;margin:20px auto;} 
+	.login .login1{width:270px;overflow:hidden;margin:10px auto;font-size:14px;}
+	.login .login1 .login2{background:#FFF;margin-bottom:10px;border-radius:4px;height:35px;width:268px;border:1px solid #cccccc;clear:both;text-align:left;}
+	.login .login1 .login2 i{padding:0 5px 0 10px;color: #333;}
+	.login .login1 .login2 input{height:35px;line-height:35px;width:200px;padding-left:4px;background:none;}
+	.login .login1 .login4{width:270px;overflow:hidden;}
+	.login .login1 .login4 button{width:270px;margin-top:10px;background:#067fe4;cursor:pointer;color:#FFF;font-weight:bold;text-align:center;height:37px;line-height:37px;border-radius:4px;font-size:14px;border:none;}
+	.login .login1 .last{margin-top:15px;font-size:14px;color:#999999;text-align:left;}
+	.login .login1 .last a{color:#1e69be;}
+	/*注册*/
+	.slogin{overflow:hidden;margin-top:-252px;}
+	.slogin .login1{width:270px;overflow:hidden;margin:10px auto;}
+	.slogin .login1 .slogin2{border:none;}
+	.slogin .login1 .slogin2 .yzm{width:125px;float:left;border:1px solid #cccccc;border-radius:4px;}
+	.slogin .login1 .slogin2 .hq{
+		width:125px;cursor:pointer;float:right;background:#067fe4;color:#FFF;
+		text-align:center;height:37px;line-height:37px;border-radius:4px;}
+	@media (max-width: 1366px){
+		.login{width:350px;overflow:hidden;position:absolute;top:50%;margin-top:-210px;left:50%;margin-left:-175px;}
+		.login .img1{width:90px;height:auto;margin:15px auto;}
+		.login .img2{width:140px;height:auto;margin:15px auto;} 
+		.login .login1{width:220px;overflow:hidden;margin:10px auto;font-size:12px;}
+		.login .login1 .login2{background:#FFF;margin-bottom:10px;border-radius:4px;height:30px;width:218px;border:1px solid #cccccc;clear:both;text-align:left;}
+		.login .login1 .login2 i{padding:0 0 0 8px;color: #333;font-size:12px;}
+		.login .login1 .login2 input{height:30px;line-height:30px;width:auto;width:175px;padding-left:4px;background:none;}
+		.login .login1 .login4{width:220px;overflow:hidden;}
+		.login .login1 .login4 button{width:220px;margin-top:5px;background:#067fe4;cursor:pointer;color:#FFF;font-weight:bold;text-align:center;height:32px;line-height:32px;border-radius:4px;font-size:12px;border:none;}
+		.login .login1 .last{margin-top:10px;font-size:12px;color:#999999;text-align:left;}
+		.login .login1 .last a{color:#1e69be;}
+		/*注册*/
+		.slogin{overflow:hidden;margin-top:-224px;}
+		.slogin .login1{width:220px;overflow:hidden;margin:10px auto;}
+		.slogin .login1 .slogin2{border:none;}
+		.slogin .login1 .slogin2 .yzm{width:100px;float:left;border:1px solid #cccccc;border-radius:4px;}
+		.slogin .login1 .slogin2 .hq{
+			width:100px;cursor:pointer;float:right;background:#067fe4;color:#FFF;
+			text-align:center;height:32px;line-height:32px;border-radius:4px;}	
+	}

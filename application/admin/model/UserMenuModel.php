@@ -1,0 +1,1 @@
+<?phpnamespace app\admin\model;use think\Exception;use think\Model;class UserMenuModel extends Model{}

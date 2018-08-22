@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>忘记密码</title>
+    <link rel="stylesheet" href="/plugins/toastr/toastr.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/supersized.3.2.7.min.js"></script>
+    <script src="/js/supersized-init.js"></script>
+</head>
+<body  id="login">
+<div class="login slogin">
+    <form class="login-form"  method="post" id="reg">
+        <div class="login1">
+            <h3 style="color: #067fe4;font-size: 40px;text-align: center; padding: 15px 10px;">泰兴后台</h3>
+            <div class="login2">
+                <i class="icon iconfont icon-account"></i>
+                <input type="text" class="form-control " name="mobile" maxlength="11" placeholder="手机号码" id="account">
+            </div>
+            <div class="login2 slogin2" style="background:none;">
+                <input type="text" class="form-control password yzm" name="code" placeholder="验证码" style="padding-left:10px;background:#FFF;">
+                <input class="hq" type="button" value="点击获取" id="code">
+            </div>
+            <div class="login2">
+                <i class="icon iconfont icon-password"></i>
+                <input type="password" class="form-control password" placeholder="密码由6-12位数字或字母组成" name="password">
+            </div>
+            <div class="login2">
+                <i class="icon iconfont icon-password"></i>
+                <input type="password" class="form-control password" placeholder="确认密码" name="repassword">
+            </div>
+            <div class="login4">
+                <button type="button" class="submit-btn" submit-table="reg">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/plugins/toastr/toastr.js"></script>
+<script src="/js/base.js"></script>
+<script>
+    $(function () {
+        var i;
+        function getCode() {
+            $("#code").attr("disabled", 'disabled');
+            i = self.setInterval(function () {
+                countdown();
+            }, 1000);
+        }
+        var int = 59;
+        function countdown() {
+            $('#code').val(int + "秒后重新发送");
+            int--;
+            if (int < 0) {
+                i = window.clearInterval(i)//结束
+                int = 59; //重新赋值
+                $("#code").removeAttr("disabled").val("重新获取校验码");//将按钮可用
+                $('#code').removeClass("disabled");
+            }
+        }
+
+        //点击获取验证码时校验手机号
+        $('#code').click(function () {
+            var account = $('#account').val();
+            var url = "{:url('admin/login/validateCode')}";
+            if ($(this).hasClass('disabled')) {
+                toastr.warning('请稍后再试');
+            } else {
+                cstmpost('#code', url, {mobile: account}, function (res) {
+                    if (res.code == 1) {
+                        $('#code').val('60秒后重新发送');
+                        $('#code').addClass("disabled");
+                        toastr.success('短信发送成功');
+                        getCode();
+                    } else {
+                        toastr.error(res.msg);
+                    }
+                })
+            }
+        });
+
+
+        // 提交表单
+        $(".submit-btn").click(function () {
+            //表单地址
+            var url = "{:url('admin/login/forget')}";
+            //表单字段
+            var fields = serializeData('reg');
+            fields.action = 'forget';
+            cstmpost('.submit-btn', url, fields, function (res) {
+                if (res.code == 1) {
+                    toastr.success(res.msg + '正在跳转至登录页');
+                    setTimeout(function () {
+                        location.href = "{:url('admin/login/login')}";
+                    }, 2000);
+                } else {
+                    toastr.warning(res.msg);
+                }
+            }, 'JSON');
+        });
+    })
+</script>
+</body>
+</html>
