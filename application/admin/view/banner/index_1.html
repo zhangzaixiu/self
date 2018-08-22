@@ -72,10 +72,39 @@
 <script src="/adminui/public/js/examples/forms/validation.js"></script>
 
 <script>
-    //操作
+    // //切换上传类型
+    // $('#type_name').on('change',function () {
+    //     var val = $(this).val();
+    //     if(val == 1){
+    //         $('#addForm .video').hide();
+    //         $('#addForm .image').show();
+    //         $('input[name="link_url"]').val('').parents('.link_url').show();
+    //         $('.dropify-clear').click();
+    //     }
+    //     if(val == 2){
+    //         $('#addForm .image').hide();
+    //         $('#addForm .video').show();
+    //         $('input[name="link_url"]').val('').parents('.link_url').hide();
+    //         $('.dropify-clear').click();
+    //     }
+    //     $('#file_id').val('');
+    // });
+
+    //删除
     function actFmt(value, row, index) {
+        // return '                                        <button type="button" class="btn btn-outline btn-dark btn-sm">\n' +
+        //     '                                            <i class="icon wb-trash" aria-hidden="true"></i> 删除\n' +
+        //     '                                        </button> ' +
+        //     '                                        <button type="button" class="btn btn-outline btn-info btn-sm">\n' +
+        //     '                                            <i class="icon wb-file" aria-hidden="true"></i> 详情\n' +
+        //     '                                        </button> ' +
+        //     '                                        <button type="button" class="btn btn-outline btn-warning btn-sm">\n' +
+        //     '                                            <i class="icon wb-edit" aria-hidden="true"></i> 编辑\n' +
+        //     '                                        </button> ';
         var delete_url = "{:url('admin/banner/delete')}?id="+row.id;
-        return '<button type="button" class="btn btn-outline btn-dark btn-sm" data-toggle="delete" data-message="确定删除此banner吗?"  data-url="'+delete_url+'">' + '<i class="icon wb-trash" aria-hidden="true"></i> 删除' + '</button> ';
+        return '<button type="button" class="btn btn-outline btn-dark btn-sm" data-toggle="delete" data-message="确定删除此banner吗?" data-url="'+delete_url+'">' +
+                '<i class="icon wb-trash" aria-hidden="true"></i> 删除' +
+            '</button> ';
     }
 
     //保存

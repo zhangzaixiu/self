@@ -88,6 +88,9 @@ table select.readonly {
     color: #a3afb7 !important;
     border-color: #a3afb7 !important;
 }
+label.error{
+    color: #e83636;
+}
 
 
 
