@@ -1,7 +1,15 @@
 
 function serializeData(formId){
-    var serializeObj={};
-    var formdata=$(formId).serializeArray();
+    var serializeObj={},formdata='';
+    if(typeof formId == "object"){
+        if(formId.length ==0){
+           return serializeObj;
+        }
+        formdata = formId.serializeArray();
+    }else{
+        formdata = $(formId).serializeArray();
+    }
+
     $(formdata).each(function(){
         serializeObj[this.name]=serializeObj[this.name]?serializeObj[this.name]+","+this.value:this.value;
     });
@@ -53,11 +61,11 @@ $.extend({
             return /^((http|https|ftp):\/\/)?(\w(\:\w)?@)?([0-9a-z_-]+\.)*?([a-z]{2,6}(\.[a-z]{2})?(\:[0-9]{2,6})?)((\/[^?#<>\/\\*":]*)+(\?[^#]*)?(#.*)?)?$/i.test(value)
         };
 
-        $.validator.setDefaults({
-            // submitHandler: function() {
-            //     alert("提交事件!");
-            // }
-        });
+        // $.validator.setDefaults({
+        //     submitHandler: function() {
+        //         alert("提交事件!");
+        //     }
+        // });
 
         $("form",container).validate({
             ignore: '.ignore',
@@ -84,7 +92,7 @@ $('body').on('click','button[data-toggle="delete"]',function(){
                             toastr.success(data.message||"操作成功");
                             setTimeout(function(){
                                 location.reload();
-                            },1000)
+                            },1000);
                         } else {
                             toastr.error(data.msg);
                         }
@@ -95,5 +103,26 @@ $('body').on('click','button[data-toggle="delete"]',function(){
                 }
             });
         });
+});
+
+//保存表单
+$(".btn-save").click(function () {
+    //验证
+    var flag = $("form").valid();
+    if(!flag){
+        return;
+    }
+    var form= $(this).closest("form"),url = $(this).data('url'),data=serializeData(form);
+    console.log(data);
+    $.post(url, data, function (res) {
+        if (res["success"]) {
+            toastr.success(res["msg"]);
+            setTimeout(function(){
+                location.href="{:url('admin/banner/index')}";
+            },1000);
+        } else {
+            toastr.error(res["msg"]);
+        }
+    });
 });
 

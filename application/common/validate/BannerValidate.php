@@ -1,0 +1,1 @@
+<?phpnamespace app\common\validate;use think\Validate;class BannerValidate extends Validate{    protected $rule =   [        'type|类型'=>"require",        'sort|排序'=>'require|number|egt:1',        'file_id|上传文件'=>'require',        'link_url|链接'=>'url|requireIf:type,1',    ];}
