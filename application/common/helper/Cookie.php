@@ -1,6 +1,8 @@
 <?php
 
 namespace app\common\helper;
+use think\facade\Cache;
+
 /**
  * author: hollow
  * email: hollow@foxmail.com
@@ -47,13 +49,13 @@ class Cookie {
 
     public static function  setCookie($name, $value = '', $option = null){
         $value = self::_encrypt($value);
-         \think\Cookie::set($name,$value,$option);
+        \think\facade\Cookie::set($name,$value,$option);
          return $value;
     }
 
 
     public static function  getCookie($name = '', $prefix = null){
-        $value = \think\Cookie::get($name,$prefix);
+        $value =\think\facade\Cookie::get($name,$prefix);
         return self::_decrypt($value);
     }
 

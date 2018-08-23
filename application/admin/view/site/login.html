@@ -1,65 +1,84 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html class="no-js css-menubar height-full" lang="zh-cn">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>登录—泰兴后台</title>
-    <link rel="stylesheet" href="/plugins/toastr/toastr.css">
-    <link rel="stylesheet" href="/css/login.css">
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/supersized.3.2.7.min.js"></script>
-    <script src="/js/supersized-init.js"></script>
+    <title>请重新登录</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 移动设备 viewport -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="author" content="admui.com">
+    <!-- 360浏览器默认使用Webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 禁止搜索引擎抓取 -->
+    <meta name="robots" content="nofollow">
+    <!-- 禁止百度SiteAPP转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+    <link rel="icon" type="image/png" href="/adminui/public/images/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Safari浏览器添加到主屏幕（IOS） -->
+    <link rel="icon" sizes="192x192" href="/adminui/public/images/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Admui">
+    <!-- Win8标题栏及ICON图标 -->
+    <link rel="apple-touch-icon-precomposed" href="/adminui/public/images/apple-touch-icon.png">
+    <meta name="msapplication-TileImage" content="../public/images/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#62a8ea">
+
+    <!-- 图标 CSS -->
+    <link rel="stylesheet" href="/adminui/public/fonts/web-icons/web-icons.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/adminui/public/themes/classic/global/css/bootstrap.css">
+
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="/adminui/public/themes/classic/base/css/site.css" id="admui-siteStyle">
+
+    <!-- 插件 CSS -->
+    <link rel="stylesheet" href="/adminui/public/vendor/animsition/animsition.css">
+
+    <!-- page CSS -->
+    <link rel="stylesheet" href="/adminui/public/css/locked.css">
+
+    <!--[if lte IE 9]>
+    <meta http-equiv="refresh" content="0; url='http://www.admui.com/ie'"/>
+    <![endif]--><!--[if lt IE 10]>
+    <script src="/adminui/public/vendor/media-match/media.match.min.js"></script>
+    <script src="/adminui/public/vendor/respond/respond.min.js"></script>
+    <![endif]-->
 </head>
-<body  id="login">
-<div class="login">
-    <form class="login-form" id="loginForm" >
-        <div class="login1">
-            <h3 style="color: #067fe4;font-size: 40px;text-align: center; padding: 15px 10px;">泰兴后台</h3>
-            <div class="login2">
-                <i class="icon iconfont icon-account"></i>
-                <input type="text" class="form-control name" id="username" name="name" maxlength="11" placeholder="手机号码" value="{$mobile?$mobile:''}">
-            </div>
-            <div class="login2">
-                <i class="icon iconfont icon-password"></i>
-                <input type="password" class="form-control password" id="password" name="password" placeholder="密码" value="{$password?$password:''}">
-            </div>
-            <div class="col-md-12 col-sm-12 padding-0" style="display:flex;align-items:center">
-                <input type="checkbox" placeholder="密码" style="height:12px;line-height:12px;margin-top:0" class="check_pass" name="rember_me" checked="checked">
-                <p class="false animsition-fade errorb" style="margin-bottom:0;color:#62a8ea;margin-left:2px">记住密码</p>
-                <a href="{:url('admin/login/forget')}" style="color:#f38d2b;margin-left: 94px">忘记密码？</a>
-            </div>
-            <div class="login4">
-                <button type="button" class="btn btn-block btn-primary" id="btnlogin">登录</button>
-            </div>
 
-        </div>
-    </form>
+<body class="page-locked layout-full page-dark">
+
+<div class=" page animation-fade vertical-align text-center animsition-fade height-full">
+    <div class="page-content vertical-align-middle" style="background: #ececec69;">
+        <form class="login-form" id="loginForm">
+            <div class="login1">
+                <h3 style="color: #067fe4;font-size: 36px;text-align: center; padding: 15px 10px;margin:0px">管理后台</h3>
+                <div class="login2">
+                    <i class="icon iconfont icon-account"></i>
+                    <input type="text" class="form-control name" id="username" name="name" maxlength="11" placeholder="手机号码" value="{$mobile?$mobile:''}">
+                </div>
+                <div class="login2">
+                    <i class="icon iconfont icon-password"></i>
+                    <input type="password" class="form-control password" id="password" name="password" placeholder="密码" value="{$password?$password:''}">
+                </div>
+                <div class="col-md-12 col-sm-12 padding-0" style="display:flex;align-items:center">
+                    <input type="checkbox" placeholder="密码" style="height:12px;line-height:12px;margin-top:0" class="check_pass" name="rember_me" checked="checked">
+                    <p class="false animsition-fade errorb" style="margin-bottom:0;color:#62a8ea;margin-left:2px">记住密码</p>
+                    <a href="{:url('admin/login/forget')}" style="color:#f38d2b;margin-left: 94px">忘记密码？</a>
+                </div>
+                <div class="login4">
+                    <button type="button" class="btn btn-block btn-primary" id="btnlogin">登录</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
 </div>
-<script src="/plugins/toastr/toastr.js"></script>
-<script src="/js/base.js"></script>
-<script>
-    // 登录
-    $("#btnlogin").on("click", function () {
-        var url="{:url('login/login')}";
-        var data=serializeData("loginForm");
-        cstmpost("#btnlogin",url,data, function (data) {
-            if(data["code"]=='1'){
-                toastr.success(data["msg"]);
-                setTimeout(function () {
-                    location.href = data["url"];
-                },2000);
-            }else{
-                toastr.error(data["msg"]);
-            }
-        });
-    });
 
-    $(document).keydown(function(event){
-        e = event ? event :(window.event ? window.event : null);
-        if(e.keyCode == 13){
-            $("#btnlogin").click();
-        }
-    })
-    </script>
 </body>
+
 </html>
