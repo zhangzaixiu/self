@@ -76,7 +76,7 @@ $.initForm();
 
 
 //删除按钮
-$('body').on('click','button[data-toggle="delete"]',function(){
+$('body').on('click','button[data-toggle="confirm"]',function(){
     var message = $(this).data('message')||'确认此操作吗?',url = $(this).data('url'),callback = $(this).data('callback')||'';
     alertify.theme('bootstrap')
         .confirm(message, function () {
@@ -131,6 +131,20 @@ $(".btn-save").click(function () {
     });
 });
 
+
+//分页添加参数
+$('#search_form .search_button').on('click',function () {
+    $(this).addClass('checked');
+});
+
+//分页查询参数
+function paginateParams(params){
+    var data=serializeData("search_form");
+    if($('#search_form .search_button').hasClass('checked')){
+        $.extend( params, data );
+    }
+    return params;
+}
 
 //单图上传
 function uploadImage(file) {

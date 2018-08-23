@@ -1,0 +1,99 @@
+<!--富文本-->
+<link rel="stylesheet" href="/adminui/public/vendor/summernote/summernote.css">
+<script src="/adminui/public/vendor/summernote/summernote.min.js"></script>
+<script src="/adminui/public/vendor/summernote/lang/summernote-zh-CN.min.js"></script>
+
+<!--上传图片插件-->
+<!--<script src="/adminui/public/vendor/jquery-ui/jquery-ui.min.js"></script>-->
+<link rel="stylesheet" href="/adminui/public/vendor/blueimp-file-upload/jquery.fileupload.css">
+<link rel="stylesheet" href="/adminui/public/vendor/dropify/dropify.css">
+<div class="col-sm-2 "></div>
+<div class="col-sm-8">
+    <form  enctype="multipart/form-data" id="memo_form">
+        <div class="form-group col-sm-12">
+            <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 标题：</label>
+            <div class="col-md-10 padding-bottom-20">
+                <input type="text" class="form-control"  name="title" value="" >
+            </div>
+        </div>
+        <div class="form-group col-sm-12">
+            <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 设为banner：</label>
+            <div class="col-md-10 padding-bottom-20">
+                <div class="radio-custom radio-primary col-md-2">
+                    <input type="radio"  name="is_banner" value="1" >
+                    <label >是</label>
+                </div>
+                <div class="radio-custom radio-primary col-md-2">
+                    <input type="radio"  name="is_banner" value="0" checked>
+                    <label>否</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 封面：</label>
+            <div class="col-sm-10 padding-bottom-20">
+                <div class="col-md-8">
+                    <input type="hidden"   name="img" id="video" class="opt-require" value=''>
+                    <input type="file" class="form-control" id="input-file-now"  name="file" data-id="video" data-url="{:url('/admin/upload/ajaxUploads')}"   data-plugin="dropify"  onchange="uploadFile($(this),true)"  data-default-file="">
+                    <span>支持jpg,jpeg,png,gif格式,最大不能超过3M</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 详情：</label>
+            <div class="col-sm-10 padding-bottom-20">
+                <textarea  class="summernote" id="content" name="content"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group margin-top-25" style="text-align: center">
+            <button  class="btn btn-primary margin-right-10" type="button" data-href="<?=url('admin/news/create')?>" id="submit_btn" data-status="1">保存草稿</button>
+            <button  class="btn btn-success margin-right-10" type="button" data-href="<?=url('admin/news/create')?>" id="release"  data-status="2">立即发布</button>
+        </div>
+    </form>
+
+
+</div>
+<div class="col-sm-2 "></div>
+
+<script src="/adminui/public/vendor/blueimp-file-upload/jquery.ui.widget.js"></script>
+<script src="/adminui/public/vendor/blueimp-file-upload/jquery.iframe-transport.js"></script>
+<script src="/adminui/public/vendor/blueimp-file-upload/jquery.fileupload.js"></script>
+
+<script src="/adminui/public/vendor/blueimp-load-image/load-image.all.min.js"></script>
+<script src="/adminui/public/vendor/blueimp-file-upload/jquery.fileupload-process.js"></script>
+<script src="/adminui/public/vendor/blueimp-file-upload/jquery.fileupload-validate.js"></script>
+<script src="/adminui/public/vendor/dropify/dropify.min.js"></script>
+<script>
+    //富文本编辑器
+    $(".summernote").summernote({
+        lang: "zh-CN",
+        height: 400
+    });
+    //编辑器上传图片
+    function uploadPic(files) {
+        var smnturl = "{:url('admin/upload/smntUpload')}";
+        var smnt = $('#content');
+        smntUploadFile(files, smnt, smnturl,'');
+    }
+
+    //保存
+    $("#submit_btn,#release").click(function () {
+        var data=serializeData("memo_form"),status = $(this).data('status');
+        data.content = $('.summernote').code();
+        data.status = status;
+        var url = $(this).data('href');
+        cstmpost("#submit_btn", url, data, function (res) {
+            if (res["success"]) {
+                toastr.success(res["msg"]);
+                setTimeout(function(){
+                    location.href="{:url('admin/news/index')}";
+                },2000);
+            } else {
+                toastr.error(res["msg"]);
+            }
+        });
+    });
+</script>

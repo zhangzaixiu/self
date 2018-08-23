@@ -1,0 +1,70 @@
+<div class="example">
+    <form id="search_form">
+        <div class="form-group col-md-2 padding-left-0">
+            <input type="text" class="form-control " name="title" placeholder="标题">
+        </div>
+        <div class="form-group col-md-1 padding-left-0">
+            <select data-plugin="selectpicker"   name="status" class="form-control">
+                <option value="">状态</option>
+                <option value="1">草稿</option>
+                <option value="2">发布</option>
+            </select>
+        </div>
+        <div class="form-group col-md-1 padding-left-0">
+            <div class="btn-actions pull-right">
+                <button type="button" class="btn btn-primary search_button">&nbsp;&nbsp;<i class="fa fa-search" aria-hidden="true"></i>&nbsp;查询&nbsp;&nbsp;</button>
+            </div>
+        </div>
+    </form>
+    <div class="form-group col-md-8 padding-right-0">
+        <div class="btn-actions pull-right">
+                <a  href="{:url('admin/news/create')}"><button type="button" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> 新增 </button></a>
+            <button type="button" class="btn btn-info btn-xls" >&nbsp;&nbsp;<i class="fa fa-share-square-o" aria-hidden="true"></i>&nbsp;导出&nbsp;&nbsp;</button>
+        </div>
+    </div>
+</div>
+
+<table id="actTable" class="table table-bordered text-center cdtable"
+       data-toggle="table"
+       data-url="{:url('admin/news/index')}"
+       data-pagination="true"
+       data-side-pagination="server"
+       data-striped="true"
+       data-sort-order="desc"
+       data-query-params="paginateParams"
+     >
+    <thead>
+    <tr>
+        <th class="text-center" data-field="title">标题</th>
+        <th class="text-center"  data-field="status" data-sortable="true">状态</th>
+        <th class="text-center"  data-field="is_banner" data-sortable="true">是否为banner</th>
+        <th class="text-center" data-field="create_time" data-sortable="true">创建时间</th>
+        <th class="text-center" data-field="operation"> 操作</th>
+    </tr>
+    </thead>
+</table>
+<script>
+
+   //查询
+   $('.search_button').on('click',function () {
+       var data=serializeData("#search_form");
+       console.log(data);
+       $('#actTable').bootstrapTable('refresh', {'url':"{:url('admin/news/index')}",query: data});
+   });
+
+
+   //excel导出
+   $('.btn-xls').click(function(){
+       var url="{:url('admin/news/export')}";
+       var data=serializeData("search_form");
+       var arr = Object.keys(data);
+       jQuery.each(arr, function(i, val) {
+           if(i == 0){
+               url+='?'+val+'='+data[val];
+           }else{
+               url+='&'+val+'='+data[val];
+           }
+       });
+       window.location.href = url;
+   })
+</script>
