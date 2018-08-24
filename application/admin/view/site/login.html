@@ -39,8 +39,11 @@
     <!-- 插件 CSS -->
     <link rel="stylesheet" href="/adminui/public/vendor/animsition/animsition.css">
 
+    <link rel="stylesheet" href="/adminui/public/vendor/toastr/toastr.css">
     <!-- page CSS -->
     <link rel="stylesheet" href="/adminui/public/css/locked.css">
+
+    <link rel="stylesheet" href="/admin/css/admin.css">
 
     <!--[if lte IE 9]>
     <meta http-equiv="refresh" content="0; url='http://www.admui.com/ie'"/>
@@ -48,37 +51,66 @@
     <script src="/adminui/public/vendor/media-match/media.match.min.js"></script>
     <script src="/adminui/public/vendor/respond/respond.min.js"></script>
     <![endif]-->
+    <script src="/adminui/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/plugins/jquery-validate/jquery.validate.min.js"></script>
 </head>
 
 <body class="page-locked layout-full page-dark">
 
 <div class=" page animation-fade vertical-align text-center animsition-fade height-full">
-    <div class="page-content vertical-align-middle" style="background: #ececec69;">
-        <form class="login-form" id="loginForm">
+    <div class="page-content vertical-align-middle" style="background: #ececec8a;">
+        <form class="login-form" id="loginForm" style="margin: 0px">
             <div class="login1">
-                <h3 style="color: #067fe4;font-size: 36px;text-align: center; padding: 15px 10px;margin:0px">管理后台</h3>
+                <h3 style="color: #408ed8;font-size: 34px;text-align: center;margin:0px">管理后台</h3>
                 <div class="login2">
                     <i class="icon iconfont icon-account"></i>
-                    <input type="text" class="form-control name" id="username" name="name" maxlength="11" placeholder="手机号码" value="{$mobile?$mobile:''}">
+                    <input type="text" class="form-control name input-lg" id="username" name="mobile" maxlength="11" placeholder="手机号码" value="{$mobile?$mobile:''}">
                 </div>
                 <div class="login2">
                     <i class="icon iconfont icon-password"></i>
-                    <input type="password" class="form-control password" id="password" name="password" placeholder="密码" value="{$password?$password:''}">
+                    <input type="password" class="form-control password input-lg" id="password" name="password" placeholder="密码" value="{$password?$password:''}">
                 </div>
                 <div class="col-md-12 col-sm-12 padding-0" style="display:flex;align-items:center">
-                    <input type="checkbox" placeholder="密码" style="height:12px;line-height:12px;margin-top:0" class="check_pass" name="rember_me" checked="checked">
-                    <p class="false animsition-fade errorb" style="margin-bottom:0;color:#62a8ea;margin-left:2px">记住密码</p>
-                    <a href="{:url('admin/login/forget')}" style="color:#f38d2b;margin-left: 94px">忘记密码？</a>
+
+                    <div class="checkbox-custom checkbox-primary" style="margin-left: 10px">
+                        <input id="inputChecked" type="checkbox" checked name="rember_me" >
+                        <label for="inputChecked">记住密码</label>
+                    </div>
+                    <a href="{:url('admin/login/forget')}" style="color:#f38d2b;margin-left: 124px">忘记密码？</a>
                 </div>
                 <div class="login4">
-                    <button type="button" class="btn btn-block btn-primary" id="btnlogin">登录</button>
+                    <button type="button" class="btn btn-block btn-primary btn-lg btn-save">登录</button>
                 </div>
-
             </div>
         </form>
     </div>
 </div>
+<script src="/adminui/public/vendor/toastr/toastr.js"></script>
+<script src="/js/base.js"></script>
+<script>
+    // // 登录
+    // $("#btnlogin").on("click", function () {
+    //     var url="{:url('site/login')}";
+    //     var data=serializeData("#loginForm");
+    //     cstmpost("#btnlogin",url,data, function (data) {
+    //         if(data["code"]=='1'){
+    //             toastr.success(data["msg"]);
+    //             setTimeout(function () {
+    //                 location.href = data["url"];
+    //             },2000);
+    //         }else{
+    //             toastr.error(data["msg"]);
+    //         }
+    //     });
+    // });
 
+    // $(document).keydown(function(event){
+    //     e = event ? event :(window.event ? window.event : null);
+    //     if(e.keyCode == 13){
+    //         $("#btnlogin").click();
+    //     }
+    // })
+</script>
 </body>
 
 </html>
