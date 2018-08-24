@@ -1,105 +1,92 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html class="no-js css-menubar height-full" lang="zh-cn">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>忘记密码</title>
-    <link rel="stylesheet" href="/plugins/toastr/toastr.css">
-    <link rel="stylesheet" href="/css/login.css">
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/supersized.3.2.7.min.js"></script>
-    <script src="/js/supersized-init.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 移动设备 viewport -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="author" content="admui.com">
+    <!-- 360浏览器默认使用Webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 禁止搜索引擎抓取 -->
+    <meta name="robots" content="nofollow">
+    <!-- 禁止百度SiteAPP转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+    <link rel="icon" type="image/png" href="/adminui/public/images/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Safari浏览器添加到主屏幕（IOS） -->
+    <link rel="icon" sizes="192x192" href="/adminui/public/images/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Admui">
+    <!-- Win8标题栏及ICON图标 -->
+    <link rel="apple-touch-icon-precomposed" href="/adminui/public/images/apple-touch-icon.png">
+    <meta name="msapplication-TileImage" content="../public/images/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#62a8ea">
+
+    <!-- 图标 CSS -->
+    <link rel="stylesheet" href="/adminui/public/fonts/web-icons/web-icons.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/adminui/public/themes/classic/global/css/bootstrap.css">
+
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="/adminui/public/themes/classic/base/css/site.css" id="admui-siteStyle">
+
+    <!-- 插件 CSS -->
+    <link rel="stylesheet" href="/adminui/public/vendor/animsition/animsition.css">
+
+    <link rel="stylesheet" href="/adminui/public/vendor/toastr/toastr.css">
+    <!-- page CSS -->
+    <link rel="stylesheet" href="/adminui/public/css/locked.css">
+
+    <link rel="stylesheet" href="/admin/css/admin.css">
+
+    <!--[if lte IE 9]>
+    <meta http-equiv="refresh" content="0; url='http://www.admui.com/ie'"/>
+    <![endif]--><!--[if lt IE 10]>
+    <script src="/adminui/public/vendor/media-match/media.match.min.js"></script>
+    <script src="/adminui/public/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+    <script src="/adminui/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/plugins/jquery-validate/jquery.validate.min.js"></script>
 </head>
-<body  id="login">
-<div class="login slogin">
-    <form class="login-form"  method="post" id="reg">
-        <div class="login1">
-            <h3 style="color: #067fe4;font-size: 40px;text-align: center; padding: 15px 10px;">泰兴后台</h3>
-            <div class="login2">
-                <i class="icon iconfont icon-account"></i>
-                <input type="text" class="form-control " name="mobile" maxlength="11" placeholder="手机号码" id="account">
+<style>
+    .login2{
+        margin-top: 15px;
+    }
+</style>
+<body class="page-locked layout-full page-dark">
+
+<div class=" page animation-fade vertical-align text-center animsition-fade height-full">
+    <div class="page-content vertical-align-middle" style="background: #ececec8a;">
+        <form class="login-form"  method="post" id="reg" style="margin: 0px">
+            <div class="login1">
+                <h3 style="color: #408ed8;font-size: 34px;text-align: center;margin:0px">找回密码</h3>
+                <div class="login2">
+                    <input type="text" class="form-control input-lg" name="mobile" maxlength="11" placeholder="手机号码" id="account">
+                </div>
+                <div class="login2">
+                    <input type="text" class="form-control password yzm input-lg"  name="code" placeholder="验证码" style="width:150px;float: left">
+                    <button class="hq btn btn-block btn-primary btn-lg" type="button" id="code" style="width: 100px;float: right">点击获取</button>
+                </div>
+                <div class="login2">
+                    <input type="password" class="form-control password input-lg" placeholder="密码由6-12位数字或字母组成" name="password">
+                </div>
+                <div class="login2">
+                    <input type="password" class="form-control password input-lg" placeholder="确认密码" name="repassword">
+                </div>
+                <div class="login2">
+                    <button type="button" class="btn btn-block btn-primary btn-lg " >提交</button>
+                </div>
             </div>
-            <div class="login2 slogin2" style="background:none;">
-                <input type="text" class="form-control password yzm" name="code" placeholder="验证码" style="padding-left:10px;background:#FFF;">
-                <input class="hq" type="button" value="点击获取" id="code">
-            </div>
-            <div class="login2">
-                <i class="icon iconfont icon-password"></i>
-                <input type="password" class="form-control password" placeholder="密码由6-12位数字或字母组成" name="password">
-            </div>
-            <div class="login2">
-                <i class="icon iconfont icon-password"></i>
-                <input type="password" class="form-control password" placeholder="确认密码" name="repassword">
-            </div>
-            <div class="login4">
-                <button type="button" class="submit-btn" submit-table="reg">提交</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
-<script src="/plugins/toastr/toastr.js"></script>
+<script src="/adminui/public/vendor/toastr/toastr.js"></script>
 <script src="/js/base.js"></script>
-<script>
-    $(function () {
-        var i;
-        function getCode() {
-            $("#code").attr("disabled", 'disabled');
-            i = self.setInterval(function () {
-                countdown();
-            }, 1000);
-        }
-        var int = 59;
-        function countdown() {
-            $('#code').val(int + "秒后重新发送");
-            int--;
-            if (int < 0) {
-                i = window.clearInterval(i)//结束
-                int = 59; //重新赋值
-                $("#code").removeAttr("disabled").val("重新获取校验码");//将按钮可用
-                $('#code').removeClass("disabled");
-            }
-        }
-
-        //点击获取验证码时校验手机号
-        $('#code').click(function () {
-            var account = $('#account').val();
-            var url = "{:url('admin/login/validateCode')}";
-            if ($(this).hasClass('disabled')) {
-                toastr.warning('请稍后再试');
-            } else {
-                cstmpost('#code', url, {mobile: account}, function (res) {
-                    if (res.code == 1) {
-                        $('#code').val('60秒后重新发送');
-                        $('#code').addClass("disabled");
-                        toastr.success('短信发送成功');
-                        getCode();
-                    } else {
-                        toastr.error(res.msg);
-                    }
-                })
-            }
-        });
-
-
-        // 提交表单
-        $(".submit-btn").click(function () {
-            //表单地址
-            var url = "{:url('admin/login/forget')}";
-            //表单字段
-            var fields = serializeData('reg');
-            fields.action = 'forget';
-            cstmpost('.submit-btn', url, fields, function (res) {
-                if (res.code == 1) {
-                    toastr.success(res.msg + '正在跳转至登录页');
-                    setTimeout(function () {
-                        location.href = "{:url('admin/login/login')}";
-                    }, 2000);
-                } else {
-                    toastr.warning(res.msg);
-                }
-            }, 'JSON');
-        });
-    })
-</script>
 </body>
 </html>

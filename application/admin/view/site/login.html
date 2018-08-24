@@ -2,7 +2,7 @@
 <html class="no-js css-menubar height-full" lang="zh-cn">
 
 <head>
-    <title>请重新登录</title>
+    <title>登录</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- 移动设备 viewport -->
@@ -76,7 +76,7 @@
                         <input id="inputChecked" type="checkbox" checked name="rember_me" >
                         <label for="inputChecked">记住密码</label>
                     </div>
-                    <a href="{:url('admin/login/forget')}" style="color:#f38d2b;margin-left: 124px">忘记密码？</a>
+                    <a href="{:url('admin/site/forget')}" style="color:#f38d2b;margin-left: 124px">忘记密码？</a>
                 </div>
                 <div class="login4">
                     <button type="button" class="btn btn-block btn-primary btn-lg btn-save">登录</button>
@@ -87,30 +87,6 @@
 </div>
 <script src="/adminui/public/vendor/toastr/toastr.js"></script>
 <script src="/js/base.js"></script>
-<script>
-    // // 登录
-    // $("#btnlogin").on("click", function () {
-    //     var url="{:url('site/login')}";
-    //     var data=serializeData("#loginForm");
-    //     cstmpost("#btnlogin",url,data, function (data) {
-    //         if(data["code"]=='1'){
-    //             toastr.success(data["msg"]);
-    //             setTimeout(function () {
-    //                 location.href = data["url"];
-    //             },2000);
-    //         }else{
-    //             toastr.error(data["msg"]);
-    //         }
-    //     });
-    // });
-
-    // $(document).keydown(function(event){
-    //     e = event ? event :(window.event ? window.event : null);
-    //     if(e.keyCode == 13){
-    //         $("#btnlogin").click();
-    //     }
-    // })
-</script>
 </body>
 
 </html>
