@@ -71,7 +71,8 @@
                 </div>
                 <div class="login2">
                     <input type="text" class="form-control password yzm input-lg"  name="code" placeholder="验证码" style="width:150px;float: left">
-                    <button class="hq btn btn-block btn-primary btn-lg" type="button" id="code" style="width: 100px;float: right">点击获取</button>
+                    <button class="hq btn btn-block btn-primary btn-lg" type="button" id="code" style="width: 140px;float: right">点击获取</button>
+                    <div style="clear: both"></div>
                 </div>
                 <div class="login2">
                     <input type="password" class="form-control password input-lg" placeholder="密码由6-12位数字或字母组成" name="password">
@@ -80,7 +81,7 @@
                     <input type="password" class="form-control password input-lg" placeholder="确认密码" name="repassword">
                 </div>
                 <div class="login2">
-                    <button type="button" class="btn btn-block btn-primary btn-lg " >提交</button>
+                    <button type="button" class="btn btn-block btn-primary btn-lg btn-save"  data-url="{:url('admin/site/forget')}">提交</button>
                 </div>
             </div>
         </form>
@@ -88,5 +89,71 @@
 </div>
 <script src="/adminui/public/vendor/toastr/toastr.js"></script>
 <script src="/js/base.js"></script>
+<script>
+    //点击获取验证码时校验手机号
+    var int=59;
+    function getCode(){
+        $("#code").attr("disabled",'disabled');
+        i = self.setInterval(function () {
+            $('#code').attr("disabled",'disabled').text(int + "s");
+            int--;
+            if(int<0){
+                window.clearInterval(i);
+                int = 59; //重新赋值
+                $("#code").removeAttr("disabled").text("重新发送");//将按钮可用
+            }
+        }, 1000);
+    }
+
+
+    //注册发送验证码
+    $('#code').click(function(){
+        if($(this).attr('disabled') == 'disabled'){
+            return false;
+        }
+        var account = $('#account').val();
+        if(account == ''){
+            toastr.error('联系电话不能为空'); return false;
+        }
+        if(!isPhoneNo(account)){
+            toastr.error('联系电话格式错误'); return false;
+        }
+        var url="{:url('SendCode/sendCode')}";
+        if($(this).attr('disabled') == 'disabled'){
+            toastr.warning('请稍后再试');
+            return false;
+        }else {
+            cstmpost('#code', url, {mobile: account}, function (res) {
+                getCode();
+                console.log(res);
+                if (res.code == 1) {
+                    toastr.success('短信发送成功');
+                } else {
+                    toastr.error(res.msg);
+                }
+            })
+        }
+    });
+
+
+    // 验证密码
+    $('#register_password').on('blur', function () {
+        var pho = /^[A-Za-z0-9]{6,12}$/;
+        if(!pho.test($(this).val())) {
+            toastr.error('密码由6-12位数字或字母组成')
+        }
+    });
+
+
+
+    // 验证手机号
+    function isPhoneNo(phone) {
+        var pattern = /^1[34578]\d{9}$/;
+        return pattern.test(phone);
+    }
+
+
+
+</script>
 </body>
 </html>

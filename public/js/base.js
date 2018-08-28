@@ -179,115 +179,38 @@ function uploadImage(file) {
     }, 'JSON');
 }
 
-// /**
-//  * 上传图片
-//  * files  file
-//  */
-// function uploadFile(files, imageClass) {
-//     // 赋值的hidden input  id
-//     var id = files.attr('data-id');
-//     // 最大上传图片数量
-//     var limitNum = files.attr('data-limit');
-//     // 上传路径
-//     var dir = files.attr('data-dir')||'default';
-//
-//     // 上传文件类型
-//     var ext = files.attr('data-ext');
-//     if (ext) {
-//         var ext = ext.split(",");
-//     } else {
-//         ext = 'jpg,jpeg,png,gif';
-//     }
-//     console.log(ext);
-//
-//     var size = files.attr('data-size');
-//     if (size == "" || size == undefined) {
-//         size = 3;
-//     }
-//
-//     var show_name = files.attr('data-show_name');
-//
-//     var show_link = files.attr('data-show_link');
-//
-//     var disabled = files.attr('data-disabled');
-//     $(disabled).attr('disabled',disabled);
-//     //最大上传数量
-//     if (isMultyple) {
-//         if ($("#" + id).val() != '' && $("#" + id).val() != 0) {
-//             var idArr = $("#" + id).val().split(",");
-//         } else {
-//             var idArr = new Array();
-//         }
-//         if (idArr.length >= limitNum) {
-//             toastr.error("最多可以上传" + limitNum + "张图片");
-//             return
-//         }
-//     }
-//     if (imageClass) {
-//         var imageBox = $("#" + imageClass).find('img');
-//     }
-//     var url = files.attr('data-url');
-//     var files = files.get(0).files[0];
-//
-//     var obj = files;
-//     var data = new FormData();
-//     data.append("file", obj);
-//     data.append("dir", dir);
-//     data.append("ext", ext);
-//     data.append("size", size);
-//     if(code){
-//         data.append("code", code);
-//     }
-//     $.ajax({
-//         data: data,
-//         type: "POST",
-//         url: url,
-//         cache: false,
-//         contentType: false,
-//         processData: false,
-//         success: function (res) {
-//             $(disabled).attr('disabled',false);
-//             if (res.code == 0) {
-//                 toastr.error(res.msg);
-//                 $("#" + id).val('');
-//                 if(show_name){
-//                     $(show_name).val('');
-//                 }
-//                 if(show_link){
-//                     $(show_link).html("");
-//                 }
-//                 $('.dropify-clear').click();
-//                 return;
-//             }else{
-//                     $("#" + id).val(res.id);
-//                     if(show_link){
-//                         $(show_link).html("<a href='"+res.path+"'>"+res.fileName+"</a>");
-//                     }
-//                     if(show_name){
-//                         $(show_name).val(files.name);
-//                     }
-//                     if (imageClass) {
-//                         imageBox.attr('src', res.path);
-//                         if($("#" + imageClass).hasClass('popup-link')){
-//                             $("#" + imageClass).attr('data-mfp-src',res.path);
-//                         }
-//                     }
-//             }
-//
-//         },
-//         error:function (res) {
-//             $(disabled).attr('disabled',false);
-//             toastr.error('上传失败');
-//             $("#" + id).val('');
-//             if(show_name){
-//                 $(show_name).val('');
-//             }
-//             if(show_link){
-//                 $(show_link).html("");
-//             }
-//             $('.dropify-clear').click();
-//             return;
-//         }
-//     }, 'JSON');
-// }
+function cstmpost(id,url,data,fun){
+    //console.log(data);
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        // dataType: "json",
+        beforeSend: function(){
+            if(id!=""){
+                $(id).attr({ disabled: "disabled" });
+            }
+        },
+        success: function(res){
+            if(res["code"]=='2'){
+                //请先登录
+                var logurl=$("#log_url").val();
+                if(logurl==undefined||logurl==null||logurl==''){
+                    logurl="/admin/Login/login";
+                }
+                location.href=logurl;
+            }
+            fun(res);
+        },
+        complete: function(){
+            if(id!=""){
+                $(id).removeAttr("disabled");
+            }
+        },
+        error: function (data) {
+            // console.log(data);
+            console.info("error: " + data.responseText);
+        }
+    });
+}
 
