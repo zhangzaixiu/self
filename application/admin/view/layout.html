@@ -173,16 +173,18 @@
 
 
 <main class="site-page">
-    <div class="page-container" id="admui-pageContent">
+    <div class="page-container" id="admui-pageContent" style="border-top: 2px solid #e6e6e6;">
         <div class="page animation-fade page-blank">
-            <ol class="breadcrumb">
-                <?php foreach($current_menu as $k=>$v): ?>
-                <li><?php echo htmlentities($v['name']); ?></li>
-                <?php endforeach; ?>
-            </ol>
+            {if !empty($current_menu)}
+                <ol class="breadcrumb">
+                    <?php foreach($current_menu as $k=>$v): ?>
+                    <li><?php echo htmlentities($v['name']); ?></li>
+                    <?php endforeach; ?>
+                </ol>
+            {/if}
             <div class="page-content" style="padding-top: 0px">
                 <div class="panel">
-                    <div class="panel-body nav-tabs-animate">
+                    <div class="panel-body nav-tabs-animate" id="panel-body">
                         {__CONTENT__}
                     </div>
                 </div>

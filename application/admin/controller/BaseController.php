@@ -61,7 +61,6 @@ class BaseController extends Controller
         $this->assign('menu_id',$menu_id);
         $this->assign('menu_parent_id',$menu_parent_id);
         $this->assign('current_menu',self::$current_menu);
-
         //检验操作权限
         $menu_arr= UserModel::getUserRoleArr($user);
         if(!empty($bread) && $bread['is_show']){
