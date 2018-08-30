@@ -1,1 +1,1 @@
-<?phpnamespace app\admin\model;use think\Exception;use think\Model;class UserRoleModel extends Model{}
+<?phpnamespace app\admin\model;use app\common\model\BaseModel;class UserRoleModel extends BaseModel{}

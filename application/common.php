@@ -77,3 +77,37 @@ function filter_array($entry){
         return($var !== '' && $var !== false && $var !== null);
     });
 }
+
+/**
+ * 根据url判断当前用户有没有权限
+ * @param $url
+ * @param array $param
+ * @return bool
+ */
+function check_roles($url,$param = []){
+    if(empty($url)){
+        return false;
+    }
+    $user =  session("user");
+    $roleId = $user['role_id'];
+
+    if(empty($roleId)){
+        return false;
+    }
+
+    $menu = \app\common\model\UserMenuModel::getMenuByUrl($url,$param);
+    if(empty($menu)){
+        return false;
+    }
+    if($roleId == 1){
+        return true;
+    }
+    if(!$menu['is_show']){
+        return true;
+    }
+    $menu_arr = \app\admin\model\UserModel::getUserRoleArr($user);
+    if(in_array($menu['id'],$menu_arr)){
+        return true;
+    }
+    return false;
+}

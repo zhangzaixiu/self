@@ -1,7 +1,7 @@
 
 function serializeData(formId){
     var serializeObj={},formdata='';
-    if(typeof formId == "object"){
+    if(typeof formId == 'object'){
         if(formId.length ==0){
            return serializeObj;
         }
@@ -11,7 +11,7 @@ function serializeData(formId){
     }
 
     $(formdata).each(function(){
-        serializeObj[this.name]=serializeObj[this.name]?serializeObj[this.name]+","+this.value:this.value;
+        serializeObj[this.name]=serializeObj[this.name]?serializeObj[this.name]+','+this.value:this.value;
     });
     return serializeObj;
 };
@@ -19,7 +19,6 @@ function serializeData(formId){
 
 //表单验证
 $.extend({
-
     initForm: function (container) {
        if($.validator){
            if (typeof(container) === 'undefined') {
@@ -73,7 +72,7 @@ $.extend({
 $.initForm();
 
 
-//删除按钮
+//确认弹窗
 $('body').on('click','button[data-toggle="confirm"]',function(){
     var message = $(this).data('message')||'确认此操作吗?',url = $(this).data('url'),callback = $(this).data('callback')||'';
     alertify.theme('bootstrap')
@@ -103,15 +102,27 @@ $('body').on('click','button[data-toggle="confirm"]',function(){
         });
 });
 
+//excel导出
+$('.btn-xls').click(function(){
+    var url= $(this).data('url'),data=serializeData("search_form"),arr = Object.keys(data);
+    jQuery.each(arr, function(i, val) {
+        if(i == 0){
+            url+='?'+val+'='+data[val];
+        }else{
+            url+='&'+val+'='+data[val];
+        }
+    });
+    window.location.href = url;
+});
+
 //保存表单
 $(".btn-save").click(function () {
+    var form= $(this).closest("form"),url = $(this).data('url'),data=serializeData(form);
     //验证
-    var flag = $("form").valid();
+    var flag = form.valid();
     if(!flag){
         return;
     }
-
-    var form= $(this).closest("form"),url = $(this).data('url'),data=serializeData(form);
     console.log(data);
     $.post(url, data, function (res) {
         if (res["success"]) {
