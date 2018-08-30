@@ -111,3 +111,117 @@ function check_roles($url,$param = []){
     }
     return false;
 }
+
+
+//function getExcel($fileName, $headArr, $data, $imgs = array())
+//{
+//    //对数据进行检验
+////    if (empty($data) || !is_array($data)) {
+////        return array('code' => '0', 'msg' => '没有要导出的数据', 'data' => '');
+////    }
+//    //检查文件名
+//    if (empty($fileName)) {
+//        exit;
+//    }
+//
+//
+//    $date = date("YmdHis", time());
+//    $fileName .= "_{$date}.xlsx";
+//
+//    //创建PHPExcel对象，注意，不能少了\
+//    $objPHPExcel = new \PHPExcel();
+//    $objProps = $objPHPExcel->getProperties();
+//
+//    //第一列设置报表列头
+//    $key = ord("A");
+//    $key2 = ord("@");//@--64
+//
+//    foreach ($headArr as $v) {
+//        if ($key > ord("Z")) {
+//            $key2 += 1;
+//            $key = ord("A");
+//            $colum = chr($key2) . chr($key);//超过26个字母时才会启用
+//            //-me 设置水平居中
+//            $objPHPExcel->setActiveSheetIndex(0)->getStyle(1)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+//            //字体加粗
+//            $objPHPExcel->getActiveSheet()->getStyle(1)->getFont()->setBold(true);
+//            //---
+//        } else {
+//            if ($key2 >= ord("A")) {
+//                $colum = chr($key2) . chr($key);//超过26个字母时才会启用
+//                //-me 设置水平居中
+//                $objPHPExcel->setActiveSheetIndex(0)->getStyle(1)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+//                //字体加粗
+//                $objPHPExcel->getActiveSheet()->getStyle(1)->getFont()->setBold(true);
+//                //---
+//            } else {
+//                $colum = chr($key);
+//                //-me 设置水平居中
+//                $objPHPExcel->setActiveSheetIndex(0)->getStyle(1)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+//                //字体加粗
+//                $objPHPExcel->getActiveSheet()->getStyle(1)->getFont()->setBold(true);
+//                //---
+//            }
+//        }
+//
+//        //  $colum = chr($key);
+//        $objPHPExcel->setActiveSheetIndex(0)->setCellValue($colum . '1', $v);
+//        //设置水平居中
+//        $objPHPExcel->setActiveSheetIndex(0)->getStyle($colum)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+//        //设置垂直居中
+//        $objPHPExcel->getActiveSheet()->getStyle($colum)->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+//        // 设置个表格宽度
+//        $objPHPExcel->getActiveSheet()->getColumnDimension($colum)->setWidth(16);
+//        $key += 1;
+//    }
+//
+//    // $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(20); 单独设置某一列的宽度
+//    //  $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(20); 单独设置某一列的宽度
+//
+//    $column = 2;
+//    $objActSheet = $objPHPExcel->getActiveSheet();
+//
+//    foreach ($data as $key => $rows) { //行写入
+//        $span = ord("A");
+//        $span2 = ord("@");//@--64
+//        foreach ($rows as $keyName => $value) {// 列写入
+//            if ($span > ord("Z")) {
+//                $span2 += 1;
+//                $span = ord("A");
+//                $j = chr($key2) . chr($span);//超过26个字母时才会启用
+//            } else {
+//                if ($span2 >= ord("A")) {
+//                    $j = chr($span2) . chr($span);//超过26个字母时才会启用
+//                } else {
+//                    $j = chr($span);
+//                }
+//            }
+//            // $j = chr($span);
+//            $objActSheet->setCellValue($j . $column, $value);
+//
+//            $span++;
+//        }
+//        $objActSheet->getRowDimension($key + 2)->setRowHeight(30);
+//        $column++;
+//    }
+//
+//    $fileName = iconv("utf-8", "gb2312", $fileName);
+//    //重命名表
+//    // $objPHPExcel->getActiveSheet()->setTitle('test');
+//    //设置活动单指数到第一个表,所以Excel打开这是第一个表
+//    ob_end_clean();
+//    ob_start();
+//    $objPHPExcel->setActiveSheetIndex(0);
+//
+//    header('Pragma: public');
+//    header('Expires: 0');
+//    header('Cache-Control:must-revalidate， post-check=0， pre-check=0');
+//    header('Content-Type:application/force-download');
+//    header('Content-Type: application/vnd.ms-excel');
+//    header("Content-Disposition: attachment;filename=\"$fileName\"");
+//    header('Cache-Control: max-age=0');
+//    header('Content-Transfer-Encoding:binary');
+//    $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+//    $objWriter->save('php://output'); //文件通过浏览器下载
+//    exit;
+//}
