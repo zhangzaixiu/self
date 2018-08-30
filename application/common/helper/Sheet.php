@@ -2,6 +2,8 @@
 
 namespace app\common\helper;
 
+use think\facade\Env;
+require Env::get('ROOT_PATH') . '/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
