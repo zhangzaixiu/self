@@ -142,9 +142,11 @@ $(".btn-save").click(function () {
 });
 
 
-//分页添加参数
+//搜索
 $('#search_form .search_button').on('click',function () {
     $(this).addClass('checked');
+    var  form= $(this).closest("form"),data=serializeData(form),url=$(this).data('url'),table = $(this).data('table');
+    $(table).bootstrapTable('refresh', {'url':url,query: data});
 });
 
 //分页查询参数
