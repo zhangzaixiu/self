@@ -20,6 +20,14 @@ return [
     'username'        => 'root',
     // 密码
     'password'        => 'root',
+//    // 服务器地址
+//    'hostname'        => '127.0.0.1',
+//    // 数据库名
+//    'database'        => 'test',
+//    // 用户名
+//    'username'        => 'localhost',
+//    // 密码
+//    'password'        => '15054223320zzx',
     // 端口
     'hostport'        => '',
     // 连接dsn

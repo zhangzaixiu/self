@@ -1,13 +1,6 @@
-<!--富文本-->
-<link rel="stylesheet" href="/adminui/public/vendor/summernote/summernote.css">
-<script src="/adminui/public/vendor/summernote/summernote.min.js"></script>
-<script src="/adminui/public/vendor/summernote/lang/summernote-zh-CN.min.js"></script>
-
 <!--上传图片插件-->
-<link rel="stylesheet" href="/adminui/public/vendor/blueimp-file-upload/jquery.fileupload.css">
 <link rel="stylesheet" href="/adminui/public/vendor/dropify/dropify.css">
 <div class="col-sm-2 "></div>
-
 <div class="col-sm-8 info" >
     <div class="form-group">
         <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 标题：</label>
@@ -26,14 +19,14 @@
     <div class="form-group">
         <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 封面：</label>
         <div class="col-sm-10 padding-bottom-20">
-            <img src="{$data['savePath']}" style="width: 200px">
+            <img src="<?=isset($data->sys_file)?$data->sys_file->save_path:''?>" style="width: 200px">
         </div>
         <div class="clearfix"></div>
     </div>
     <div class="form-group">
         <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 详情：</label>
         <div class="col-sm-10 padding-bottom-20 " style="word-break: break-all;word-wrap: break-word;">
-           {$data['content']}
+            {$data['content']}
         </div>
         <div class="clearfix"></div>
     </div>
@@ -71,68 +64,37 @@
             <div class="col-sm-10 padding-bottom-20">
                 <div class="col-md-8">
                     <input type="hidden"   name="img" id="video" class="opt-require" value='{$data["img"]}'>
-                    <input type="file" class="form-control" id="input-file-now"  name="file" data-id="video" data-url="{:url('/admin/upload/ajaxUploads')}"  onchange="uploadFile($(this),true)" data-plugin="dropify" data-default-file="{$data['savePath']}">
+                    <input type="file" class="form-control" id="input-file-now"  name="file" data-id="video" data-url="{:url('/admin/upload/ajaxUploads')}"  onchange="uploadImage($(this))" data-plugin="dropify" data-default-file="<?=isset($data->sys_file)?$data->sys_file->save_path:''?>">
                     <span>支持jpg,jpeg,png,gif格式,最大不能超过3M</span>
                 </div>
             </div>
         </div>
         <div class="form-group col-sm-12">
             <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 详情：</label>
-            <div class="col-sm-10 padding-bottom-20">
-                <textarea  class="summernote" id="content" name="content">{$data['content']}</textarea>
-            </div>
+            <div class="col-sm-10 padding-bottom-20" id="editor">{$data['content']}</div>
+            <textarea id="content"  name="content" hidden> {$data['content']}</textarea>
         </div>
 
         <div class="form-group margin-top-25" style="text-align: center">
-            <button  class="btn btn-primary margin-right-10" type="button" data-href="<?=url('admin/news/edit',['id'=>$data['id']])?>" id="submit_btn" data-status="1">保存草稿</button>
-            <button  class="btn btn-success margin-right-10" type="button" data-href="<?=url('admin/news/edit',['id'=>$data['id']])?>" id="release"  data-status="2">立即发布</button>
+            <button  class="btn btn-primary margin-right-10" type="button  btn-save" data-url="<?=url('admin/news/edit',['id'=>$data['id'],'status'=>1])?>" >保存草稿</button>
+            <button  class="btn btn-success margin-right-10" type="button  btn-save" data-url="<?=url('admin/news/edit',['id'=>$data['id'],'status'=>2])?>" >立即发布</button>
         </div>
     </form>
 </div>
 <div class="col-sm-2 "></div>
-
-<script src="/adminui/public/vendor/blueimp-file-upload/jquery.ui.widget.js"></script>
-<script src="/adminui/public/vendor/blueimp-file-upload/jquery.iframe-transport.js"></script>
-<script src="/adminui/public/vendor/blueimp-file-upload/jquery.fileupload.js"></script>
-
-<script src="/adminui/public/vendor/blueimp-load-image/load-image.all.min.js"></script>
-<script src="/adminui/public/vendor/blueimp-file-upload/jquery.fileupload-process.js"></script>
-<script src="/adminui/public/vendor/blueimp-file-upload/jquery.fileupload-validate.js"></script>
 <script src="/adminui/public/vendor/dropify/dropify.min.js"></script>
+<script src="/plugins/wangEditor-3.1.1/release/wangEditor.min.js"></script>
 <script>
     $('#edit_button').click(function () {
         $('.info').hide();
         $('.edit').show();
     });
 
-
-    //富文本编辑器
-    $(".summernote").summernote({
-        lang: "zh-CN",
-        height: 400
-    });
-    //编辑器上传图片
-    function uploadPic(files) {
-        var smnturl = "{:url('admin/upload/smntUpload')}";
-        var smnt = $('#content');
-        smntUploadFile(files, smnt, smnturl,'');
-    }
-
-    //保存
-    $("#submit_btn,#release").click(function () {
-        var data=serializeData("memo_form"),status = $(this).data('status');
-        data.content = $('.summernote').code();
-        data.status = status;
-        var url = $(this).data('href');
-        cstmpost("#submit_btn", url, data, function (res) {
-            if (res["success"]) {
-                toastr.success(res["msg"]);
-                setTimeout(function(){
-                    location.href="{:url('admin/news/index')}";
-                },2000);
-            } else {
-                toastr.error(res["msg"]);
-            }
-        });
-    });
+    var E = window.wangEditor,editor = new E('#editor');
+    editor.customConfig.uploadImgServer = "{:url('admin/upload/ajaxUploads',['dir'=>'rich_text'])}";
+    editor.customConfig.onchange = function (html) {
+        // 监控变化，同步更新到 textarea
+        $('#content').val(html);
+    };
+    editor.create();
 </script>

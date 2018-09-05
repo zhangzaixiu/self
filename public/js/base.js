@@ -173,13 +173,14 @@ function uploadImage(file) {
         processData: false,
         url: "/admin/upload/ajaxUploads",
         success: function (res) {
+            console.log(res.data);
             if (res.code == 0) {
                 toastr.error(res.msg);
                 $("#" + id).val('');
                 $('.dropify-clear').click();
                 return;
             }else{
-                $("#" + id).val(res.id);
+                $("#" + id).val(res.data[0].id);
             }
         },
         error:function (res) {
