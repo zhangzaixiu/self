@@ -204,13 +204,18 @@
 <script>
     show_menu();
     function show_menu() {
-        var menu_id = "<?php echo htmlentities($menu_id); ?>";
-        var menu_parent_id = "<?php echo htmlentities($menu_parent_id); ?>";
-        if(menu_id !=''&& menu_parent_id != ''){
+        var menu_id = "{$menu_id}";
+        var second = "{$second_parent_id}";
+        var menu_parent_id = "{$menu_parent_id}";
+        if(menu_id !='' && menu_parent_id != ''){
             if(menu_parent_id !=0){
                 $(".site-menu .has-sub[data-menu = "+menu_parent_id+"]").addClass('open').siblings().removeClass('open');
                 $(".site-menu li").removeClass('current_menu');
-                $(".site-menu li[data-menu = "+menu_id+"]").addClass('current_menu')
+                if(second != ''){
+                    $(".site-menu li[data-menu = "+second+"]").addClass('current_menu')
+                }else{
+                    $(".site-menu li[data-menu = "+menu_id+"]").addClass('current_menu')
+                }
             }else{
                 $(".site-menu > li[data-menu ="+menu_id+"]").addClass('current_menu').siblings().removeClass('current_menu');
             }
