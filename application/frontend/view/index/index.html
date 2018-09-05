@@ -1,0 +1,163 @@
+<style>
+    .item .videobox{width:100%;height:auto;max-height:926px;background:#000;position:relative;cursor:pointer;}
+    .item .videobox video{width:100%;height:auto;max-height:926px;}
+    .item .videobox #playbtn i{font-size:60px;color:rgba(255,255,255,0.2);margin:-30px 0 0 -30px;left:50%;top:50%;position:absolute;cursor:pointer;}
+    .item .videobox #playbtn i:hover{color:rgba(255,255,255,0.5);}
+    @media (max-width:1080px) {
+        .item .videobox{max-height:201px;}
+        .item video{max-height:201px;}
+    }
+</style>
+<!--轮播图-->
+{if !empty($banner)}
+    <div class="banner">
+    <div class="container">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                {foreach $banner as $k =>$v}
+                     <li data-target="#carousel-example-generic" data-slide-to="{$k}" class="{$k == 0 ?'active':''}"></li>
+                {/foreach}
+            </ol>
+            <div class="carousel-inner" id="carousel-inner">
+                {foreach $banner as $k =>$v}
+                    <div class="item {$k == 0 ?' active':''}">
+                        {if $v->getData('type') == 1}
+                            <a  target="_blank" href="{$v['link_url']}"><img src="{$v['save_path']}"></a>
+                        {else}
+                            <div class="videobox" onclick="playPause()">
+                                <video id="video" src="{$v['save_path']}"></video>
+                                <div id="playbtn">
+                                    <i class="icon iconfont icon-iconfontplay2" title="播放"></i>
+                                </div>
+                            </div>
+                        {/if}
+                    </div>
+                {/foreach}
+            </div>
+            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+            <img class="bannerarrow" src="/frontend/images/bannerarrow.png">
+        </div>
+    </div>
+</div>
+{/if}
+
+{if !empty($news)}
+    <div class="zxbox">
+        <div class="container">
+            <div class="col-md-12 modulebt">
+                <h3>最新资讯</h3>
+                <span></span>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 leftbanner">
+                        <a href="{:url('frontend/message/newinfo',['id'=>$news[0]['id']])}">
+                            {if check_file_exits($news[0]['save_path'])}
+                                <img src="{$news[0]['save_path']}" class="img-responsive">
+                            {else}
+                                <img src="/frontend/images/default.jpg" class="img-responsive">
+                            {/if}
+                            <h3>{$news[0]['title']}</h3>
+                            <p class="content">
+                                {$news[0]['sub_content']}
+                            </p>
+                            <p class="time">{$news[0]['create_time']}</p>
+                        </a>
+                    </div>
+                    <ul class="col-lg-6 col-md-6 col-sm-12 col-xs-12 rightlist">
+                        <span class="timeline"></span>
+                        {foreach $news as $k => $v}
+                        {if $k >= 1 && $k <=4}
+                            <li class="col-md-12 subNav">
+                                <span class="timearrow"></span>
+                                <span class="timecircle"></span>
+                                <a href="{:url('frontend/message/newinfo',['id'=>$v['id']])}">
+                                    <div class="col-md-3 col-sm-3 pic">
+                                        {if check_file_exits($v['save_path'])}
+                                        <img src="{$v['save_path']}" class="img-responsive">
+                                        {else}
+                                        <img src="/frontend/images/default.jpg" class="img-responsive">
+                                        {/if}
+                                    </div>
+                                    <div class="col-md-9 col-sm-9 word">
+                                        <p class="tm">{$v['title']}</p>
+                                        <p class="time">{$v['create_time']}</p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </a>
+                            </li>
+                        {/if}
+                        {/foreach}
+                        <div class="clear"></div>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="col-md-12 modulemore">
+                <a href="{:url('frontend/message/news')}"><label>查看更多</label></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+{/if}
+
+
+<div class="partnerbox">
+    <div class="container">
+        <div class="col-md-12 modulebt">
+            <h3>合作伙伴</h3>
+            <span></span>
+        </div>
+        <div class="row">
+            <ul class="col-md-12 partner">
+                <li class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                    <img src="/frontend/images/partner2.jpg" title="泰州睿思达文化传媒有限公司" alt="" class="img-responsive">
+                    <p>泰州睿思达文化传媒有限公司</p >
+                </li>
+                <li class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                    <img src="/frontend/images/partner1.jpg" title="泰兴青创文化传媒有限公司" alt="" class="img-responsive">
+                    <p>泰兴青创文化传媒有限公司</p >
+                </li>
+                <li class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                    <img src="/frontend/images/partner3.jpg" title="泰州祥泰中兴商标事务所 " alt="" class="img-responsive">
+                    <p>泰州祥泰中兴商标事务所</p >
+                </li>
+                <li class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                    <img src="/frontend/images/defaultpnr.jpg" title="壹能微创客" alt="" class="img-responsive">
+                    <p>壹能微创客</p >
+                </li>
+                <li class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                    <img src="/frontend/images/partner4.jpg" title="壹能法律事务所" alt="" class="img-responsive">
+                    <p>壹能法律事务所</p >
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+<!--<script>-->
+    <!--var myVideo=document.getElementById("video");-->
+    <!--var playBtn=document.getElementById("playbtn");-->
+    <!--function playPause()-->
+    <!--{-->
+        <!--if (myVideo.paused) {-->
+            <!--myVideo.play();-->
+            <!--playBtn.style.display="none";-->
+        <!--}-->
+        <!--else {-->
+            <!--myVideo.pause();-->
+            <!--playBtn.style.display="block";-->
+        <!--}-->
+    <!--}-->
+
+    <!--myVideo.addEventListener("ended",function(){-->
+        <!--myVideo.load();-->
+        <!--playBtn.style.display="block";-->
+    <!--});-->
+<!--</script>-->

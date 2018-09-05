@@ -1,0 +1,27 @@
+*{padding:0; margin:0;font-family:'San Francisco', 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;}
+	a{text-decoration:none;margin:0;}
+	ul li{list-style:none;}
+	ul,ol{list-style:none;margin:0;padding:0;}
+	tr,td,th{padding:0;margin:0;}
+	img{border:none; display:block;}
+	body,dl,dd{margin:0;}
+	input{margin:0;outline:none;border:none;}
+	body{background:#f5f5f7;width:100%;min-width:1200px;}
+	a:hover{text-decoration: none;}
+	/*浏览器版本过低提醒*/
+	.bigbox{width:600px;overflow:hidden;margin:80px auto 0 auto;text-align:center;}
+	.bigbox .bt{width:100%;overflow:hidden;font-size:18px;text-align:center;font-weight:bold;margin-bottom:50px;}
+	.bigbox .bt span{color:#ff0000;}
+	.bigbox .current{width:100%;overflow:hidden;font-size:16px;text-align:center;margin-bottom:50px;}
+	.bigbox .logo{width:400px;overflow:hidden;margin:auto;}
+	.bigbox .logo .logoleft{width:200px;overflow:hidden;float:left;text-align: center;}
+	.bigbox .logo .logoleft a{color:#000;}
+	.bigbox .logo .logoleft img{width:100px;height:100px;margin:0 auto 15px auto;}
+	.bigbox .logo .logoright{width:200px;overflow:hidden;float:right;text-align:center;}
+	.bigbox .logo .logoright a{color:#000;}
+	.bigbox .logo .logoright img{width:100px;height:100px;margin:0 auto 15px auto;}
+	.bigbox button{margin-top:50px;font-size:14px;width:140px;height:36px;line-height:36px;text-align: center;color:#FFF;border-radius:6px;border:none;background:#4A90E2;cursor: pointer;}
+	/*403\404\500*/
+	.bigbox .false{margin:20px auto;}
+	.bigbox .falseh{text-align:center;color: #434e59;font-size: 72px;font-weight: 600;line-height: 72px;margin-bottom:10px;}
+	.bigbox .falsep{color: rgba(0,0,0,.45);font-size: 20px;line-height: 28px;text-align:center;}

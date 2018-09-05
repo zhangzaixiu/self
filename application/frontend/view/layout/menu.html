@@ -1,0 +1,26 @@
+<div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav mainNav">
+        {foreach $menu_list as $k => $v}
+            <li>
+                <a data-tag="{$k}" href="{:url($v['url'])}" >{$v['name']}</a>
+            </li>
+        {/foreach}
+    </ul>
+    <!--未登录-->
+    {if empty($userId)}
+        <span class="login pull-right">
+        <a  href="{:url('frontend/site/register')}">注册</a> | <a  href="{:url('frontend/site/login')}">登录</a>
+        </span>
+    {else}
+    <!--登录后-->
+        <span class="login pull-right">
+            <a href="{:url('frontend/site/logout')}"><span class="exit">退出</span></a>
+            <img src="/frontend/images/tx.jpg" class="tx">
+            <span>{$current_user['mobile']}</span>
+        </span>
+    {/if}
+</div>
+<script>
+    var tag = "{$tag??'index'}";
+    $('.mainNav li a[data-tag="'+tag+'"]').addClass('navnow').siblings().removeClass('navnow');
+</script>

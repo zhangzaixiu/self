@@ -1,0 +1,99 @@
+<footer class="footerpc">
+    <div class="container containerbtm">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 col-sm-12 btmnav">
+                <div class="col-md-2 col-sm-6 col-xs-6">
+                    <div class="menu-course">
+                        <ul class="menu">
+                            <li><a href="{:url('frontend/index/index')}">首页</a></li>
+                            <li><a href="{:url('frontend/vip/index')}">会员中心</a></li>
+                            <li><a href="{:url('frontend/iqbt/index')}">孵化空间</a></li>
+                            <li><a href="{:url('frontend/activity/index')}">活动中心</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-6 col-xs-6">
+                    <div class="menu-course">
+                        <ul class="menu">
+                            <li><a href="{:url('frontend/service/index')}">基础服务</a></li>
+                            <li><a href="{:url('frontend/message/news')}">信息中心</a></li>
+                            <li><a href="{:url('frontend/etprs_service/index')}">创业服务</a></li>
+                            <li><a href="{:url('frontend/about_us/index')}">关于我们</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-6">
+                    <div class="menu-course">
+                        <ul class="menu">
+                            <li><a href="javascript:void(0);">联系方式</a></li>
+                            <li><a href="#">电话：0523-87980101/87980202</a></li>
+                            <li><a href="#">QQ：379344175</a></li>
+                            <li><a href="#">邮箱：379344175@qq.com</a></li>
+                            <li><a href="#">地址：泰兴市文昌东路1号体育中心内</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-6">
+                    <div class="code">
+                        <img class="img-responsive" src="/frontend/images/code.jpg">
+                        <p>请关注壹能众创云平台</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 col-sm-12 btmbtm">
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    <img class="img-responsive" src="/frontend/images/btmlogo.png">
+                </div>
+                <div class="col-md-8 col-sm-8 col-xs-8">
+                    <p>
+                        <span>官方合作微信：13327793811</span>
+                        <span>客服微信：13327793811</span>
+                        <span>客服电话：13327793811</span>
+                    </p>
+                    <p>
+                        <span><a href="{:url('frontend/about_us/index')}">关于我们</a></span> |
+                        <span><a href="">Copyright©2018 壹能时空 版权所有</a></span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</footer>
+<footer class="footerm">
+    <div class="container containerbtm">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 btmnav">
+                <div class="code">
+                    <img class="img-responsive" src="/frontend/images/code.jpg">
+                    <p>请关注壹能众创云平台</p>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 btmbtm">
+                <p>
+                    <a href="">使用条款</a><span>|</span>
+                    <a href="">隐私权政策</a><span>|</span>
+                    <a href="">孵化空间</a><span>|</span>
+                    <a href="">基础服务</a><span>|</span>
+                    <a href="">关于我们</a>
+                </p>
+                <p>
+                    <a href=""><span>Copyright©2018</span><span>壹能时空</span><span>版权所有</span></a>
+                </p>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</footer>
+<script>
+    $('img').on('error',function(){
+        $(this).attr('src', '/frontend/images/default.jpg');
+        $(this).off('error');
+    });
+</script>

@@ -8,7 +8,6 @@ class IndexController extends BaseController
     {
         $this->view->engine->layout(true);
 
-//        return $this->fetch('index');
         return view();
     }
 
