@@ -1,0 +1,29 @@
+<ul class="nav nav-tabs nav-tabs-line" data-url="{$Request.url}" id="service_tab">
+    <li class="active">
+        <a data-toggle="tab" href="javascript:void(0)" data-url="{:url('admin/etprsService/index')}">信息列表</a>
+    </li>
+    {if check_roles('admin/etprs_service_category/index') }
+    <li>
+        <a data-toggle="tab" href="javascript:void(0)" data-url="{:url('admin/etprs_service_category/index')}">信息分类</a>
+    </li>
+    {/if}
+</ul>
+<script>
+    (function () {
+        var current_url = $('#service_tab').data('url');
+        $('#service_tab li a').each(function () {
+            if($(this).data('url') == current_url){
+                $(this).parents('li').addClass('active').siblings().removeClass('active');
+                return false;
+            }
+        });
+
+        $('#service_tab li a').on('click',function () {
+            var url= $(this).data('url');
+            setTimeout(function () {
+                window.location.href = url;
+            },200);
+        })
+    }())
+
+</script>
