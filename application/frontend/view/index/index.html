@@ -141,23 +141,23 @@
     </div>
 </div>
 
-<!--<script>-->
-    <!--var myVideo=document.getElementById("video");-->
-    <!--var playBtn=document.getElementById("playbtn");-->
-    <!--function playPause()-->
-    <!--{-->
-        <!--if (myVideo.paused) {-->
-            <!--myVideo.play();-->
-            <!--playBtn.style.display="none";-->
-        <!--}-->
-        <!--else {-->
-            <!--myVideo.pause();-->
-            <!--playBtn.style.display="block";-->
-        <!--}-->
-    <!--}-->
+<script>
+    var myVideo=document.getElementById("video");
+    var playBtn=document.getElementById("playbtn");
+    function playPause()
+    {
+        if (myVideo.paused) {
+            myVideo.play();
+            playBtn.style.display="none";
+        }
+        else {
+            myVideo.pause();
+            playBtn.style.display="block";
+        }
+    }
 
-    <!--myVideo.addEventListener("ended",function(){-->
-        <!--myVideo.load();-->
-        <!--playBtn.style.display="block";-->
-    <!--});-->
-<!--</script>-->
+    myVideo.addEventListener("ended",function(){
+        myVideo.load();
+        playBtn.style.display="block";
+    });
+</script>

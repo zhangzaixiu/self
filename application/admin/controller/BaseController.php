@@ -87,6 +87,7 @@ class BaseController extends Controller
         $con = [
             ['level', '<', 3],
             ['model', '=', 'admin'],
+            ['is_show', '=', 1],
         ];
         if($role_id !=1){//如果非超级管理员
             $menu_arr= UserModel::getUserRoleArr($user);
