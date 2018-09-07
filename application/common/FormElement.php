@@ -1,1 +1,0 @@
-<?phpnamespace app\common\model;use think\Model;class FormElement extends Model{}

@@ -116,7 +116,6 @@ $('.btn-xls').click(function(){
 });
 
 //保存表单
-// $(".btn-save").click(function () {
 $("body").on('click','.btn-save',function () {
     var form= $(this).closest("form"),url = $(this).data('url'),data=serializeData(form);
     //验证
@@ -228,4 +227,21 @@ function cstmpost(id,url,data,fun){
         }
     });
 }
+
+//地区选择器
+$.each($('[data-toggle="city-picker"]'), function () {
+    $(this).citypicker();
+});
+
+//富文本编辑器
+$.each($('[data-plugin="editor"]'), function (i) {
+    var id = $(this).attr('id'),data_id=$(this).data('id'),  E = window.wangEditor,editor = new E('#'+id);
+    editor.customConfig.uploadImgServer = "{:url('admin/upload/ajaxUploads',['dir'=>'rich_text'])}";
+    editor.customConfig.onchange = function (html) {
+        // 监控变化，同步更新到 textarea
+        $('#'+data_id).val(html);
+    };
+    editor.create();
+});
+
 
