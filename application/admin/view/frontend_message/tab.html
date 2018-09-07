@@ -1,10 +1,10 @@
 <ul class="nav nav-tabs nav-tabs-line" data-url="{$Request.url}" id="service_tab">
     <li class="active">
-        <a data-toggle="tab" href="javascript:void(0)" data-url="{:url('admin/etprsService/index')}">信息列表</a>
+        <a data-toggle="tab" href="javascript:void(0)" data-url="{:url('admin/frontend_message/index')}">信息列表</a>
     </li>
     {if check_roles('admin/etprs_service_category/index') }
     <li>
-        <a data-toggle="tab" href="javascript:void(0)" data-url="{:url('admin/etprs_service_category/index')}">信息分类</a>
+        <a data-toggle="tab" href="javascript:void(0)" data-url="{:url('admin/frontend_message_category/index')}">信息分类</a>
     </li>
     {/if}
 </ul>

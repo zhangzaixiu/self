@@ -1,17 +1,15 @@
-<link rel="stylesheet" href="/adminui/public/vendor/dropify/dropify.min.css">
-<script src="/adminui/public/vendor/dropify/dropify.min.js"></script>
-{include file="admin@etprs_service/tab" /}
+{include file="admin@frontend_message/tab" /}
 <div class="example">
     <div class="form-group col-md-12 padding-right-0">
         <div class="btn-actions pull-right">
-            <a  data-toggle="modal" data-target="#addForm"><button type="button" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> 新增banner  </button></a>
+            <a href="{:url('admin/frontend_message/create')}"><button class="btn btn-success search_button"><i class="fa fa-plus" aria-hidden="true"></i> 新增 </button></a>
         </div>
     </div>
 </div>
 
 <table class="table table-bordered text-center cdtable"
        data-toggle="table"
-       data-url="{:url('admin/banner/index')}"
+       data-url="{:url('admin/frontend_message/index')}"
        data-pagination="true"
        data-side-pagination="server"
        data-striped="true"
@@ -19,98 +17,21 @@
      >
     <thead>
     <tr>
-        <th class="text-center" data-field="type" data-sortable="true">类型</th>
-        <th class="text-center" data-field="sort" data-sortable="true">顺序</th>
-        <th class="text-center" data-field="download" >图片/视频</th>
-        <th class="text-center" data-field="link_alias">链接</th>
+        <th class="text-center" data-field="title" data-sortable="true">标题</th>
+        <th class="text-center" data-field="category_name" data-sortable="true">分类名称</th>
+        <th class="text-center" data-field="linkman" >联系人</th>
+        <th class="text-center" data-field="mobile">联系方式</th>
         <th class="text-center" data-field="create_time" data-sortable="true">创建时间</th>
         <th class="text-center" data-formatter="actFmt"> 操作</th>
     </tr>
     </thead>
 </table>
 
-
-<div class="modal fade in" id="addForm" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1">
-    <div class="modal-dialog modal-center">
-        <form class="modal-content form-horizontal" >
-            <div class="modal-header">
-                <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                <h4 class="modal-title" id="myModalLabel">新增banner</h4>
-            </div>
-            <div class="modal-body">
-
-                <div class="form-group">
-                    <label class="col-sm-3 control-label"><span class="required">*</span> 类型：</label>
-                    <div class="col-sm-9">
-                        <select class="form-control" name="type" id="type_name" >
-                            <option value="1">图片</option>
-                            <option value="2">视频</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group image">
-                    <label class="col-sm-3 control-label"><span class="required">*</span> 图片：</label>
-                    <div class="col-sm-9">
-                        <input type="file" class="form-control"   data-id="file_id"  data-ext="jpg,jpeg,png,gif" onchange="uploadImage($(this))"  data-plugin="dropify"  data-default-file="">
-                        <p>jpg,jpeg,png,gif格式,大小不超过3M</p>
-                    </div>
-                </div>
-
-
-                <div class="form-group video" style="display: none">
-                    <label class="col-sm-3 control-label"><span class="required">*</span> 上传视频：</label>
-                    <div class="col-md-9">
-                        <input type="file" class="form-control"   data-id="file_id"  data-ext="3gp,rmvb,flv,wmv,avi,mkv,mp4,mp3,wav" onchange="uploadImage($(this))"  data-plugin="dropify" data-size="5" data-default-file="">
-                        <p>3gp,rmvb,flv,wmv,avi,mkv,mp4,mp3,wav格式,大小不超过5M</p>
-                    </div>
-                </div>
-
-                <input type="hidden"  name="file_id" id="file_id"  value=''>
-
-                <div class="form-group link_url">
-                    <label class="col-sm-3 control-label"><span class="required">*</span> 链接：</label>
-                    <div class="col-sm-9">
-                        <input  required type="url" class="form-control " name="link_url" value="" placeholder="以http://或https://开头">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label"><span class="required">*</span> 顺序：</label>
-                    <div class="col-sm-9">
-                        <input type="number" class="form-control " name="sort" value="1" min="1" required>
-                    </div>
-                </div>
-
-                <div class="form-group margin-top-25" style="text-align: center">
-                    <button class="btn btn-primary margin-right-10 btn-save" type="button" data-url="{:url('admin/banner/create')}">保存</button>
-                    <a class="btn btn-default" data-dismiss="modal">取消</a>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
 <script>
     //操作
     function actFmt(value, row, index) {
         var delete_url = "{:url('admin/banner/delete')}?id="+row.id;
-        return '<button type="button" class="btn btn-outline btn-dark btn-sm" data-toggle="confirm" data-message="确定删除此banner吗?"  data-url="'+delete_url+'">' + ' 删除' + '</button> ';
+        return '<button type="button" class="btn btn-outline btn-success btn-sm" data-toggle="confirm" data-message="确定删除此banner吗?"  data-url="'+delete_url+'">' + ' 查看' + '</button> ' +
+            '<button type="button" class="btn btn-outline btn-dark btn-sm" data-toggle="confirm" data-message="确定删除此banner吗?"  data-url="'+delete_url+'">' + ' 删除' + '</button>' ;
     }
-
-    //切换上传类型
-    $('#type_name').on('change',function () {
-        var val = $(this).val();
-        if(val == 1){
-            $('#addForm .video').hide();
-            $('#addForm .image').show();
-            $('input[name="link_url"]').val('').parents('.link_url').show();
-            $('.dropify-clear').click();
-        }
-        if(val == 2){
-            $('#addForm .image').hide();
-            $('#addForm .video').show();
-            $('input[name="link_url"]').val('').parents('.link_url').hide();
-            $('.dropify-clear').click();
-        }
-        $('#file_id').val('');
-    });
 </script>

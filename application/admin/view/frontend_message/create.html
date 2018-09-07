@@ -1,0 +1,163 @@
+<link rel="stylesheet" href="/plugins/city-picker/city-picker.css">
+<link rel="stylesheet" href="/adminui/public/vendor/dropify/dropify.css">
+<form  enctype="multipart/form-data" id="memo_form">
+    <div class="basic_info">
+        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 标题：</label>
+        <div class="col-md-4 padding-bottom-20">
+            <input type="text" class="form-control"   name="title" value="" >
+        </div>
+        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 信息类型：</label>
+        <div class="col-md-4 padding-bottom-20">
+            <select name="type" class="form-control " id="message_type">
+                {foreach $category  as $k => $v}
+                    <option value="{$k}">{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 地区：</label>
+        <div class="col-md-4 padding-bottom-20" style="height:52px ">
+            <div id="dist" style="border: 1px solid #e4eaec;">
+                <div class="form-group" style="overflow: hidden;padding-left: 10px">
+                    <input  class="form-control"   type="text" data-toggle="city-picker" value="">
+                    <input  class="form-control" name="regionId"  type="hidden">
+                </div>
+            </div>
+        </div>
+        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 详细地址：</label>
+        <div class="col-md-4 padding-bottom-20">
+            <input type="text" class="form-control"   name="address" value="" >
+        </div>
+
+        <div class="toggle_div">
+
+            <div class="toggle_info" id="type_1">
+                <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 面积：</label>
+                <div class="col-md-4 padding-bottom-20">
+                    <input type="number" class="form-control"   name="info[1][area]" value="" style="width: 80%;display: inline-block"><span style="padding-left: 10px">平米</span>
+                </div>
+                <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 价格：</label>
+                <div class="col-md-4 padding-bottom-20">
+                    <input type="number" class="form-control col-md-3"   name="info[1][price]" value="" style="width: 80%">
+                    <select name="info[1][unit]" class=" form-control col-md-1" style="width: 18%;float:right">
+                        <option value="元/平">元/平</option>
+                        <option value="元/月">元/月</option>
+                        <option value="元/年">元/年</option>
+                        <option value="元">元</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="toggle_info" id="type_2" hidden>
+                <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 数量：</label>
+                <div class="col-md-4 padding-bottom-20">
+                    <input type="number" class="form-control"   name="info[2][number]" value="" >
+                </div>
+                <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 价格：</label>
+                <div class="col-md-4 padding-bottom-20">
+                    <input type="number" class="form-control col-md-3"   name="info[2][price]" value="" style="width: 80%">
+                    <select name="info[2][unit]" class=" form-control col-md-1 readonly" style="width: 18%;float:right;" disabled>
+                        <option value="元/平">元/平</option>
+                        <option value="元/月">元/月</option>
+                        <option value="元/年">元/年</option>
+                        <option value="元" selected>元</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="toggle_info" id="type_3" hidden>
+                <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 薪资标准：</label>
+                <div class="col-md-4 padding-bottom-20">
+                    <input type="number" class="form-control col-md-3"   name="info[3][price]" value="" style="width: 80%">
+                    <select name="info[3][unit]" class=" form-control col-md-1 " style="width: 18%;float:right;" >
+                        <option value="元/月">元/月</option>
+                        <option value="元/年">元/年</option>
+                    </select>
+                </div>
+                <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 所需人数：</label>
+                <div class="col-md-4 padding-bottom-20">
+                    <input type="number" class="form-control"   name="info[3][number]" value="" >
+                </div>
+            </div>
+
+        </div>
+
+        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 联系人：</label>
+        <div class="col-md-4 padding-bottom-20">
+            <input type="text" class="form-control"   name="linkman" value="" >
+        </div>
+        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 联系方式：</label>
+        <div class="col-md-4 padding-bottom-20">
+            <input type="text" class="form-control"   name="mobile" value="" >
+        </div>
+        <div class="form-group col-md-12 padding-0">
+            <label class="col-sm-2 control-label"><span class="required">*</span> 封面图片：</label>
+            <div class="col-md-4">
+                <input type="hidden"   name="img" id="file_id" class="opt-require" value=''>
+                <input type="file" class="form-control" id="input-file-now"   data-id="file_id" data-url="{:url('/admin/upload/ajaxUploads')}"  onchange="uploadFile($(this),true)"  data-plugin="dropify" data-default-file="">
+                <span>支持jpg,jpeg,png,gif格式,大小不超过3M</span>
+            </div>
+        </div>
+        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 详细内容：</label>
+        <div class="col-sm-10 padding-bottom-20">
+            <textarea  class="summernote" id="content" name="detail"></textarea>
+        </div>
+    </div>
+    <div class="form-group margin-top-25" style="text-align: center">
+        <button  class="btn btn-primary margin-right-10" type="button" data-href="<?=url('admin/message/create')?>" id="submit_btn" data-status="1">保存草稿</button>
+        <button  class="btn btn-success margin-right-10" type="button" data-href="<?=url('admin/message/create')?>" id="release"  data-status="2">立即发布</button>
+    </div>
+    </form>
+<!--选择城市-->
+<script src="/plugins/city-picker/city-picker.data.js"></script>
+<script src="/plugins/city-picker/city-picker.js"></script>
+
+<script src="/adminui/public/vendor/dropify/dropify.min.js"></script>
+<script>
+    //切换显示
+    $('#message_type').on('change',function () {
+        var val = $(this).val();
+        $('.toggle_div .toggle_info').hide();
+        $('#type_'+val).show();
+    });
+
+
+    //地区选择控件
+    $.each($('[data-toggle="city-picker"]'), function () {
+        $(this).citypicker();
+    });
+    function initDistinct(code,title){
+        $("input[name='regionId']").val(code);
+    }
+
+    //富文本编辑器
+    $(".summernote").summernote({
+        lang: "zh-CN",
+        height: 400
+    });
+    //编辑器上传图片
+    function uploadPic(files) {
+        var smnturl = "{:url('admin/upload/smntUpload')}";
+        var smnt = $('#content');
+        smntUploadFile(files, smnt, smnturl,'');
+    }
+
+
+    //保存
+    $("#submit_btn,#release").click(function () {
+        var data=serializeData("memo_form"),status = $(this).data('status');
+        data.detail = $('.summernote').code();
+        data.status = status;
+        var url = $(this).data('href');
+        cstmpost("#submit_btn", url, data, function (res) {
+            if (res["success"]) {
+                toastr.success(res["msg"]);
+                setTimeout(function(){
+                    location.href="{:url('admin/message/index')}";
+                },2000);
+            } else {
+                toastr.error(res["msg"]);
+            }
+        });
+    });
+</script>

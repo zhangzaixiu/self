@@ -3,16 +3,17 @@
         <div class="form-group col-md-2 padding-left-0">
             <input type="text" class="form-control " name="title" placeholder="标题">
         </div>
-        <div class="form-group col-md-1 padding-left-0">
-            <select data-plugin="selectpicker"   name="status" class="form-control">
-                <option value="">状态</option>
-                <option value="1">草稿</option>
-                <option value="2">发布</option>
-            </select>
-        </div>
-        <div class="form-group col-md-1 padding-left-0">
-            <div class="btn-actions pull-right">
-                <button type="button" class="btn btn-primary search_button">&nbsp;&nbsp;<i class="fa fa-search" aria-hidden="true"></i>&nbsp;查询&nbsp;&nbsp;</button>
+
+        <div class="form-group col-md-2 ">
+            <div class="input-group">
+                <select    name="status" class="form-control">
+                    <option value="">状态</option>
+                    <option value="1">草稿</option>
+                    <option value="2">发布</option>
+                </select>
+                <span class="input-group-btn">
+                     <button type="button" class="btn btn-primary search_button" data-table=".cdtable" data-url="{:url('admin/news/index')}">&nbsp;&nbsp;<i class="fa fa-search" aria-hidden="true"></i>&nbsp;查询&nbsp;&nbsp;</button>
+                </span>
             </div>
         </div>
     </form>
@@ -44,12 +45,12 @@
 </table>
 <script>
 
-   //查询
-   $('.search_button').on('click',function () {
-       var data=serializeData("#search_form");
-       console.log(data);
-       $('#actTable').bootstrapTable('refresh', {'url':"{:url('admin/news/index')}",query: data});
-   });
+   // //查询
+   // $('.search_button').on('click',function () {
+   //     var data=serializeData("#search_form");
+   //     console.log(data);
+   //     $('#actTable').bootstrapTable('refresh', {'url':"{:url('admin/news/index')}",query: data});
+   // });
 
 
    //excel导出

@@ -1,18 +1,18 @@
 {include file="admin@frontend_message/tab" /}
 <div class="example">
     <form id="search_form">
-        <div class="form-group col-md-2 padding-left-0">
-            <input type="text" class="form-control activeName" name="name" placeholder="分类名称">
-        </div>
-        <div class="form-group col-md-2 padding-left-0">
-            <div class="btn-actions">
-                <button type="button" class="btn btn-primary search_button" data-table=".cdtable" data-url="{:url('admin/frontend_message_category/index')}">&nbsp;&nbsp;<i class="fa fa-search" aria-hidden="true"></i>&nbsp;查询&nbsp;&nbsp;</button>
+        <div class="form-group col-md-3 ">
+            <div class="input-group">
+                <input type="text" class="form-control activeName" name="name" placeholder="分类名称">
+                <span class="input-group-btn">
+                     <button type="button" class="btn btn-primary search_button" data-table=".cdtable" data-url="{:url('admin/frontend_message_category/index')}">&nbsp;&nbsp;<i class="fa fa-search" aria-hidden="true"></i>&nbsp;查询&nbsp;&nbsp;</button>
+                </span>
             </div>
         </div>
     </form>
 
 
-    <div class="form-group col-md-8 padding-right-0">
+    <div class="form-group col-md-9 padding-right-0">
         <div class="btn-actions pull-right">
             <a href="#" data-toggle="modal" data-target="#addForm"><button type="button" class="btn btn-success" id="saveChlidMenu"><i class="fa fa-plus" aria-hidden="true"></i> 新增 </button></a>
         </div>
@@ -92,6 +92,6 @@
     //操作
     function actFmt(value, row, index) {
         var url = "{:url('admin/frontend_message_category/edit')}?id="+row.id;
-        return '<a  data-toggle="modal" class="btn btn-outline btn-danger btn-sm" data-target="#editForm"  href="'+url+'"> 编辑' + '</a>';
+        return '<a  data-toggle="modal" class="btn btn-outline btn-warning btn-sm" data-target="#editForm"  href="'+url+'"> 编辑' + '</a>';
     }
 </script>
