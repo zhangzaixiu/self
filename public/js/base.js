@@ -116,7 +116,8 @@ $('.btn-xls').click(function(){
 });
 
 //保存表单
-$(".btn-save").click(function () {
+// $(".btn-save").click(function () {
+$("body").on('click','.btn-save',function () {
     var form= $(this).closest("form"),url = $(this).data('url'),data=serializeData(form);
     //验证
     var flag = form.valid();

@@ -2,11 +2,11 @@
 <div class="example">
     <form id="search_form">
         <div class="form-group col-md-2 padding-left-0">
-            <input type="text" class="form-control activeName" name="info" placeholder="分类名称">
+            <input type="text" class="form-control activeName" name="name" placeholder="分类名称">
         </div>
         <div class="form-group col-md-2 padding-left-0">
             <div class="btn-actions">
-                <button type="button" class="btn btn-primary search_button" data-table=".cdtable" data-url="{:url('admin/customer/index')}">&nbsp;&nbsp;<i class="fa fa-search" aria-hidden="true"></i>&nbsp;查询&nbsp;&nbsp;</button>
+                <button type="button" class="btn btn-primary search_button" data-table=".cdtable" data-url="{:url('admin/frontend_message_category/index')}">&nbsp;&nbsp;<i class="fa fa-search" aria-hidden="true"></i>&nbsp;查询&nbsp;&nbsp;</button>
             </div>
         </div>
     </form>
@@ -38,7 +38,7 @@
     </thead>
 </table>
 
-
+<!--新增-->
 <div class="modal fade in" id="addForm" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-center">
         <form class="modal-content form-horizontal" >
@@ -47,41 +47,51 @@
                 <h4 class="modal-title" id="myModalLabel">新增</h4>
             </div>
             <div class="modal-body">
-
                 <div class="form-group">
                     <label class="col-sm-3 control-label"><span class="required">*</span> 分类名称：</label>
                     <div class="col-sm-9">
-                        <input  type="text" class="form-control " name="name" value="" >
+                        <input  type="text" class="form-control " name="name" value=""  required maxlength="20" placeholder="最多20个字符">
                     </div>
                 </div>
 
                 <div class="form-group link_url">
                     <label class="col-sm-3 control-label"><span class="required">*</span> 排序：</label>
                     <div class="col-sm-9">
-                        <input  required data-rule-mobile="mobile" type="number" class="form-control " name="mobile" value="">
+                        <input  required type="number" class="form-control " name="sort" value="" placeholder="数字越大越靠前">
                     </div>
                 </div>
                 <div class="form-group link_url">
                     <label class="col-sm-3 control-label"><span class="required">*</span> 是否显示：</label>
                     <div class="col-sm-9">
-                        <input  required data-rule-mobile="mobile" type="number" class="form-control " name="mobile" value="">
+                        <div class="radio-custom radio-primary col-md-2">
+                            <input type="radio"  name="is_show" value="1" checked >
+                            <label >是</label>
+                        </div>
+                        <div class="radio-custom radio-primary col-md-2">
+                            <input type="radio"  name="is_show" value="0">
+                            <label>否</label>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group margin-top-25" style="text-align: center">
-                    <button class="btn btn-primary margin-right-10 btn-save" type="button" data-url="{:url('admin/customer/create')}">保存</button>
+                    <button class="btn btn-primary margin-right-10 btn-save" type="button" data-url="{:url('admin/frontend_message_category/create')}">保存</button>
                     <a class="btn btn-default" data-dismiss="modal">取消</a>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+<!--编辑-->
+<div class="modal" id="editForm" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+</div>
 <script>
     //操作
     function actFmt(value, row, index) {
-        var reset_url = "{:url('admin/customer/reset')}?id="+row.id,freeze_url = "{:url('admin/customer/freeze')}?id="+row.id,unfreeze_url = "{:url('admin/customer/unfreeze')}?id="+row.id;
-        return '<button type="button" class="btn btn-outline btn-danger btn-sm" data-toggle="confirm" data-message="确定重置『'+row.mobile+'』的密码吗?"  data-url="'+reset_url+'"> 重置密码' + '</button>' +
-            ' <button type="button" class="btn btn-outline btn-warning btn-sm" data-toggle="confirm" data-message="确定冻结『'+row.mobile+'』吗?"  data-url="'+freeze_url+'"> 冻结' + '</button>'
-            +
-            ' <button type="button" class="btn btn-outline btn-success btn-sm" data-toggle="confirm" data-message="确定解冻『'+row.mobile+'』吗?"  data-url="'+unfreeze_url+'"> 解冻' + '</button>';
+        var url = "{:url('admin/frontend_message_category/edit')}?id="+row.id;
+        return '<a  data-toggle="modal" class="btn btn-outline btn-danger btn-sm" data-target="#editForm"  href="'+url+'"> 编辑' + '</a>';
     }
 </script>

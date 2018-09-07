@@ -1,0 +1,1 @@
+<?phpnamespace app\common\validate;use think\Validate;class FrontendMessageCategoryValidate extends Validate{    protected $rule = [        'name|分类名称'=>"require|max:20",        'sort|排序'=>'require|number|egt:1',        'is_show|是否显示'=>'require',    ];}
