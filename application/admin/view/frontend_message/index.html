@@ -48,8 +48,8 @@
 <script>
     //操作
     function actFmt(value, row, index) {
-        var delete_url = "{:url('admin/banner/delete')}?id="+row.id;
-        return '<button type="button" class="btn btn-outline btn-success btn-sm" data-toggle="confirm" data-message="确定删除此banner吗?"  data-url="'+delete_url+'">' + ' 查看' + '</button> ' +
-            '<button type="button" class="btn btn-outline btn-dark btn-sm" data-toggle="confirm" data-message="确定删除此banner吗?"  data-url="'+delete_url+'">' + ' 删除' + '</button>' ;
+        var delete_url = "{:url('admin/frontend_message/delete')}?id="+row.id,show_url = "{:url('admin/frontend_message/show')}?id="+row.id;
+        return '<a type="button" class="btn btn-outline btn-success btn-sm" href="'+show_url+'">' + ' 查看' + '</a> ' +
+            '<button type="button" class="btn btn-outline btn-dark btn-sm" data-toggle="confirm" data-message="确定删除此信息吗?"  data-url="'+delete_url+'">' + ' 删除' + '</button>' ;
     }
 </script>

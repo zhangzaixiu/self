@@ -1,11 +1,43 @@
+
+{include file="layout/header" /}
 <link rel="stylesheet" href="/adminui/public/css/errors.css">
-    <div class="page page-full vertical-align text-center animation-fade page-error">
-        <div class="page-content vertical-align-middle">
-            <header>
-                <h1 class="animation-slide-top"><?php echo(!isset($code)|| empty($code))?'error':$code ?></h1>
-                <p>{$msg}</p>
-            </header>
-            <button class="btn btn-outline btn-primary btn-round" id="closeTab" href="javascript:;">关闭当前页</button>
+<body>
+    {include file="layout/navbar" /}
+    {include file="layout/menubar" /}
+    <main class="site-page">
+        <div class="page-container" id="admui-pageContent" style="border-top: 2px solid #e6e6e6;">
+            <div class="page animation-fade page-blank">
+                {if !empty($current_menu)}
+                <ol class="breadcrumb">
+                    <?php foreach($current_menu as $k=>$v): ?>
+                    <li><?php echo htmlentities($v['name']); ?></li>
+                    <?php endforeach; ?>
+                </ol>
+                {/if}
+
+                <div class="panel">
+                    <div class="panel-body nav-tabs-animate" id="panel-body">
+                        <div class="page page-full vertical-align text-center animation-fade page-error">
+                            <div class="page-content vertical-align-middle">
+                                <header>
+                                    <h1 class="animation-slide-top"><?php echo(!isset($code)|| empty($code))?'error':$code ?></h1>
+                                    <p>{$msg}</p>
+                                </header>
+                                <button class="btn btn-outline btn-primary btn-round" id="closeTab" href="javascript:;">关闭当前页</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-<script src="/adminui/public/js/error.js"></script>
+    </main>
+
+ <!--插件-->
+    <script src="/adminui/public/themes/classic/global/js/plugins/responsive-tabs.js"></script>
+    <script src="/adminui/public/vendor/ashoverscroll/jquery-asHoverScroll.min.js"></script>
+    <script src="/adminui/public/vendor/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/adminui/public/vendor/screenfull/screenfull.min.js"></script>
+    <script src="/adminui/public/vendor/matchheight/jquery.matchHeight.min.js"></script>
+    <script src="/adminui/public/js/error.js"></script>
+</body>
+</html>

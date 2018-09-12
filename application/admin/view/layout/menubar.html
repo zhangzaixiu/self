@@ -1,0 +1,55 @@
+<nav class="site-menubar">
+    <div class="site-menubar-body">
+        <div class="tab-content height-full" id="admui-navTabs">
+            <div class="tab-pane animation-fade height-full active" id="admui-navTabsItem-2" role="tabpanel">
+                <ul class="site-menu">
+                    <?php foreach($menu as $k=>$v): if(empty($v['children'])): ?>
+                    <li class="site-menu-item" data-menu="<?php echo htmlentities($v['id']); ?>">
+                        <a href="<?php echo url($v['url']); ?>">
+                            <i class="site-menu-icon <?php echo htmlentities($v['icon']); ?>" aria-hidden="true"></i><span class="site-menu-title"><?php echo htmlentities($v['title']); ?></span>
+                        </a>
+                    </li>
+                    <?php else: ?>
+                    <li class="site-menu-item has-sub" data-menu="<?php echo htmlentities($v['id']); ?>">
+                        <a href="javascript:;">
+                            <i class="site-menu-icon <?php echo htmlentities($v['icon']); ?>" aria-hidden="true"></i><span class="site-menu-title"><?php echo htmlentities($v['title']); ?></span><span class="site-menu-arrow"></span>
+                        </a>
+
+                        <ul class="site-menu-sub">
+                            <?php foreach($v['children'] as $key=>$val): ?>
+                            <li class="site-menu-item" data-menu="<?php echo htmlentities($val['id']); ?>">
+                                <a href="<?php echo htmlentities($val['url']); ?>">
+                                    <span class="site-menu-title"><?php echo htmlentities($val['title']); ?></span>
+                                </a>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                    <?php endif; endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<script>
+    show_menu();
+    function show_menu() {
+        var menu_id = "{$menu_id}";
+        var second = "{$second_parent_id}";
+        var menu_parent_id = "{$menu_parent_id}";
+        if(menu_id !='' && menu_parent_id != ''){
+            if(menu_parent_id !=0){
+                $(".site-menu .has-sub[data-menu = "+menu_parent_id+"]").addClass('open').siblings().removeClass('open');
+                $(".site-menu li").removeClass('current_menu');
+                if(second != ''){
+                    $(".site-menu li[data-menu = "+second+"]").addClass('current_menu')
+                }else{
+                    $(".site-menu li[data-menu = "+menu_id+"]").addClass('current_menu')
+                }
+            }else{
+                $(".site-menu > li[data-menu ="+menu_id+"]").addClass('current_menu').siblings().removeClass('current_menu');
+            }
+        }
+
+    }
+</script>

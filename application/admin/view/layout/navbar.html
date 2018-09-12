@@ -1,0 +1,56 @@
+<nav class="site-navbar navbar navbar-default navbar-fixed-top bg-blue-600" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided unfolded" data-toggle="menubar">
+            <span class="sr-only">切换菜单</span> <span class="hamburger-bar"></span>
+        </button>
+        <button type="button" class="navbar-toggle collapsed" data-target="#admui-navbarCollapse" data-toggle="collapse">
+            <i class="icon wb-more-horizontal" aria-hidden="true"></i>
+        </button>
+        <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+            <span class="navbar-brand-logo visible-lg visible-xs navbar-logo">
+                <img  style="width: 32px;margin-right: 15px" src="/adminui/public/images/logo-white-min.svg">
+                <span style="font-weight: normal">壹能众创</span>
+            </span>
+            <!--<img class="navbar-brand-logo visible-lg visible-xs navbar-logo" src="/adminui/public/images/logo-white.svg" title="壹能众创">-->
+            <img class="navbar-brand-logo hidden-xs hidden-lg navbar-logo-mini" src="/adminui/public/images/logo-white-min.svg" title="壹能众创">
+        </div>
+    </div>
+    <div class="navbar-container container-fluid">
+        <div class="collapse navbar-collapse navbar-collapse-toolbar" id="admui-navbarCollapse">
+            <ul class="nav navbar-toolbar navbar-left">
+                <li class="hidden-float">
+                    <a data-toggle="menubar" class="hidden-float hided unfolded" href="javascript:;" role="button" id="admui-toggleMenubar">
+                        <i class="icon hamburger hamburger-arrow-left"> <span class="sr-only">切换目录</span>
+                            <span class="hamburger-bar"></span> </i>
+                    </a>
+                </li>
+                <li class="navbar-menu nav-tabs-horizontal nav-tabs-animate" id="admui-navMenu">
+                    <ul class="nav navbar-toolbar nav-tabs" role="tablist">
+                        <li role="presentation">
+                            <a  style="background: #fff" data-toggle="tab" href="#admui-navTabsItem-2" aria-controls="admui-navTabsItem-2" role="tab" aria-expanded="false">
+                                <span> 欢迎您：{$current_user->name}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+                <!--<li class="hidden-xs" id="admui-navbarFullscreen" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="全屏">-->
+                <!--<a class="icon icon-fullscreen" data-toggle="fullscreen" href="#" role="button">-->
+                <!--<span class="sr-only">全屏</span>-->
+                <!--</a>-->
+                <!--</li>-->
+                <li data-toggle="tooltip" data-placement="bottom" title="" data-original-title="个人中心">
+                    <a class="icon wb-user"  href="<?php echo url('admin/user/changePassword'); ?>" role="button">
+                        <span class="sr-only">个人中心</span>
+                    </a>
+                </li>
+                <li data-toggle="tooltip" data-placement="bottom" title="" data-original-title="退出">
+                    <a class="icon fa-sign-out" id="admui-signOut" href="<?php echo url('admin/site/logout'); ?>" role="button">
+                        <span class="sr-only">退出</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
