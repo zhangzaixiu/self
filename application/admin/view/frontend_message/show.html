@@ -1,302 +1,87 @@
-<link rel="stylesheet" href="/plugins/city-picker/city-picker.css">
-<!--富文本-->
-<link rel="stylesheet" href="/adminui/public/vendor/summernote/summernote.css">
-<script src="/adminui/public/vendor/summernote/summernote.min.js"></script>
-<script src="/adminui/public/vendor/summernote/lang/summernote-zh-CN.min.js"></script>
-<!--上传图片插件-->
-<link rel="stylesheet" href="/adminui/public/vendor/blueimp-file-upload/jquery.fileupload.css">
-<link rel="stylesheet" href="/adminui/public/vendor/dropify/dropify.css">
 
-<link rel="stylesheet" href="/adminui/public/vendor/alertify-js/alertify.css">
 <div class="show_info">
-    <div class="basic_info">
-        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 标题：</label>
-        <div class="col-md-4 padding-bottom-20">
-            <input type="text" class="form-control readonly"  readonly  name="title" value="{$data['title']}" >
-        </div>
-        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 信息类型：</label>
-        <div class="col-md-4 padding-bottom-20">
-            <input type="text" class="form-control readonly"  readonly  name="type" value="{$data['type_alias']}" >
-        </div>
-        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 地区：</label>
-        <div class="col-md-4 padding-bottom-20" style="height:52px ">
-            <input type="text" class="form-control readonly"  readonly  value="{$data['region_name']}" >
-        </div>
-        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 详细地址：</label>
-        <div class="col-md-4 padding-bottom-20">
-            <input type="text" class="form-control readonly"   readonly name="address" value="{$data['address']}" >
-        </div>
+    <div class="form-group col-md-12" style="    border-bottom: 1px solid #e4eaec;
+    padding-bottom: 10px;">
+        <div class="btn-actions pull-right">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-success btn-outline" id="edit_btn">
+                    <i class="icon wb-pencil" aria-hidden="true"></i>编辑
+                </button>
 
-        {if $data['type'] == 1}
-            <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 面积：</label>
-            <div class="col-md-4 padding-bottom-20">
-                <input type="number" class="form-control readonly"  readonly value="{$data['area']}" >
-            </div>
-            <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 价格：</label>
-            <div class="col-md-4 padding-bottom-20">
-                <input type="number" class="form-control col-md-3 readonly"  readonly value="{$data['price']}" style="width: 40%">
-                <select  class=" form-control col-md-1 readonly"  disabled style="width: 58%;float:right">
-                    <option >{$data['unit']}</option>
-                </select>
-            </div>
-        {elseif $data['type'] == 2}
-            <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 数量：</label>
-            <div class="col-md-4 padding-bottom-20">
-                <input type="number" class="form-control readonly" readonly value="{$data['number']}" >
-            </div>
-            <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 价格：</label>
-            <div class="col-md-4 padding-bottom-20">
-                <input type="number" class="form-control col-md-3 readonly" readonly   value="{$data['price']}" style="width: 40%">
-                <select  class=" form-control col-md-1 readonly" style="width: 58%;float:right;" disabled>
-                    <option >{$data['unit']}</option>
-                </select>
-            </div>
-        {elseif $data['type'] == 3}
-            <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 薪资标准：</label>
-            <div class="col-md-4 padding-bottom-20">
-                <input type="number" class="form-control col-md-3 readonly" readonly   value="{$data['price']}" style="width: 40%">
-                <select  class=" form-control col-md-1 readonly" style="width: 58%;float:right;" disabled>
-                    <option >{$data['unit']}</option>
-                </select>
-            </div>
-            <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 所需人数：</label>
-            <div class="col-md-4 padding-bottom-20">
-                <input type="number" class="form-control readonly"  readonly   value="{$data['number']}" >
-            </div>
-        {/if}
-
-        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 联系人：</label>
-        <div class="col-md-4 padding-bottom-20">
-            <input type="text" class="form-control readonly" readonly  name="linkman" value="{$data['linkman']}" >
-        </div>
-        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 联系方式：</label>
-        <div class="col-md-4 padding-bottom-20">
-            <input type="text" class="form-control readonly"  readonly  name="mobile" value="{$data['mobile']}" >
-        </div>
-        <div class="form-group col-md-12 padding-0">
-            <label class="col-sm-2 control-label"><span class="required">*</span> 封面图片：</label>
-            <div class="col-md-4">
-                <img src="{$data['savePath']}" width="200px">
+                <button type="button" class="btn btn-success btn-outline" data-toggle="confirm"
+                        data-url="{:url('admin/frontend_message/off',['id'=>$data['id']])}" data-message="确定下线吗?">
+                    <i class="icon wb-link-broken" aria-hidden="true"></i>下线
+                </button>
             </div>
         </div>
-        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 详细内容：</label>
-        <div class="col-sm-10 padding-bottom-20" style="word-break: break-all;word-wrap: break-word;">
-            {$data['detail']}
-        </div>
-        <div class="clearfix"></div>
     </div>
-    <div class="form-group margin-top-25" style="text-align: center">
-        {if check_roles('admin/message/edit') && $data['status'] != 2}
-        <button  class="btn btn-primary margin-right-10" type="button" id="edit_btn" >编辑</button>
-        {/if}
-        {if check_roles('admin/message/off') && $data['status'] ==2 }
-        <button  class="btn btn-success margin-right-10" type="button" id="off_btn" data-href="{:url('admin/message/off',['id'=>$data['id']])}" >下线</button>
-        {/if}
+    <div class="form-group col-sm-12">
+        <label class="col-sm-2 control-label "><span class="required">*</span> 标题：</label>
+        <div class="col-md-4 ">
+            <input type="text" class="form-control readonly"   value="{$data['title']}" readonly >
+        </div>
+        <label class="col-sm-2 control-label "><span class="required">*</span> 信息类型：</label>
+        <div class="col-md-4 ">
+            <input type="text" class="form-control readonly"  value="{$data->frontend_message_category?$data->frontend_message_category->name:''}" readonly >
+        </div>
+    </div>
+    <div class="form-group col-sm-12">
+        <label class="col-sm-2 control-label "><span class="required">*</span> 地区：</label>
+        <div class="col-md-4 ">
+            <input type="text" class="form-control readonly"  readonly  value="{$data['region']}" >
+        </div>
+        <label class="col-sm-2 control-label "><span class="required">*</span> 详细地址：</label>
+        <div class="col-md-4 ">
+            <input type="text" class="form-control readonly"  readonly value="{$data['address']}" >
+        </div>
+    </div>
+
+    <div class="form-group col-sm-12">
+        <label class="col-sm-2 control-label "><span class="required">*</span> 联系人：</label>
+        <div class="col-md-4 ">
+            <input type="text" class="form-control readonly"  readonly  value="{$data['linkman']}" >
+        </div>
+        <label class="col-sm-2 control-label "><span class="required">*</span> 联系方式：</label>
+        <div class="col-md-4 ">
+            <input type="text" class="form-control readonly" readonly  value="{$data['mobile']}" >
+        </div>
+    </div>
+
+    <div class="form-group col-sm-12">
+        <label class="col-sm-2 control-label">面积：</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control readonly" readonly value="{$data['area']} 平米" >
+        </div>
+        <label class="col-sm-2 control-label">数量：</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control readonly"  readonly value="{$data['number']}" >
+        </div>
+    </div>
+
+    <div class="form-group col-sm-12">
+        <label class="col-sm-2 control-label">价格：</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control readonly" readonly value="{$data['price']} {$data['unit']}" >
+        </div>
+    </div>
+    <div class="form-group col-md-12 ">
+        <label class="col-sm-2 control-label"><span class="required">*</span> 封面图片：</label>
+        <div class="col-md-4">
+            <img src="{$data->sys_file?$data->sys_file->save_path:''}" style="width: 300px">
+        </div>
+    </div>
+    <label class="col-sm-2 control-label"><span class="required">*</span> 详细内容：</label>
+    <div class="col-sm-10">
+        <div>
+            {$data['detail']|raw}
+        </div>
     </div>
 </div>
-
-
-<form  enctype="multipart/form-data" id="memo_form" hidden>
-    <div class="basic_info">
-        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 标题：</label>
-        <div class="col-md-4 padding-bottom-20">
-            <input type="text" class="form-control"   name="title" value="{$data['title']}" >
-        </div>
-        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 信息类型：</label>
-        <div class="col-md-4 padding-bottom-20">
-            <select name="type" class="form-control " id="message_type">
-                {foreach $type  as $k => $v}
-                    <option value="{$k}" <?=$data['type'] == $k ?'selected':''?>>{$v}</option>
-                {/foreach}
-            </select>
-        </div>
-        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 地区：</label>
-        <div class="col-md-4 padding-bottom-20" style="height:52px ">
-            <div id="dist" style="border: 1px solid #e4eaec;">
-                <div class="form-group" style="overflow: hidden;padding-left: 10px">
-                    <input  class="form-control"   type="text" data-toggle="city-picker" value="">
-                    <input  class="form-control" name="regionId"  type="hidden" value="{$data['regionId']}">
-                </div>
-            </div>
-        </div>
-        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 详细地址：</label>
-        <div class="col-md-4 padding-bottom-20">
-            <input type="text" class="form-control"   name="address" value="{$data['address']}" >
-        </div>
-
-        <div class="toggle_div">
-
-            <div class="toggle_info" id="type_1" <?=$data['type']==1?'':'hidden'?>>
-                <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 面积：</label>
-                <div class="col-md-4 padding-bottom-20">
-                    <input type="number" class="form-control"   name="info[1][area]" value="{$data['area']}" >
-                </div>
-                <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 价格：</label>
-                <div class="col-md-4 padding-bottom-20">
-                    <input type="number" class="form-control col-md-3"   name="info[1][price]" value="{$data['price']}" style="width: 80%">
-                    <select name="info[1][unit]" class=" form-control col-md-1" style="width: 18%;float:right">
-                        <option value="元/平" <?=!strcmp($data['unit'], "元/平")?'selected':''?>>元/平</option>
-                        <option value="元/月" <?=!strcmp($data['unit'], "元/月")?'selected':''?>>元/月</option>
-                        <option value="元/年" <?=!strcmp($data['unit'], "元/年")?'selected':''?>>元/年</option>
-                        <option value="元" <?=!strcmp($data['unit'], "元")?'selected':''?>>元</option>
-                    </select>
-                </div>
-            </div>
-
-
-            <div class="toggle_info" id="type_2"  <?=$data['type']==2?'':'hidden'?>>
-                <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 数量：</label>
-                <div class="col-md-4 padding-bottom-20">
-                    <input type="number" class="form-control"   name="info[2][number]" value="{$data['number']}" >
-                </div>
-                <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 价格：</label>
-                <div class="col-md-4 padding-bottom-20">
-                    <input type="number" class="form-control col-md-3"   name="info[2][price]" value="{$data['price']}" style="width: 80%">
-                    <select name="info[2][unit]" class=" form-control col-md-1 readonly" style="width: 18%;float:right;" disabled>
-                        <option value="元" selected>元</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="toggle_info" id="type_3"  <?=$data['type']==3?'':'hidden'?>>
-                <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 薪资标准：</label>
-                <div class="col-md-4 padding-bottom-20">
-                    <input type="number" class="form-control col-md-3"   name="info[3][price]" value="{$data['price']}" style="width: 80%">
-                    <select name="info[3][unit]" class=" form-control col-md-1 " style="width: 18%;float:right;" >
-                        <option value="元/月" <?=!strcmp($data['unit'], "元/月")?'selected':''?>>元/月</option>
-                        <option value="元/年" <?=!strcmp($data['unit'], "元/年")?'selected':''?>>元/年</option>
-                    </select>
-                </div>
-                <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 所需人数：</label>
-                <div class="col-md-4 padding-bottom-20">
-                    <input type="number" class="form-control"   name="info[3][number]" value="{$data['number']}" >
-                </div>
-            </div>
-
-        </div>
-
-        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 联系人：</label>
-        <div class="col-md-4 padding-bottom-20">
-            <input type="text" class="form-control"   name="linkman" value="{$data['linkman']}" >
-        </div>
-        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 联系方式：</label>
-        <div class="col-md-4 padding-bottom-20">
-            <input type="text" class="form-control"   name="mobile" value="{$data['mobile']}" >
-        </div>
-        <div class="form-group col-md-12 padding-0">
-            <label class="col-sm-2 control-label"><span class="required">*</span> 封面图片：</label>
-            <div class="col-md-4">
-                <input type="hidden"   name="img" id="file_id" class="opt-require" value="{$data['img']}">
-                <input type="file" class="form-control" id="input-file-now"   data-id="file_id" data-url="{:url('/admin/upload/ajaxUploads')}"  onchange="uploadFile($(this),true)"  data-plugin="dropify" data-default-file="{$data['savePath']}">
-                <span>支持jpg、jpeg、PDF、RAR格式,大小不超过3M</span>
-            </div>
-        </div>
-        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 详细内容：</label>
-        <div class="col-sm-10 padding-bottom-20">
-            <textarea  class="summernote" id="content" name="detail">{$data['detail']}</textarea>
-        </div>
-    </div>
-    <div class="form-group margin-top-25" style="text-align: center">
-        <button  class="btn btn-primary margin-right-10" type="button" data-href="<?=url('admin/message/edit',['id'=>$data['id']])?>" id="submit_btn" data-status="1">保存草稿</button>
-        <button  class="btn btn-success margin-right-10" type="button" data-href="<?=url('admin/message/edit',['id'=>$data['id']])?>" id="release"  data-status="2">立即发布</button>
-    </div>
-</form>
-<!--选择城市-->
-<script src="/plugins/city-picker/city-picker.data.js"></script>
-<script src="/plugins/city-picker/city-picker.js"></script>
-
-
-<script src="/adminui/public/vendor/blueimp-file-upload/jquery.ui.widget.js"></script>
-<script src="/adminui/public/vendor/blueimp-file-upload/jquery.iframe-transport.js"></script>
-<script src="/adminui/public/vendor/blueimp-file-upload/jquery.fileupload.js"></script>
-
-<script src="/adminui/public/vendor/blueimp-load-image/load-image.all.min.js"></script>
-<script src="/adminui/public/vendor/blueimp-file-upload/jquery.fileupload-process.js"></script>
-<script src="/adminui/public/vendor/blueimp-file-upload/jquery.fileupload-validate.js"></script>
-<script src="/adminui/public/vendor/dropify/dropify.min.js"></script>
-
-<script src="/adminui/public/vendor/alertify-js/alertify.min.js"></script>
+{include file="frontend_message/edit" /}
 <script>
-
     //编辑按钮
     $('#edit_btn').on('click',function () {
         $('.show_info').hide();
-        $('#memo_form').show();
-    });
-
-    //切换显示
-    $('#message_type').on('change',function () {
-        var val = $(this).val();
-        $('.toggle_div .toggle_info').hide();
-        $('#type_'+val ).find('input').each(function () {
-            $(this).val('');
-        });
-        $('#type_'+val).show();
-    });
-
-    //地区选择控件
-    function initDistinct(code,title){
-        $("input[name='regionId']").val(code);
-    }
-    //城市选择器
-    var city_picker = $('input[data-toggle="city-picker"]');
-    city_picker.citypicker();
-    "<?php if(!empty($city)){?>"
-    city_picker.citypicker("reset");
-    city_picker.citypicker("destroy");
-    city_picker.citypicker({
-        province: "<?=isset($city['province'])?$city['province']:''?>",
-        city: "<?=isset($city['city'])?$city['city']:''?>",
-        district: "<?=isset($city['district'])?$city['district']:''?>"
-    });
-    "<?php }?>"
-
-
-    //下线
-    $('#off_btn').on('click',function () {
-        var url = $(this).data('href');
-        alertify.theme('bootstrap')
-            .confirm('确认下线吗?', function () {
-                cstmpost("", url, [], function (res) {
-                    if (res["code"]) {
-                        toastr.success(res["msg"]);
-                        location.reload();
-                    } else {
-                        toastr.error(res["msg"]);
-                    }
-                });
-            });
-    });
-
-
-    //富文本编辑器
-    $(".summernote").summernote({
-        lang: "zh-CN",
-        height: 400
-    });
-    //编辑器上传图片
-    function uploadPic(files) {
-        var smnturl = "{:url('admin/upload/smntUpload')}";
-        var smnt = $('#content');
-        smntUploadFile(files, smnt, smnturl,'');
-    }
-
-
-    //保存
-    $("#submit_btn,#release").click(function () {
-        var data=serializeData("memo_form"),status = $(this).data('status');
-        data.detail = $('.summernote').code();
-        data.status = status;
-        var url = $(this).data('href');
-        cstmpost("#submit_btn", url, data, function (res) {
-            if (res["success"]) {
-                toastr.success(res["msg"]);
-                setTimeout(function(){
-                    location.href="{:url('admin/message/index')}";
-                },2000);
-            } else {
-                toastr.error(res["msg"]);
-            }
-        });
+        $('#edit_form').show();
     });
 </script>

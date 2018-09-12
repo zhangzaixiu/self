@@ -228,10 +228,24 @@ function cstmpost(id,url,data,fun){
     });
 }
 
+
 //地区选择器
 $.each($('[data-toggle="city-picker"]'), function () {
     $(this).citypicker();
+    var region = $(this).data('region'),region_val = $('#'+region).val();
+    if(region_val){
+        var region_arr = region_val.split("/");
+        $(this).citypicker("reset");
+        $(this).citypicker("destroy");
+        $(this).citypicker({
+            province: region_arr[0] !=undefined?region_arr[0]:'',
+            city: region_arr[1] != undefined?region_arr[1]:'',
+            district: region_arr[2] != undefined?region_arr[2]:''
+        });
+        console.log(region_arr);
+    }
 });
+
 
 //富文本编辑器
 $.each($('[data-plugin="editor"]'), function (i) {
