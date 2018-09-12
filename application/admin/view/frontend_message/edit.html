@@ -77,12 +77,19 @@
         {:widget('common/form/richText',['name'=>'detail','value'=>$data['detail'],'role'=>'required'])}
     </div>
 
-    <div class="form-group margin-top-25" style="text-align: center">
-        <button  class="btn btn-primary margin-right-10 btn-save" type="button"
-                 data-url="<?=url('admin/frontend_message/edit',['id'=>$data['id'],'status'=>1])?>">保存草稿</button>
-        <button  class="btn btn-success margin-right-10 btn-save" type="button"
-                 data-url="<?=url('admin/frontend_message/edit',['id'=>$data['id'],'status'=>2])?>">立即发布</button>
+    <div class="form-group col-md-12 text-center">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary btn-outline btn-save"
+                    data-url="<?=url('admin/frontend_message/edit',['id'=>$data['id'],'status'=>1])?>">
+                <i class="icon wb-cloud" aria-hidden="true"></i>保存草稿
+            </button>
+
+            <button type="button" class="btn btn-success btn-outline btn-save" data-url="<?=url('admin/frontend_message/edit',['id'=>$data['id'],'status'=>2])?>">
+                <i class="icon wb-volume-high" aria-hidden="true"></i>立即发布
+            </button>
+        </div>
     </div>
+
 </form>
 <!--选择城市-->
 <script src="/plugins/city-picker/city-picker.data.js"></script>

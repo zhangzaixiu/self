@@ -39,6 +39,7 @@
         <th class="text-center" data-field="category_name" data-sortable="true">分类名称</th>
         <th class="text-center" data-field="linkman" >联系人</th>
         <th class="text-center" data-field="mobile">联系方式</th>
+        <th class="text-center" data-field="status" data-sortable="true">状态</th>
         <th class="text-center" data-field="create_time" data-sortable="true">创建时间</th>
         <th class="text-center" data-formatter="actFmt"> 操作</th>
     </tr>
@@ -48,9 +49,16 @@
 <script>
     //操作
     function actFmt(value, row, index) {
-        var delete_url = "{:url('admin/frontend_message/delete')}?id="+row.id,show_url = "{:url('admin/frontend_message/show')}?id="+row.id,off_url = "{:url('admin/frontend_message/off')}?id="+row.id;
-        return '<a type="button" class="btn btn-outline btn-success btn-sm" href="'+show_url+'">' + ' 查看' + '</a> ' +
-                '<button type="button" class="btn btn-outline btn-warning btn-sm" data-toggle="confirm" data-message="确定下线吗?"  data-url="'+off_url+'">' + ' 下线' + '</button> '+
-            '<button type="button" class="btn btn-outline btn-dark btn-sm" data-toggle="confirm" data-message="确定删除此信息吗?"  data-url="'+delete_url+'">' + ' 删除' + '</button>' ;
+        var delete_url = "{:url('admin/frontend_message/delete')}?id="+row.id,show_url = "{:url('admin/frontend_message/show')}?id="+row.id,off_url = "{:url('admin/frontend_message/off')}?id="+row.id,str = '';
+        if("{check_roles('admin/frontend_message/show')}"){
+            str += '<a type="button" class="btn btn-outline btn-success btn-sm" href="'+show_url+'">' + ' 查看' + '</a> ';
+        }
+        if("{check_roles('admin/frontend_message/off')}" && row.status =='发布'){
+            str += '<button type="button" class="btn btn-outline btn-warning btn-sm" data-toggle="confirm" data-message="确定下线吗?"  data-url="'+off_url+'">' + ' 下线' + '</button> ';
+        }
+        if("{check_roles('admin/frontend_message/delete')}"){
+            str += '<button type="button" class="btn btn-outline btn-dark btn-sm" data-toggle="confirm" data-message="确定删除此信息吗?"  data-url="'+delete_url+'">' + ' 删除' + '</button>' ;
+        }
+        return str;
     }
 </script>
