@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="/adminui/public/vendor/jquery-treegrid/jquery-treegrid.css">
+
+<table class="table table-bordered table-striped table-condensed" data-plugin="treegrid">
+    {foreach $data['rows'] as $k => $v}
+        {if $v['parent_id'] == 0}
+            <tr class="treegrid-{$v['id']}">
+        {else}
+            <tr class="treegrid-{$v['id']} treegrid-parent-{$v['parent_id']}">
+        {/if}
+        <td>{$v['name']}</td>
+        <td>{$v['parent_id']}</td>
+    </tr>
+    {/foreach}
+</table>
+
+<script src="/adminui/public/vendor/jquery-treegrid/jquery.treegrid.min.js"></script>
+

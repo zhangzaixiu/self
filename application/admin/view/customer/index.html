@@ -54,7 +54,8 @@
      >
     <thead>
     <tr>
-        <th class="text-center" data-field="mobile" data-sortable="true">联系方式</th>
+        <!--<th class="text-center" data-field="mobile" data-sortable="true">联系方式</th>-->
+        <th class="text-center" data-formatter="mobile_link" data-sortable="true">联系方式</th>
         <th class="text-center" data-field="name" data-sortable="true">用户名称</th>
         <th class="text-center" data-field="type" data-sortable="true">类型</th>
         <th class="text-center" data-field="source" data-sortable="true">来源</th>
@@ -140,5 +141,12 @@
             ' <button type="button" class="btn btn-outline btn-warning btn-sm" data-toggle="confirm" data-message="确定冻结『'+row.mobile+'』吗?"  data-url="'+freeze_url+'"> 冻结' + '</button>'
             +
             ' <button type="button" class="btn btn-outline btn-success btn-sm" data-toggle="confirm" data-message="确定解冻『'+row.mobile+'』吗?"  data-url="'+unfreeze_url+'"> 解冻' + '</button>';
+    }
+
+
+
+    function mobile_link(value, row, index) {
+        var detail_url = "{:url('admin/customer/detail')}?id="+row.id;
+        return '<a  href="'+detail_url+'">'+row.mobile+'</a>';
     }
 </script>
