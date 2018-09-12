@@ -271,9 +271,10 @@
                 }
             }).on('click','.city-select-tab #city_reset',function () {
                 $this.reset();
-                var input_id = $this.$element.data('id');
+                var input_id = $this.$element.data('id'),input_region = this.$element.data('region');
                 if(input_id !=undefined){
                     $('#'+input_id).val('');
+                    $('#'+input_region).val('');
                 }
                 // if (typeof(eval("initDistinct")) == "function") {
                 //     initDistinct('','');
@@ -370,9 +371,10 @@
                     }else{
                         final = code;
                     }
-                var input_id = this.$element.data('id');
+                var input_id = this.$element.data('id'),input_region = this.$element.data('region');
                 if(input_id !=undefined){
                     $('#'+input_id).val(final);
+                    $('#'+input_region).val(this.getVal());
                 }
                 // if (typeof(eval("initDistinct")) == "function") {
                 //     initDistinct(final,this.getVal());
