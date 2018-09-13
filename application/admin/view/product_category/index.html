@@ -1,17 +1,144 @@
 <link rel="stylesheet" href="/adminui/public/vendor/jquery-treegrid/jquery-treegrid.css">
+<style>
+    .no-data{
+        position: absolute;
+        top: 138px;
+    }
+</style>
+<div class="example">
+    <form id="search_form" action="" method="get" class="col-md-12">
+        <div class="form-group col-md-2 padding-left-0">
+            <input type="text" class="form-control " name="name" placeholder="分类名称" value="{$Request.get.name}">
+        </div>
+        <div class="form-group col-md-1 padding-left-0">
+            <select  name="is_top" class="form-control">
+                <option value="">是否置顶</option>
+                {foreach $alias['is_top'] as $k =>$v}
+                    <option value="{$k}" {$Request.get.is_top == $k?'selected':''}>{$v}</option>
+                {/foreach}
+            </select>
+        </div>
 
-<table class="table table-bordered table-striped table-condensed" data-plugin="treegrid">
-    {foreach $data['rows'] as $k => $v}
-        {if $v['parent_id'] == 0}
+        <div class="form-group col-md-2 ">
+            <div class="input-group">
+                <select  name="is_show" class="form-control">
+                    <option value="">是否显示</option>
+                    {foreach $alias['is_show'] as $k =>$v}
+                        <option value="{$k}" {$Request.get.is_show == $k?'selected':''}>{$v}</option>
+                    {/foreach}
+                </select>
+                <span class="input-group-btn">
+                     <button type="submit" class="btn btn-primary" >&nbsp;&nbsp;<i class="fa fa-search" aria-hidden="true"></i>&nbsp;查询&nbsp;&nbsp;</button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group col-md-7 padding-right-0">
+            <div class="btn-actions pull-right">
+                <a href="#" data-toggle="modal" data-target="#addForm"><button type="button" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> 新增 </button></a>
+            </div>
+        </div>
+    </form>
+
+</div>
+<table class="table table-bordered table-striped table-condensed " data-plugin="treegrid">
+    <thead>
+        <tr>
+            <th >分类名称</th>
+            <th >排序</th>
+            <th >是否显示</th>
+            <th >是否置顶</th>
+            <th >创建时间</th>
+            <th > 操作</th>
+        </tr>
+    </thead>
+    <tbody>
+    {if empty($data)}
+    <div class="text-center padding-vertical-5 no-data col-md-12">未查询到相关数据</div>
+        <!--<p>未查询到相关数据</p>-->
+    {else}
+        {foreach $data as $k => $v}
+            {if $v['parent_id'] == 0}
             <tr class="treegrid-{$v['id']}">
-        {else}
+                {else}
             <tr class="treegrid-{$v['id']} treegrid-parent-{$v['parent_id']}">
-        {/if}
-        <td>{$v['name']}</td>
-        <td>{$v['parent_id']}</td>
-    </tr>
-    {/foreach}
+                {/if}
+                <td>{$v['name']}</td>
+                <td class="text-center">{$v['sort']}</td>
+                <td class="text-center">{$v['is_show']}</td>
+                <td class="text-center">{$v['is_top']}</td>
+                <td class="text-center">{$v['create_time']}</td>
+                <td class="text-center">操作</td>
+            </tr>
+        {/foreach}
+    {/if}
+
+    </tbody>
+
 </table>
 
-<script src="/adminui/public/vendor/jquery-treegrid/jquery.treegrid.min.js"></script>
 
+
+<!--新增-->
+<div class="modal fade in" id="addForm" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content form-horizontal" >
+            <div class="modal-header">
+                <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                <h4 class="modal-title" id="myModalLabel">新增</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><span class="required">*</span> 所属类别：</label>
+                    <div class="col-sm-9">
+                        <input  type="text" class="form-control " name="name" value=""  required maxlength="20" placeholder="最多20个字符">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><span class="required">*</span> 类别名称：</label>
+                    <div class="col-sm-9">
+                        <input  type="text" class="form-control " name="name" value=""  required maxlength="20" placeholder="最多20个字符">
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="col-sm-3 control-label"><span class="required">*</span> 排序：</label>
+                    <div class="col-sm-9">
+                        <input  required type="number" class="form-control " name="sort" value="" placeholder="数字越大越靠前">
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label class="col-sm-3 control-label"><span class="required">*</span> 是否显示：</label>
+                    <div class="col-sm-9">
+                        <div class="radio-custom radio-primary col-md-2">
+                            <input type="radio"  name="is_show" value="1" checked >
+                            <label >是</label>
+                        </div>
+                        <div class="radio-custom radio-primary col-md-2">
+                            <input type="radio"  name="is_show" value="0">
+                            <label>否</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label class="col-sm-3 control-label"><span class="required">*</span> 是否置顶：</label>
+                    <div class="col-sm-9">
+                        <div class="radio-custom radio-primary col-md-2">
+                            <input type="radio"  name="is_show" value="1" checked >
+                            <label >是</label>
+                        </div>
+                        <div class="radio-custom radio-primary col-md-2">
+                            <input type="radio"  name="is_show" value="0">
+                            <label>否</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group margin-top-25" style="text-align: center">
+                    <button class="btn btn-primary margin-right-10 btn-save" type="button" data-url="{:url('admin/frontend_message_category/create')}">保存</button>
+                    <a class="btn btn-default" data-dismiss="modal">取消</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/adminui/public/vendor/jquery-treegrid/jquery.treegrid.min.js"></script>
