@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="/adminui/public/vendor/jquery-treegrid/jquery-treegrid.css">
+<link rel="stylesheet" href="/adminui/public/vendor/select2/select2.css">
+<script src="/adminui/public/vendor/select2/select2.full.min.js"></script>
 <style>
     .no-data{
         position: absolute;
@@ -67,7 +69,12 @@
                 <td class="text-center">{$v['is_show']}</td>
                 <td class="text-center">{$v['is_top']}</td>
                 <td class="text-center">{$v['create_time']}</td>
-                <td class="text-center">操作</td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-outline btn-warning btn-sm" data-toggle="confirm" data-message="确定删除此分类吗?"  data-url="{:url('admin/product_category/delete',['id'=>$v['id']])}"> 编辑 </button>
+                    <?php if(!$v['has_children']) {?>
+                        <button type="button" class="btn btn-outline btn-dark btn-sm" data-toggle="confirm" data-message="确定删除此分类吗?"  data-url="{:url('admin/product_category/delete',['id'=>$v['id']])}"> 删除 </button>
+                    <?php }?>
+                </td>
             </tr>
         {/foreach}
     {/if}
@@ -90,7 +97,12 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label"><span class="required">*</span> 所属类别：</label>
                     <div class="col-sm-9">
-                        <input  type="text" class="form-control " name="name" value=""  required maxlength="20" placeholder="最多20个字符">
+                        <select data-plugin="select2" name="parent_id" class="form-control">
+                            <option value="0">一级菜单</option>
+                            {foreach $data as $k => $v}
+                                <option value="{$v['id']}">&nbsp;&nbsp;{$v['name']}</option>
+                            {/foreach}
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -114,7 +126,7 @@
                             <label >是</label>
                         </div>
                         <div class="radio-custom radio-primary col-md-2">
-                            <input type="radio"  name="is_show" value="0">
+                            <input type="radio"  name="is_show" value="2">
                             <label>否</label>
                         </div>
                     </div>
@@ -123,17 +135,17 @@
                     <label class="col-sm-3 control-label"><span class="required">*</span> 是否置顶：</label>
                     <div class="col-sm-9">
                         <div class="radio-custom radio-primary col-md-2">
-                            <input type="radio"  name="is_show" value="1" checked >
+                            <input type="radio"  name="is_top" value="1" checked >
                             <label >是</label>
                         </div>
                         <div class="radio-custom radio-primary col-md-2">
-                            <input type="radio"  name="is_show" value="0">
+                            <input type="radio"  name="is_top" value="2">
                             <label>否</label>
                         </div>
                     </div>
                 </div>
                 <div class="form-group margin-top-25" style="text-align: center">
-                    <button class="btn btn-primary margin-right-10 btn-save" type="button" data-url="{:url('admin/frontend_message_category/create')}">保存</button>
+                    <button class="btn btn-primary margin-right-10 btn-save" type="button" data-url="{:url('admin/product_category/create')}">保存</button>
                     <a class="btn btn-default" data-dismiss="modal">取消</a>
                 </div>
             </div>

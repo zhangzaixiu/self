@@ -258,4 +258,7 @@ $.each($('[data-plugin="editor"]'), function (i) {
     editor.create();
 });
 
+//防止模态框与select2冲突
+$.fn.modal.Constructor.prototype.enforceFocus = function () {};
+
 
