@@ -1,0 +1,93 @@
+
+<div class="show_info">
+    <div class="form-group col-md-12" style="    border-bottom: 1px solid #e4eaec;
+    padding-bottom: 10px;">
+        <div class="btn-actions pull-right">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-success btn-outline" id="edit_btn">
+                    <i class="icon wb-pencil" aria-hidden="true"></i>编辑
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group col-sm-12">
+        <label class="col-sm-2 control-label "><span class="required">*</span> 品类名称：</label>
+        <div class="col-md-4 ">
+            <input type="text" class="form-control readonly"   value="{$data['name']}" readonly >
+        </div>
+    </div>
+
+    <div class="form-group col-md-12 padding-0">
+        <label class="col-sm-2 control-label"><span class="required">*</span> 图片：</label>
+        <div class="col-md-4">
+            <img src="{$data->sys_file?$data->sys_file->save_path:''}" style="width: 300px">
+        </div>
+    </div>
+
+    <div class="form-group col-sm-12">
+        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 排序：</label>
+        <div class="col-md-8 padding-bottom-20">
+            <input type="number" class="form-control readonly" readonly  name="sort" value="{$data['sort']}" required>
+        </div>
+    </div>
+
+    <div class=" col-sm-12">
+        <div class="example-wrap">
+            <div class="nav-tabs-vertical" data-approve="nav-tabs">
+                <ul class="nav nav-tabs nav-tabs-line col-sm-2 text-right padding-right-0" role="tablist" style="height: 206px;">
+                    <li class="active" role="presentation">
+                        <a data-toggle="tab" href="#exampleTabsLineLeftOne" aria-controls="exampleTabsLineLeftOne" role="tab" aria-expanded="true">
+                            <span class="required">*</span> 入驻步骤
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a data-toggle="tab" href="#exampleTabsLineLeftTwo" aria-controls="exampleTabsLineLeftTwo" role="tab" aria-expanded="false">
+                            <span class="required">*</span> 入驻要求
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a data-toggle="tab" href="#exampleTabsLineLeftThree" aria-controls="exampleTabsLineLeftThree" role="tab" aria-expanded="false">
+                            <span class="required">*</span> 费用说明
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a data-toggle="tab" href="#exampleTabsLineLeftFour" aria-controls="exampleTabsLineLeftFour" role="tab" aria-expanded="false">
+                            <span class="required">*</span> 常见问题
+                        </a>
+                    </li>
+                    <li class="dropdown hidden" role="presentation" style="opacity: 1;"><a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="caret"></span> 更多</a><ul class="dropdown-menu" role="menu"></ul></li></ul>
+                <div class="tab-content padding-vertical-15 col-sm-10">
+                    <div class="tab-pane active  animation-slide-right" id="exampleTabsLineLeftOne" role="tabpanel">
+                        {$data['step']|raw}
+                    </div>
+                    <div class="tab-pane animation-slide-right" id="exampleTabsLineLeftTwo" role="tabpanel">
+                        {$data['require']|raw}
+                    </div>
+                    <div class="tab-pane animation-slide-right" id="exampleTabsLineLeftThree" role="tabpanel">
+                        {$data['cost']|raw}
+                    </div>
+                    <div class="tab-pane animation-slide-right" id="exampleTabsLineLeftFour" role="tabpanel">
+                        {$data['question']|raw}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group col-sm-12">
+        <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 是否显示：</label>
+        <div class="col-md-10 padding-bottom-20">
+            <input type="text" class="form-control readonly"   value="{$data['is_show']}" readonly >
+        </div>
+    </div>
+</div>
+{include file="enter_category/edit" /}
+<script>
+    //编辑按钮
+    $('#edit_btn').on('click',function () {
+        $('.show_info').hide();
+        $('#edit_form').show();
+    });
+</script>
