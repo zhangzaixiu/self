@@ -51,6 +51,37 @@ function list_to_tree($list, $pk='id',$pid = 'parent_id',$child = 'children') {
 }
 
 
+function tree_by_id($list, $pk='id',$pid = 'parent_id',$child = 'children',$parent_id = 0) {
+    // 创建Tree
+    $tree = [];
+    if($list instanceof  \think\Collection){
+        $list = $list->toArray();
+    }
+//    $rows = array_column($list,'level');
+//    $level = min($rows);
+
+    if(is_array($list)) {
+        // 创建基于主键的数组引用
+        $refer = array();
+        foreach ($list as $key => $data) {
+            $refer[$data[$pk]] = & $list[$key];
+        }
+        foreach ($list as $key => $data) {
+            // 判断是否存在parent
+            $parentId = $data[$pid];
+            if ($data['level'] == $parent_id) {
+                // 等于
+                $tree[] =& $list[$key];
+            }else{
+                if (isset($refer[$parentId])) {
+                    $parent = & $refer[$parentId];
+                    $parent[$child][] =& $list[$key];
+                }
+            }
+        }
+    }
+    return $tree;
+}
 
 /**
  * 检查文件是否存在

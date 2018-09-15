@@ -72,10 +72,6 @@
                 <td class="text-center">
                     <a  data-toggle="modal" class="btn btn-outline btn-warning btn-sm" data-target="#editForm"
                         href="{:url('admin/product_category/edit',['id'=>$v['id']])}"> 编辑 </a>
-                    <!--{if $v['parent_id'] == 0}-->
-                        <!--<button type="button" class="btn btn-outline btn-info btn-sm" data-toggle="confirm" data-message="确定删除此分类吗?"  data-url="{:url('admin/product_category/delete',['id'=>$v['id']])}"> 分类属性 </button>-->
-                    <!--{/if}-->
-
                     {if !$v['has_children'] }
                         <button type="button" class="btn btn-outline btn-dark btn-sm" data-toggle="confirm" data-message="确定删除此分类吗?"  data-url="{:url('admin/product_category/delete',['id'=>$v['id']])}"> 删除 </button>
                     {/if}

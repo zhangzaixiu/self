@@ -258,7 +258,12 @@ $.each($('[data-plugin="editor"]'), function (i) {
     editor.create();
 });
 
+//
+// $('[data-plugin="select2"]').select2();
+
 //防止模态框与select2冲突
 $.fn.modal.Constructor.prototype.enforceFocus = function () {};
+// [已解决问题] 浏览: 371次 解决于 2018-07-30 09:44
+$('body').on('hidden.bs.modal','.modal',function(){ $(this).removeData('bs.modal'); });
 
 
