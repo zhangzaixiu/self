@@ -1,9 +1,10 @@
 <!--上传图片插件-->
 <link rel="stylesheet" href="/adminui/public/vendor/dropify/dropify.css">
+<script src="/adminui/public/vendor/dropify/dropify.min.js"></script>
+<script src="/plugins/wangEditor-3.1.1/release/wangEditor.min.js"></script>
 <div class="col-sm-2 "></div>
 <div class="col-sm-8">
     <form  enctype="multipart/form-data" id="edit_form" hidden>
-
         <div class="form-group col-sm-12">
             <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 品类名称：</label>
             <div class="col-md-8 padding-bottom-20">
@@ -24,50 +25,46 @@
                 <input type="number" class="form-control"  name="sort" value="{$data['sort']}" required>
             </div>
         </div>
-
-        <div class=" col-sm-12">
-            <div class="example-wrap">
-                <div class="nav-tabs-vertical" data-approve="nav-tabs">
-                    <ul class="nav nav-tabs nav-tabs-line col-sm-2 text-right padding-right-0" role="tablist" style="height: 206px;">
-                        <li class="active" role="presentation">
-                            <a data-toggle="tab" href="#exampleTabsLineLeftOne" aria-controls="exampleTabsLineLeftOne" role="tab" aria-expanded="true">
-                                <span class="required">*</span> 入驻步骤
-                            </a>
-                        </li>
-                        <li role="presentation" class="">
-                            <a data-toggle="tab" href="#exampleTabsLineLeftTwo" aria-controls="exampleTabsLineLeftTwo" role="tab" aria-expanded="false">
-                                <span class="required">*</span> 入驻要求
-                            </a>
-                        </li>
-                        <li role="presentation" class="">
-                            <a data-toggle="tab" href="#exampleTabsLineLeftThree" aria-controls="exampleTabsLineLeftThree" role="tab" aria-expanded="false">
-                                <span class="required">*</span> 费用说明
-                            </a>
-                        </li>
-                        <li role="presentation" class="">
-                            <a data-toggle="tab" href="#exampleTabsLineLeftFour" aria-controls="exampleTabsLineLeftFour" role="tab" aria-expanded="false">
-                                <span class="required">*</span> 常见问题
-                            </a>
-                        </li>
-                        <li class="dropdown hidden" role="presentation" style="opacity: 1;"><a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="caret"></span> 更多</a><ul class="dropdown-menu" role="menu"></ul></li></ul>
-                    <div class="tab-content padding-vertical-15 col-sm-10">
-                        <div class="tab-pane active  animation-slide-right" id="exampleTabsLineLeftOne" role="tabpanel">
-                            {:widget('common/form/richText',['name'=>'step','value'=>$data['step'],'role'=>'required'])}
-                        </div>
-                        <div class="tab-pane animation-slide-right" id="exampleTabsLineLeftTwo" role="tabpanel">
-                            {:widget('common/form/richText',['name'=>'require','value'=>$data['require'],'role'=>'required'])}
-                        </div>
-                        <div class="tab-pane animation-slide-right" id="exampleTabsLineLeftThree" role="tabpanel">
-                            {:widget('common/form/richText',['name'=>'cost','value'=>$data['cost'],'role'=>'required'])}
-                        </div>
-                        <div class="tab-pane animation-slide-right" id="exampleTabsLineLeftFour" role="tabpanel">
-                            {:widget('common/form/richText',['name'=>'question','value'=>$data['question'],'role'=>'required'])}
-                        </div>
+        <div class="example-wrap">
+            <div class="nav-tabs-vertical" data-approve="nav-tabs">
+                <ul class="nav nav-tabs nav-tabs-line col-sm-2 text-right padding-right-0" role="tablist" style="height: 206px;">
+                    <li class="active" role="presentation">
+                        <a data-toggle="tab" href="#editTabsLineLeftOne" aria-controls="editTabsLineLeftOne" role="tab" aria-expanded="true">
+                            <span class="required">*</span> 入驻步骤
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a data-toggle="tab" href="#editTabsLineLeftTwo" aria-controls="editTabsLineLeftTwo" role="tab" aria-expanded="false">
+                            <span class="required">*</span> 入驻要求
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a data-toggle="tab" href="#editTabsLineLeftThree" aria-controls="editTabsLineLeftThree" role="tab" aria-expanded="false">
+                            <span class="required">*</span> 费用说明
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a data-toggle="tab" href="#editTabsLineLeftFour" aria-controls="editTabsLineLeftFour" role="tab" aria-expanded="false">
+                            <span class="required">*</span> 常见问题
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content padding-vertical-15 col-sm-10">
+                    <div class="tab-pane active " id="editTabsLineLeftOne" role="tabpanel">
+                        {:widget('common/form/richText',['name'=>'step','value'=>$data['step'],'role'=>'required'])}
+                    </div>
+                    <div class="tab-pane animation-slide-right" id="editTabsLineLeftTwo" role="tabpanel">
+                        {:widget('common/form/richText',['name'=>'require','value'=>$data['require'],'role'=>'required'])}
+                    </div>
+                    <div class="tab-pane animation-slide-right" id="editTabsLineLeftThree" role="tabpanel">
+                        {:widget('common/form/richText',['name'=>'cost','value'=>$data['cost'],'role'=>'required'])}
+                    </div>
+                    <div class="tab-pane animation-slide-right" id="editTabsLineLeftFour" role="tabpanel">
+                        {:widget('common/form/richText',['name'=>'question','value'=>$data['question'],'role'=>'required'])}
                     </div>
                 </div>
             </div>
         </div>
-
 
         <div class="form-group col-sm-12">
             <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 是否显示：</label>
@@ -90,5 +87,6 @@
     </form>
 </div>
 <div class="col-sm-2 "></div>
-<script src="/adminui/public/vendor/dropify/dropify.min.js"></script>
-<script src="/plugins/wangEditor-3.1.1/release/wangEditor.min.js"></script>
+
+
+

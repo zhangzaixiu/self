@@ -11,23 +11,23 @@
 
 return [
     // 数据库类型
-    'type'            => 'mysql',
-    // 服务器地址
-    'hostname'        => '127.0.0.1',
-    // 数据库名
-    'database'        => 'my',
-    // 用户名
-    'username'        => 'root',
-    // 密码
-    'password'        => 'root',
+//    'type'            => 'mysql',
 //    // 服务器地址
 //    'hostname'        => '127.0.0.1',
 //    // 数据库名
-//    'database'        => 'test',
+//    'database'        => 'my',
 //    // 用户名
-//    'username'        => 'localhost',
+//    'username'        => 'root',
 //    // 密码
-//    'password'        => '15054223320zzx',
+//    'password'        => 'root',
+    // 服务器地址
+    'hostname'        => '127.0.0.1',
+    // 数据库名
+    'database'        => 'qqq',
+    // 用户名
+    'username'        => 'qqq',
+    // 密码
+    'password'        => '15054223320zzx',
     // 端口
     'hostport'        => '',
     // 连接dsn

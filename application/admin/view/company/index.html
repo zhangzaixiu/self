@@ -1,0 +1,39 @@
+<div class="example">
+    <form id="search_form">
+        <div class="form-group col-md-3">
+            <div class="input-group">
+                <input type="text" class="form-control " name="info" placeholder="企业名称/联系人/联系方式">
+                <span class="input-group-btn">
+                     <button type="button" class="btn btn-primary search_button" data-table=".cdtable" data-url="{:url('admin/company/index')}">&nbsp;&nbsp;<i class="fa fa-search" aria-hidden="true"></i>&nbsp;查询&nbsp;&nbsp;</button>
+                </span>
+            </div>
+        </div>
+    </form>
+    <div class="form-group col-md-9 padding-right-0">
+        <div class="btn-actions pull-right">
+                <a  href="{:url('admin/company/create')}"><button type="button" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> 新增 </button></a>
+        </div>
+    </div>
+</div>
+
+<table id="actTable" class="table table-bordered text-center cdtable"
+       data-toggle="table"
+       data-url="{:url('admin/company/index')}"
+       data-pagination="true"
+       data-side-pagination="server"
+       data-striped="true"
+       data-sort-order="desc"
+       data-query-params="paginateParams"
+     >
+    <thead>
+    <tr>
+        <th class="text-center" data-field="name">名称</th>
+        <th class="text-center" data-field="name">行业分类</th>
+        <th class="text-center"  data-field="linkman" data-sortable="true">联系人</th>
+        <th class="text-center"  data-field="mobile" data-sortable="true">联系方式</th>
+        <th class="text-center"  data-field="audit_status" data-sortable="true">审核状态</th>
+        <th class="text-center"  data-field="status" data-sortable="true">运营状态</th>
+        <th class="text-center" data-field="operation"> 操作</th>
+    </tr>
+    </thead>
+</table>
