@@ -6,10 +6,10 @@
         </div>
         <label class="col-sm-2 control-label "><span class="required">*</span> 所属商家：</label>
         <div class="col-md-4 ">
-            <select name="category_id" class="form-control" data-plugin="select2">
+            <select name="company_id" class="form-control" data-plugin="select2">
                 <option value="">请选择...</option>
                 {foreach $company  as $k => $v}
-                <option value="{$v['id']}" {$data['company_id']==$k?'selected':''}>{$v['name']}</option>
+                <option value="{$v['id']}" {$data['company_id']==$v['id']?'selected':''}>{$v['name']}</option>
                 {/foreach}
             </select>
         </div>
@@ -75,7 +75,7 @@
             <select name="category_id" class="form-control" data-plugin="select2" required>
                 <option value="">请选择...</option>
                 {foreach $category  as $k => $v}
-                <option value="{$v['id']}" {$data['category_id'] == $k ?'selected':''}>{$v['name']}</option>
+                <option value="{$v['id']}" {$data['category_id'] == $v['id'] ?'selected':''}>{$v['name']}</option>
                 {/foreach}
             </select>
         </div>
