@@ -53,6 +53,20 @@
             <input type="text" name="audit_status " readonly class="readonly" value="{$data['status']}" >
         </div>
     </div>
-    <h4 class="padding-bottom-10 btborder">附属信息</h4>
+    <h4 class="padding-bottom-10 btborder">分类属性</h4>
+    <div class="form-group col-sm-12">
+        <label class="col-sm-2 control-label "><span class="required">*</span> 所属分类：</label>
+        <div class="col-md-4 ">
+            <input type="text" class="form-control readonly"  readonly  value="{$data['category_name']}"  required >
+        </div>
+    </div>
+    {if !empty($data['product_attr'])}
 
+        {foreach $data['product_attr'] as $k => $v}
+            <label class="col-sm-2 control-label "><span class="required">*</span> {$v['category_attr_name']}：</label>
+            <div class="col-md-4 ">
+                <input type="text" class="form-control readonly"  readonly  value="{$v['value']}"  required >
+            </div>
+        {/foreach}
+    {/if}
 </div>
