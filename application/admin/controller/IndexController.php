@@ -7,12 +7,11 @@ class IndexController extends BaseController
     public function index()
     {
         $this->view->engine->layout(true);
-
         return view();
     }
 
-    public function hello($name = 'ThinkPHP5')
+    public function test()
     {
-        return 'hello,' . $name;
+
     }
 }

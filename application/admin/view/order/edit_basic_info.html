@@ -1,0 +1,132 @@
+<form class="edit_basic_info" hidden>
+    <div class="form-group col-sm-12">
+        <label class="col-sm-2 control-label "><span class="required">*</span> 商品名称：</label>
+        <div class="col-md-4 ">
+            <input type="text" class="form-control"   name="name" value="{$data['name']}" required >
+        </div>
+        <label class="col-sm-2 control-label "><span class="required">*</span> 所属商家：</label>
+        <div class="col-md-4 ">
+            <select name="company_id" class="form-control" data-plugin="select2">
+                <option value="">请选择...</option>
+                {foreach $company  as $k => $v}
+                <option value="{$v['id']}" {$data['company_id']==$v['id']?'selected':''}>{$v['name']}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group col-sm-12">
+        <label class="col-sm-2 control-label "><span class="required">*</span> 标签：</label>
+        <div class="col-md-4 ">
+            <input type="text" class="form-control"   name="label" value="{$data['label']}" required data-rule-maxlength="15" >
+        </div>
+        <label class="col-sm-2 control-label "><span class="required">*</span> 商品简介：</label>
+        <div class="col-md-4 ">
+            <input type="text" class="form-control"   name="abstract" value="{$data['abstract']}" required data-rule-maxlength="20">
+        </div>
+    </div>
+
+    <div class="form-group col-sm-12">
+        <label class="col-sm-2 control-label "><span class="required">*</span> 价格：</label>
+        <div class="col-md-4 ">
+            <input type="number" class="form-control"   name="price" value="{$data['price']}" required  data-rule-number="true" >
+        </div>
+        <label class="col-sm-2 control-label "><span class="required">*</span> 会员价：</label>
+        <div class="col-md-4 ">
+            <input type="number" class="form-control"   name="vip_price" value="{$data['vip_price']}" required  data-rule-number="true">
+        </div>
+    </div>
+
+    <div class="form-group col-md-12 padding-0">
+        <label class="col-sm-2 control-label"><span class="required">*</span> 图片：</label>
+        <div class="col-md-4">
+            {:widget('common/form/image',['name'=>'img','url'=>$data->img_path,'value'=>$data['img'],'role'=>'required'])}
+        </div>
+    </div>
+
+    <label class="col-sm-2 control-label padding-bottom-20"><span class="required">*</span> 商品详情：</label>
+    <div class="col-sm-10 padding-bottom-20">
+        {:widget('common/form/richText',['name'=>'detail','role'=>'required','value'=>$data['detail']])}
+    </div>
+
+    <div class="form-group col-md-12">
+        <label class="col-sm-2 control-label"><span class="required">*</span> 状态：</label>
+        <div class="col-sm-6">
+            <div class="radio-custom radio-primary col-md-2">
+                <input type="radio" name="status" value="1" checked="">
+                <label>上架</label>
+            </div>
+            <div class="radio-custom radio-primary col-md-2">
+                <input type="radio" name="status" value="2">
+                <label>下架</label>
+            </div>
+        </div>
+    </div>
+
+
+    <h4 class="padding-bottom-10 btborder">分类属性</h4>
+    <div class="form-group col-sm-12">
+        <label class="col-sm-2 control-label "><span class="required">*</span> 所属分类：</label>
+        <div class="col-md-4 ">
+            <style>
+                .select2-container{
+                    z-index: 11111;
+                }
+            </style>
+            <select name="category_id" class="form-control" data-plugin="select2" required>
+                <option value="">请选择...</option>
+                {foreach $category  as $k => $v}
+                <option value="{$v['id']}" {$data['category_id'] == $v['id'] ?'selected':''}>{$v['name']}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group col-sm-12 product_attr">
+        {if !empty($data['product_attr'])}
+        {foreach $data['product_attr'] as $k => $v}
+            <label class="col-sm-2 control-label margin-bottom-10"><span class="required">*</span> {$v['category_attr_name']}：</label>
+            <div class="col-md-4 margin-bottom-10">
+                <input type="text" class="form-control"   name="attr[{$v['category_attr_id']}]" value="{$v['value']}" required   >
+            </div>
+        {/foreach}
+        {/if}
+    </div>
+
+
+
+    <div class="form-group col-md-12 text-center">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary btn-outline btn-save"
+                    data-url="<?=url('admin/product/edit',['id'=>$data['id']])?>" id="submit_btn">
+                <i class="icon wb-cloud" aria-hidden="true"></i> 保存
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    $('select[name="category_id"]').on('change',function () {
+        var url = "{:url('admin/product_category/attr')}";
+        $('.product_attr').empty();
+        if($(this).val()){
+            $.post(url,{category_id:$(this).val(),product_id:"{$data['id']}"},function (data) {
+                if(data.success == 1){
+                    var _data = data.data;
+                    if(_data != []){
+                        for (var i=0;i<_data.length;i++)
+                        {
+                            $('.product_attr').append('<label class="col-sm-2 control-label margin-bottom-10"><span class="required">*</span> '
+                                +_data[i].name+'</label>\n' +
+                                '        <div class="col-md-4 margin-bottom-10">\n' +
+                                '            <input type="text" class="form-control"   name="attr['+_data[i].id+']" value="'+_data[i].value+'" required   >\n' +
+                                '        </div>');
+                        }
+
+                    }
+                }else{
+                    toastr.error(data["msg"]);
+                }
+            });
+        }
+    })
+</script>

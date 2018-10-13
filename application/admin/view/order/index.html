@@ -1,0 +1,65 @@
+<div class="example">
+    <form id="search_form">
+        <div class="form-group col-md-3">
+            <div class="input-group">
+                <input type="text" class="form-control " name="info" placeholder="订单编号/会员名称">
+                <span class="input-group-btn">
+                     <button type="button" class="btn btn-primary search_button" data-table=".cdtable" data-url="{:url('admin/order/index')}">&nbsp;&nbsp;<i class="fa fa-search" aria-hidden="true"></i>&nbsp;查询&nbsp;&nbsp;</button>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
+
+<table id="actTable" class="table table-bordered text-center cdtable"
+       data-toggle="table"
+       data-url="{:url('admin/order/index')}"
+       data-pagination="true"
+       data-side-pagination="server"
+       data-striped="true"
+       data-sort-order="desc"
+       data-query-params="paginateParams"
+       data-detail-view="true"
+       data-detail-formatter="detailFormatter"
+     >
+    <thead>
+    <tr>
+        <th class="text-center" data-field="order_sn" data-sortable="true">订单编号</th>
+        <th class="text-center" data-field="customer_mobile">会员名称</th>
+        <th class="text-center" data-field="price" data-sortable="true">订单金额</th>
+        <th class="text-center"  data-field="status">订单状态</th>
+        <th class="text-center"  data-field="pay_type">支付方式</th>
+        <th class="text-center"  data-field="create_time" data-sortable="true">创建时间</th>
+        <th class="text-center" data-field="operation"> 操作</th>
+    </tr>
+    </thead>
+</table>
+<script>
+    //服务信息 表格详情
+    function detailFormatter(index, row) {
+        var id = row.id;
+        var table = $('<table  class="table table-bordered text-center cdtable detailTable"></table>');
+        table.bootstrapTable({
+            url: "{:url('admin/order/attr')}"+'?id='+id,
+            columns:[
+                {
+                    field:'category_name',
+                    title:'分类名称',
+                },
+                {
+                    field:'product_name',
+                    title:'产品名称',
+                },
+                {
+                    field:'count',
+                    title:'购买数量',
+                },
+                {
+                    field:'price',
+                    title:'价格',
+                },
+            ],
+        });
+        return table;
+    }
+</script>
