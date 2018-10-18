@@ -1,50 +1,90 @@
 <link rel="stylesheet" href="/adminui/public/vendor/dropify/dropify.css">
 <link rel="stylesheet" href="/adminui/public/vendor/select2/select2.css">
+<style>
+    .detail-view td{
+        text-align: left;
+        background: #fff;
+    }
+</style>
 <script src="/adminui/public/vendor/select2/select2.full.min.js"></script>
 <div class="nav-tabs-horizontal" data-approve="nav-tabs">
-    <ul class="nav nav-tabs nav-tabs-line" role="tablist">
-        <li class="active" role="presentation">
-            <a data-toggle="tab" href="#exampleTabsLineOne" aria-controls="exampleTabsLineOne" role="tab" aria-expanded="true">
-                商品信息
-            </a>
-        </li>
-        <li role="presentation" class="">
-            <a data-toggle="tab" href="#exampleTabsLineThree" aria-controls="exampleTabsLineTwo" role="tab" aria-expanded="false">
-                销售动态
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content padding-top-20">
-        <div class="tab-pane active" id="exampleTabsLineOne" role="tabpanel">
-
-            <div class="form-group col-md-12">
-                <div class="btn-actions pull-right">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-success btn-outline" id="edit_basic_btn">
-                            <i class="icon wb-pencil" aria-hidden="true"></i>编辑
-                        </button>
-
-                        <a  class="btn btn-success btn-outline" href="{:url('admin/product/index')}">
-                            <i class="icon wb-link-broken" aria-hidden="true"></i>返回
-                        </a>
-                    </div>
-                </div>
+    <div class="show_basic_info">
+        <h4 class="padding-bottom-10 btborder">基本信息</h4>
+        <div class="form-group col-sm-12">
+            <label class="col-sm-2 control-label "><span class="required">*</span> 订单编号：</label>
+            <div class="col-md-4 ">
+                <input type="text" class="form-control readonly" readonly   value="{$data['order_sn']}" required >
             </div>
-            {include file="product/show_basic_info" /}
-            {include file="product/edit_basic_info" /}
+            <label class="col-sm-2 control-label "><span class="required">*</span> 会员名称：</label>
+            <div class="col-md-4 ">
+                <input type="text" class="form-control readonly" readonly   value="{$data['customer_mobile']}" required >
+            </div>
         </div>
-        <div class="tab-pane" id="exampleTabsLineThree" role="tabpanel">
-            在试运营期间，Jio将向全印度人免费提供服务，直到今年年底。在免费期过后，其数据流量月资费也低至每月149卢比（约合15元人民币）。安巴尼上周在公司年度全体大会上对投资者说：“任何、所有能实现数字化的东西都将快速走向数字化，生活将走向数字化。”目前，只有五分之一的印度成年人口能够上网。在印度，公共WiFi热点极少。城市贫困区缺乏高速宽带所需的基础设备，更不用说乡村地区了。
+
+        <div class="form-group col-sm-12">
+            <label class="col-sm-2 control-label "><span class="required">*</span> 订单金额：</label>
+            <div class="col-md-4 ">
+                <input type="text" class="form-control readonly"  readonly  value="{$data['price']}"  required >
+            </div>
+            <label class="col-sm-2 control-label "><span class="required">*</span> 支付方式：</label>
+            <div class="col-md-4">
+                <input type="text" class="form-control readonly"  readonly name="mobile" value="{$data['pay_type']}"  required data-rule-mobile="true">
+            </div>
         </div>
+        <div class="form-group col-sm-12">
+            <label class="col-sm-2 control-label "><span class="required">*</span> 交易单号：</label>
+            <div class="col-md-4 ">
+                <input type="text" class="form-control readonly"  readonly  value="{$data['pay_sn']}"  required >
+            </div>
+            <label class="col-sm-2 control-label "><span class="required">*</span> 支付时间：</label>
+            <div class="col-md-4">
+                <input type="text" class="form-control readonly"  readonly name="mobile" value="{$data['pay_time']}"  required data-rule-mobile="true">
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <label class="col-sm-2 control-label "><span class="required">*</span> 订单状态：</label>
+            <div class="col-md-4 ">
+                <input type="text" class="form-control readonly"  readonly  value="{$data['status']}"  required >
+            </div>
+            <label class="col-sm-2 control-label "><span class="required">*</span> 创建时间：</label>
+            <div class="col-md-4">
+                <input type="text" class="form-control readonly"  readonly name="mobile" value="{$data['create_time']}"  required data-rule-mobile="true">
+            </div>
+        </div>
+
+        <h4 class="padding-bottom-10 btborder">商品信息</h4>
+        <table id="actTable" class="table table-bordered text-center cdtable"
+               data-toggle="table"
+               data-url="{:url('admin/order_attr/index')}"
+               data-pagination="false"
+               data-side-pagination="server"
+               data-striped="true"
+               data-sort-order="desc"
+               data-query-params="paginateParams"
+               data-detail-view="true"
+               data-detail-formatter="detailFormatter"
+        >
+            <thead>
+            <tr>
+                <th class="text-center" data-field="product_name" data-sortable="true">商品名称</th>
+                <th class="text-center" data-field="category_name">分类名称</th>
+                <th class="text-center" data-field="count" data-sortable="true">商品数量</th>
+                <th class="text-center"  data-field="price">价格</th>
+            </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
 <script src="/adminui/public/vendor/dropify/dropify.min.js"></script>
-<script src="/plugins/wangEditor-3.1.1/release/wangEditor.min.js"></script>
 <script>
-    //编辑按钮
-    $('#edit_basic_btn').on('click',function () {
-        $('.show_basic_info').hide();
-        $('.edit_basic_info').show();
-    });
+    function detailFormatter(index, row) {
+        var attr = $.parseJSON(row.product_attr);
+        var html = [];
+        $.each(attr, function (key, value) {
+            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+        });
+        return html.join('');
+    }
 </script>
