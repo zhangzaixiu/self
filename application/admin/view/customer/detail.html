@@ -1,1 +1,88 @@
-我是详情
+<link rel="stylesheet" href="/adminui/public/vendor/dropify/dropify.css">
+<link rel="stylesheet" href="/adminui/public/vendor/select2/select2.css">
+<script src="/adminui/public/vendor/select2/select2.full.min.js"></script>
+<div class="nav-tabs-horizontal" data-approve="nav-tabs">
+    <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+        <li class="active" role="presentation">
+            <a data-toggle="tab" href="#exampleTabsLineOne" aria-controls="exampleTabsLineOne" role="tab" aria-expanded="true">
+                会员信息
+            </a>
+        </li>
+        <li role="presentation" class="">
+            <a data-toggle="tab" href="#exampleTabsLineThree" aria-controls="exampleTabsLineTwo" role="tab" aria-expanded="false">
+                会员充值记录
+            </a>
+        </li>
+        <li role="presentation" class="">
+            <a data-toggle="tab" href="#exampleTabsLineFour" aria-controls="exampleTabsLineTwo" role="tab" aria-expanded="false">
+                消费统计
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content padding-top-20">
+        <div class="tab-pane active" id="exampleTabsLineOne" role="tabpanel">
+            <div class="form-group col-sm-12">
+                <label class="col-sm-2 control-label "><span class="required">*</span> 会员名称：</label>
+                <div class="col-md-4 ">
+                    <input type="text" class="form-control readonly" readonly   value="<?=$customer['name']?$customer['mobile'].'『'.$customer['name'].'』':$customer['mobile']?>" required >
+                </div>
+                <label class="col-sm-2 control-label "><span class="required">*</span> 来源：</label>
+                <div class="col-md-4 ">
+                    <input type="text" class="form-control readonly" readonly   value="{$customer['source']}" required >
+                </div>
+            </div>
+
+            <div class="form-group col-sm-12">
+                <label class="col-sm-2 control-label "><span class="required">*</span> 类型：</label>
+                <div class="col-md-4 ">
+                    <input type="text" class="form-control readonly" readonly   value="{$customer['type']}" required >
+                </div>
+                <label class="col-sm-2 control-label "><span class="required">*</span> 状态：</label>
+                <div class="col-md-4 ">
+                    <input type="text" class="form-control readonly" readonly   value="{$customer['status']}" required >
+                </div>
+            </div>
+
+            <div class="form-group col-sm-12">
+                <label class="col-sm-2 control-label "><span class="required">*</span> 会员有效期：</label>
+                <div class="col-md-4 ">
+                    <input type="text" class="form-control readonly" readonly   value="{$customer['start_time']}" required >
+                </div>
+                <label class="col-sm-2 control-label "><span class="required">*</span> 创建时间：</label>
+                <div class="col-md-4 ">
+                    <input type="text" class="form-control readonly" readonly   value="{$customer['create_time']}" required >
+                </div>
+            </div>
+
+        </div>
+
+        <!--充值记录-->
+        <div class="tab-pane" id="exampleTabsLineThree" role="tabpanel">
+            <table class="table table-bordered text-center cdtable"
+                   data-toggle="table"
+                   data-url="{:url('admin/vip_pay_log/index')}"
+                   data-pagination="true"
+                   data-side-pagination="server"
+                   data-striped="true"
+                   data-sort-order="desc"
+            >
+                <thead>
+                <tr>
+                    <th class="text-center" data-field="create_time" data-sortable="true">充值时间</th>
+                    <th class="text-center" data-field="price" data-sortable="true">充值金额</th>
+                    <th class="text-center" data-field="pay_type" data-sortable="true">支付方式</th>
+                    <th class="text-center" data-field="pay_sn" data-sortable="true">支付编号</th>
+                    <th class="text-center" data-field="start_time" data-sortable="true">有效开始时间</th>
+                    <th class="text-center" data-field="end_time" data-sortable="true">有效结束时间</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div class="tab-pane" id="exampleTabsLineFour" role="tabpanel">
+            在试运营期间，Jio将向全印度人免费提供服务，直到今年年底。在免费期过后，其数据流量月资费也低至每月149卢比（约合15元人民币）。安巴尼上周在公司年度全体大会上对投资者说：“任何、所有能实现数字化的东西都将快速走向数字化，生活将走向数字化。”目前，只有五分之一的印度成年人口能够上网。在印度，公共WiFi热点极少。城市贫困区缺乏高速宽带所需的基础设备，更不用说乡村地区了。
+        </div>
+    </div>
+</div>
+
+<script src="/adminui/public/vendor/dropify/dropify.min.js"></script>
