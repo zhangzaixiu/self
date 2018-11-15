@@ -39,8 +39,24 @@
 
     <div class="form-group col-md-12 padding-0">
         <label class="col-sm-2 control-label"><span class="required">*</span> 图片：</label>
-        <div class="col-md-4">
-            {:widget('common/form/image',['name'=>'img','url'=>$data->img_path,'value'=>$data['img'],'role'=>'required'])}
+        <div class="col-md-10">
+            <div class="multi-upload">
+                <img src="/admin/image/add_img.png" id="upload" class="upload-button">
+                <input  type="file" style="display: none" name="file" id="file_id"  data-url="{:url('/admin/upload/ajaxUploads',['ext'=>'jpg,jpeg,png,gif','size'=>3])}" value='' multiple data-limit="5">
+                <div class="preview_location" style="display: inline-block">
+                    {foreach $data['img_array']  as $k=>$v}
+                        <div style="position: relative;display: inline-block" >
+                            <a class="test-popup-link" href="{$v}">
+                                <img class="preview img_{$k}" src='{$v}'>
+                            </a>
+                            <img class="close" data-id="{$k}" src="/admin/image/close.png" style="position: absolute;right: -5px;top:0px
+">
+                        </div>
+                    {/foreach}
+                </div>
+                <input name="img" value="" required style="display: none"/>
+            </div>
+            <span>最多上传5张图片</span>
         </div>
     </div>
 
@@ -50,14 +66,28 @@
     </div>
 
     <div class="form-group col-md-12">
+        <label class="col-sm-2 control-label"><span class="required">*</span> 商家推荐：</label>
+        <div class="col-sm-6">
+            <div class="radio-custom radio-primary col-md-2">
+                <input type="radio" name="is_recommend" value="1" {$data->getData('is_recommend') != 2?'checked':''}>
+                <label>是</label>
+            </div>
+            <div class="radio-custom radio-primary col-md-2">
+                <input type="radio" name="is_recommend" value="2" {$data->getData('is_recommend') == 2?'checked':''}>
+                <label>否</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group col-md-12">
         <label class="col-sm-2 control-label"><span class="required">*</span> 状态：</label>
         <div class="col-sm-6">
             <div class="radio-custom radio-primary col-md-2">
-                <input type="radio" name="status" value="1" checked="">
+                <input type="radio" name="status" value="1" {$data->getData('status') != 2?'checked':''}>
                 <label>上架</label>
             </div>
             <div class="radio-custom radio-primary col-md-2">
-                <input type="radio" name="status" value="2">
+                <input type="radio" name="status" value="2" {$data->getData('status') == 2?'checked':''}>
                 <label>下架</label>
             </div>
         </div>
@@ -97,13 +127,21 @@
 
     <div class="form-group col-md-12 text-center">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-primary btn-outline btn-save"
+            <button type="button" class="btn btn-primary btn-outline "
                     data-url="<?=url('admin/product/edit',['id'=>$data['id']])?>" id="submit_btn">
                 <i class="icon wb-cloud" aria-hidden="true"></i> 保存
             </button>
         </div>
     </div>
 </form>
+
+<script src="/adminui/public/vendor/blueimp-file-upload/jquery.ui.widget.js"></script>
+<script src="/adminui/public/vendor/blueimp-file-upload/jquery.iframe-transport.js"></script>
+<script src="/adminui/public/vendor/blueimp-file-upload/jquery.fileupload.js"></script>
+
+<link rel="stylesheet" href="/plugins/Magnific-Popup-master/dist/magnific-popup.css">
+<script src="/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.js"></script>
+
 <script>
     $('select[name="category_id"]').on('change',function () {
         var url = "{:url('admin/product_category/attr')}";
@@ -129,4 +167,85 @@
             });
         }
     })
+
+    /**
+     * 多图上传
+     */
+
+    $('#upload').click(function () {
+        $('#file_id').click();
+    });
+
+    $('#file_id').fileupload({
+        dataType: 'json',
+        sequentialUploads:false,
+        //验证最多上传数量
+        change: function (e, data) {
+            var limit = $(this).data('limit')||5;
+            var upload_num_1 = data.files.length,upload_num_2 =  $('.preview_location').find('.preview').length;
+            if(upload_num_1+upload_num_2 > limit){
+                toastr.error('最多上传'+limit+'张图片');return false;
+            }
+        },
+        //上传成功回调
+        done: function (e, data) {
+            var file = data.result;
+            if(file.code == 1){
+                var data = file.data[0];
+                $('.preview_location').append('<div style="position: relative;display: inline-block" > <a class="test-popup-link" href="'+data.path+'"><img class="preview img_'+data.id+'" src='+data.path+' title='+data.fileName+'></a><img class="close" data-id="'+data.id+'" src="/admin/image/close.png" style="    position: absolute;right: -5px"></div>');
+
+                $('.test-popup-link').magnificPopup({
+                    type: 'image',
+                    closeOnContentClick: true,
+                    showCloseBtn:false,
+                    image: {
+                        verticalFit: false,
+                        tError:'加载失败'
+                    },
+                });
+            }else{
+                toastr.error('上传失败:'+file.msg);
+            }
+        }
+    });
+
+    //删除图片
+    $('.preview_location').on('click','.close',function () {
+        var id = $(this).data('id');
+        $('.preview_location .img_'+id).remove();
+        $(this).remove();
+    });
+
+    //保存表单
+    $("body").on('click','#submit_btn',function () {
+        var form= $(this).closest("form"),url = $(this).data('url');
+        var img = '';
+        $(".preview_location .preview").each(function(){
+            img == ''?img = $(this).attr('src'):img += ','+$(this).attr('src');
+        });
+        $('input[name="img"]').val(img);
+        //验证
+        var flag = form.valid();
+        if(!flag){
+            return;
+        }
+        var data=serializeData(form);
+
+        $.post(url, data, function (res) {
+            if (res["success"]) {
+                toastr.success(res["msg"]);
+                setTimeout(function(){
+                    if(res['url']){
+                        location.href=res['url'];
+                    }else{
+                        location.reload();
+                    }
+
+                },1000);
+            } else {
+                toastr.error(res["msg"]);
+            }
+        });
+    });
+
 </script>

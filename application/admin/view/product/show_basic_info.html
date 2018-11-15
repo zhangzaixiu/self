@@ -37,8 +37,12 @@
 
     <div class="form-group col-md-12 padding-0">
         <label class="col-sm-2 control-label"><span class="required">*</span> 图片：</label>
-        <div class="col-md-4">
-            <img src="{$data['img_path']}" width="350px">
+        <div class="col-md-10">
+            {foreach $data['img_array'] as $v}
+                <a class="test-popup-link" href="{$v}">
+                    <img  class="img-zoomable" src="{$v}" style="width: 200px">
+                </a>
+            {/foreach}
         </div>
     </div>
 
@@ -47,6 +51,12 @@
         {$data['detail']|raw}
     </div>
 
+    <div class="form-group col-md-12">
+        <label class="col-sm-2 control-label"><span class="required">*</span> 商家推荐：</label>
+        <div class="col-sm-4">
+            <input type="text" name="audit_status " readonly class="readonly" value="{$data['is_recommend']}" >
+        </div>
+    </div>
     <div class="form-group col-md-12">
         <label class="col-sm-2 control-label"><span class="required">*</span> 状态：</label>
         <div class="col-sm-4">

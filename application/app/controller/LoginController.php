@@ -4,6 +4,10 @@ namespace app\app\controller;
 class LoginController extends BaseController
 {
 
+    /**
+     *获取openid
+     * @return \think\response\Json
+     */
     public function openid()
     {
         $url = 'https://api.weixin.qq.com/sns/jscode2session';

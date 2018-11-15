@@ -10,7 +10,7 @@
             <div class="col-sm-9">
                 <select data-plugin="select2" name="parent_id" class="form-control">
                     <option value="0">一级菜单</option>
-                    {foreach $tree as $k => $v}
+                    {foreach $select as $k => $v}
                     <option value="{$v['id']}" {$data['parent_id'] == $v['id']?'selected':''} >{$v['name']}</option>
                     {/foreach}
                 </select>

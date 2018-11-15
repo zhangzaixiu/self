@@ -3,13 +3,13 @@ namespace app\app\controller;
 
 use app\common\model\CustomerModel;
 
-class UserController extends BaseController
+class IndexController extends BaseController
 {
 
     /*
      * 绑定用户
      */
-    public function bind()
+    public function index()
     {
         try{
             $request = input('','','trim');

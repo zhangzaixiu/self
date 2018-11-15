@@ -25,7 +25,8 @@ function list_to_tree($list, $pk='id',$pid = 'parent_id',$child = 'children') {
        $list = $list->toArray();
     }
     $rows = array_column($list,'level');
-    $level = min($rows);
+
+    $level = $rows?min($rows):1;
 
     if(is_array($list)) {
         // 创建基于主键的数组引用

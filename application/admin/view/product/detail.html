@@ -41,10 +41,24 @@
 
 <script src="/adminui/public/vendor/dropify/dropify.min.js"></script>
 <script src="/plugins/wangEditor-3.1.1/release/wangEditor.min.js"></script>
+
+<link rel="stylesheet" href="/plugins/Magnific-Popup-master/dist/magnific-popup.css">
+<script src="/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.js"></script>
 <script>
     //编辑按钮
     $('#edit_basic_btn').on('click',function () {
         $('.show_basic_info').hide();
         $('.edit_basic_info').show();
     });
+
+    $('.test-popup-link').magnificPopup({
+        type: 'image',
+        closeOnContentClick: true,
+        showCloseBtn:false,
+        image: {
+            verticalFit: false,
+            tError:'加载失败'
+        },
+    });
+
 </script>

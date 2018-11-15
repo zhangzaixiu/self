@@ -193,6 +193,8 @@ function uploadImage(file) {
     }, 'JSON');
 }
 
+
+
 function cstmpost(id,url,data,fun){
     //console.log(data);
     $.ajax({
