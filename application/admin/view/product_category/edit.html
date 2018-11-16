@@ -1,4 +1,5 @@
-
+<link rel="stylesheet" href="/adminui/public/vendor/dropify/dropify.css">
+<script src="/adminui/public/vendor/dropify/dropify.min.js"></script>
 <div class="modal-header">
     <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
     <h4 class="modal-title">编辑</h4>
@@ -22,6 +23,12 @@
                 <input  type="text" class="form-control " name="name" value="{$data['name']}"  required maxlength="20" placeholder="最多20个字符">
             </div>
         </div>
+        <div class="form-group col-md-12 padding-0">
+            <label class="col-sm-3 control-label"><span class="required">*</span> 封面图片：</label>
+            <div class="col-md-9">
+                {:widget('common/form/image',['name'=>'image','role'=>'required','value'=>$data['image'],'url'=>$data['image_path']])}
+            </div>
+        </div>
 
         <div class="form-group ">
             <label class="col-sm-3 control-label"><span class="required">*</span> 排序：</label>
@@ -43,19 +50,6 @@
             </div>
         </div>
         <div class="form-group ">
-            <label class="col-sm-3 control-label"><span class="required">*</span> 是否置顶：</label>
-            <div class="col-sm-9">
-                <div class="radio-custom radio-primary col-md-2">
-                    <input type="radio"  name="is_top" value="1" {$data['is_top'] != 2?'checked':''} >
-                    <label >是</label>
-                </div>
-                <div class="radio-custom radio-primary col-md-2">
-                    <input type="radio"  name="is_top" value="2" {$data['is_top'] == 2?'checked':''}>
-                    <label>否</label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group ">
             <label class="col-sm-3 control-label"><span class="required">*</span> 拓展属性：</label>
             <div class="col-sm-9">
                 <input data-plugin="tagsinput" value="{$category_str}" name="category_attr" required />
@@ -67,7 +61,16 @@
         </div>
     </form>
 </div>
+
 <script>
     $('[data-plugin="select2"]').select2({'width':'100%'});
     $('[data-plugin="tagsinput"]').tagsinput();
+    $('[data-plugin="dropify"]').dropify({
+        messages: {
+            'default': '单击或直接拖动需要上传的文件到此处',
+            'replace': '将文件拖放到此处或单击此处替换',
+            'remove':  '移除',
+            'error':   '出错了…'
+        },
+    });
 </script>

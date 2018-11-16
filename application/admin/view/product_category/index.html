@@ -14,15 +14,6 @@
         <div class="form-group col-md-2 padding-left-0">
             <input type="text" class="form-control " name="name" placeholder="分类名称" value="{$Request.get.name}">
         </div>
-        <div class="form-group col-md-1 padding-left-0">
-            <select  name="is_top" class="form-control">
-                <option value="">是否置顶</option>
-                {foreach $alias['is_top'] as $k =>$v}
-                    <option value="{$k}" {$Request.get.is_top == $k?'selected':''}>{$v}</option>
-                {/foreach}
-            </select>
-        </div>
-
         <div class="form-group col-md-2 ">
             <div class="input-group">
                 <select  name="is_show" class="form-control">
@@ -50,7 +41,6 @@
             <th >分类名称</th>
             <th >排序</th>
             <th >是否显示</th>
-            <th >是否置顶</th>
             <th >创建时间</th>
             <th > 操作</th>
         </tr>
@@ -69,7 +59,6 @@
                 <td>{$v['name']}</td>
                 <td class="text-center">{$v['sort']}</td>
                 <td class="text-center">{$v['is_show']}</td>
-                <td class="text-center">{$v['is_top']}</td>
                 <td class="text-center">{$v['create_time']}</td>
                 <td class="text-center">
                     <a  data-toggle="modal" class="btn btn-outline btn-warning btn-sm" data-target="#editForm"
@@ -120,6 +109,13 @@
                     </div>
                 </div>
 
+                <div class="form-group col-md-12 padding-0">
+                    <label class="col-sm-3 control-label"><span class="required">*</span> 封面图片：</label>
+                    <div class="col-md-9">
+                        {:widget('common/form/image',['name'=>'image','role'=>'required'])}
+                    </div>
+                </div>
+
                 <div class="form-group ">
                     <label class="col-sm-3 control-label"><span class="required">*</span> 排序：</label>
                     <div class="col-sm-9">
@@ -140,19 +136,6 @@
                     </div>
                 </div>
                 <div class="form-group ">
-                    <label class="col-sm-3 control-label"><span class="required">*</span> 是否置顶：</label>
-                    <div class="col-sm-9">
-                        <div class="radio-custom radio-primary col-md-2">
-                            <input type="radio"  name="is_top" value="1"  >
-                            <label >是</label>
-                        </div>
-                        <div class="radio-custom radio-primary col-md-2">
-                            <input type="radio"  name="is_top" value="2" checked>
-                            <label>否</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group ">
                     <label class="col-sm-3 control-label"><span class="required">*</span> 拓展属性：</label>
                     <div class="col-sm-9">
                         <input data-plugin="tagsinput" value=""  required name="category_attr"  />
@@ -166,6 +149,8 @@
         </form>
     </div>
 </div>
+<link rel="stylesheet" href="/adminui/public/vendor/dropify/dropify.css">
+<script src="/adminui/public/vendor/dropify/dropify.min.js"></script>
 
 <script src="/adminui/public/vendor/jquery-treegrid/jquery.treegrid.min.js"></script>
 <script>
