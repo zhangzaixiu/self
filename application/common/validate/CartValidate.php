@@ -1,0 +1,1 @@
+<?phpnamespace app\common\validate;use think\Validate;class CartValidate extends Validate{    protected $rule =   [        'product_id|商品'=>"require",        'customer_id|用户'=>"require",        'count|数量'=>'require',    ];}

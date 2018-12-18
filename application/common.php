@@ -147,6 +147,16 @@ function check_roles($url,$param = []){
 }
 
 
+function indexBy($array,$field){
+    if (empty($field)){
+        return $array;
+    }
+    $data = [];
+    foreach($array as $k => $v){
+        $data[$v[$field]] = $v;
+    }
+    return $data;
+}
 
 //function getExcel($fileName, $headArr, $data, $imgs = array())
 //{

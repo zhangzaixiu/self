@@ -1,31 +1,44 @@
 <?php
 namespace app\app\controller;
 
+use app\app\service\AuthTokenService;
+
 class LoginController extends BaseController
 {
 
     /**
-     *获取openid
+     *根据openid获取token
      * @return \think\response\Json
      */
     public function openid()
     {
-        $url = 'https://api.weixin.qq.com/sns/jscode2session';
+        try{
+            $url = 'https://api.weixin.qq.com/sns/jscode2session';
 
-        $input = input('','','trim');
+            $input = input('','','trim');
 
-        $data = $this->curl_request($url,$input);
-        $data_array = json_decode($data,true);
-        if(isset($data_array['errcode'])){
-            return $this->fail($data_array['errmsg']);
+            $data = $this->curl_request($url,$input);
+            $data_array = json_decode($data,true);
+            if(isset($data_array['errcode'])){
+                return $this->fail($data_array['errmsg']);
+            }
+
+            $customer = $this->getCustomer(['openid'=>$data_array['openid']]);
+            if($customer['code'] == 0){
+                return $this->fail($customer['msg']);
+            }
+
+            if(!empty($customer['data'])){
+                //每登一次更新下token
+                $service =  new AuthTokenService();
+                $token = $service->saveToken($customer['data']);
+            }
+
+            return $this->succeed('',['token'=>$token?:'','customer'=>$customer['data'],'openid'=>$data_array['openid']]);
+        }catch (\Exception $e){
+            return $this->fail($e->getMessage());
         }
 
-        $customer = $this->getCustomer($data_array['openid']);
-        if($customer['code'] == 0){
-            return $this->fail($customer['msg']);
-        }
-
-        return $this->succeed('',['customer'=>$customer['data'],'openid'=>$data_array['openid']]);
     }
 
 

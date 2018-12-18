@@ -10,13 +10,25 @@ class BaseController extends Controller
     //验证失败时抛出异常
     protected $failException = true;
 
-    public function getCustomer($openid){
-        $customer = CustomerModel::field(['id','type','name','mobile','status','start_time','end_time'])->where('openid','=',$openid)->find();
+
+//    public function initialize(){
+//
+//        $request = request();
+//
+//        $controller = $request->controller();
+//
+//        if($controller != 'Login'){
+//            $token = input('token','','trim');
+////            if(empty($token)){
+////                return ['code']
+////            }
+//        }
+//    }
+
+    public function getCustomer($con){
+        $customer = CustomerModel::field(['id','type','name','token','mobile','status','start_time','end_time'])->where($con)->find();
         if (is_null($customer)) {
-            return ['code'=>1,'data'=>''];
-        }
-        if(!empty($customer)){
-            $customer = $customer->toArray();
+            return ['code'=>0,'data'=>'','msg'=>'用户不存在'];
         }
         if ($customer['status'] == 2) {
             return ['code'=>0,'msg'=>'用户被冻结'];
@@ -25,6 +37,13 @@ class BaseController extends Controller
     }
 
 
+    public function getCustomerId($con){
+        $customer = $this->getCustomer($con);
+        if($customer['code']==0){
+            exception($customer['msg']);
+        }
+        return $customer['data']['id'];
+    }
 
 
     /**
