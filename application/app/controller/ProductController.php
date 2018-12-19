@@ -1,7 +1,6 @@
 <?php
 namespace app\app\controller;
 
-use app\common\model\ProductAttrModel;
 use app\common\model\ProductCategoryModel;
 use app\common\model\ProductModel;
 
@@ -18,10 +17,17 @@ class ProductController extends BaseController
     public function index()
     {
         try{
-            $category_id = input('category_id','','trim');
+            $input = input('','','trim');
+            $category_id = $input['category_id'];
             if(empty($category_id)){
                 exception('错误请求');
             }
+
+            $customer_id = $this->getCustomerId(['token'=>$input['token']]);
+            if(empty($customer_id)){
+                exception('用户不存在');
+            }
+
             $first_category = ProductCategoryModel::get(['id'=>$category_id]);
             if(empty($first_category)){
                 exception('分类不存在');
@@ -39,9 +45,12 @@ class ProductController extends BaseController
                 return $this->succeed('操作成功',['pages'=>0]);
             }
 
+            $customer_id = $this->getCustomerId(['token'=>$input['token']]);
+
             $con = [
                 'category_id' => $second_category,
-                'pages' => $second_category
+                'pageNo' => $input['pageNo'],
+                'customer_id' => $customer_id,
             ];
 
             $data = ProductModel::appList($con);
