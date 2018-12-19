@@ -42,7 +42,7 @@ class ProductController extends BaseController
 
             $second_category = ProductCategoryModel::where($category_con)->order(['sort'=>'desc'])->column('id');
             if(empty($second_category)){
-                return $this->succeed('操作成功',['pages'=>0]);
+                return $this->succeed('操作成功',['pages'=>0,'first_save_path'=>'']);
             }
 
             $customer_id = $this->getCustomerId(['token'=>$input['token']]);
@@ -52,10 +52,10 @@ class ProductController extends BaseController
                 'pageNo' => $input['pageNo'],
                 'customer_id' => $customer_id,
             ];
-
             $data = ProductModel::appList($con);
 
             $data['first_save_path'] = $first_save_path;
+
 
             return $this->succeed('操作成功',$data);
 
