@@ -141,11 +141,9 @@ class CartController extends BaseController
                 }
             }
 
-            $cart = CartModel::appList(['customer_id'=>$post['customer_id']]);
-            if($cart['code']==0){
-                exception($cart['msg']);
-            }
-            return $this->succeed('操作成功',$cart);
+            $cart_total_count = CartModel::countByCustomer($post['customer_id']);
+
+            return $this->succeed('操作成功',['total'=>$cart_total_count]);
         }catch(\Exception $e){
             return $this->fail($e->getMessage());
         }
