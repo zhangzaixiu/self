@@ -100,4 +100,32 @@ class AddressController extends BaseController
             return $this->fail($e->getMessage());
         }
     }
+
+
+    /**
+     * 获取默认地址
+     * author: zzx
+     * Date: 2018/12/24 0024
+     * Time: 15:49
+     * @return \think\response\Json
+     */
+    public function defaultAddress(){
+        try{
+            $input = input('','','trim');
+
+            $customer_id = $this->getCustomerId(['token'=>$input['token']]);
+
+
+            $address = AddressModel::where(['is_default'=>1,'customer_id'=>$customer_id])->find();
+
+            if(empty($address)){
+                $address = AddressModel::where(['customer_id'=>$customer_id])->order(['id'=>'desc'])->find();
+            }
+
+            return $this->succeed('操作成功',$address);
+
+        }catch(\Exception $e){
+            return $this->fail($e->getMessage());
+        }
+    }
 }
