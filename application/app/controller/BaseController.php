@@ -11,20 +11,6 @@ class BaseController extends Controller
     protected $failException = true;
 
 
-//    public function initialize(){
-//
-//        $request = request();
-//
-//        $controller = $request->controller();
-//
-//        if($controller != 'Login'){
-//            $token = input('token','','trim');
-////            if(empty($token)){
-////                return ['code']
-////            }
-//        }
-//    }
-
     public function getCustomer($con){
         $customer = CustomerModel::field(['id','type','name','token','mobile','status','start_time','end_time'])->where($con)->find();
         if (is_null($customer)) {
@@ -45,6 +31,13 @@ class BaseController extends Controller
         return $customer['data']['id'];
     }
 
+    public function getCustomerType($con){
+        $customer = $this->getCustomer($con);
+        if($customer['code']==0){
+            exception($customer['msg']);
+        }
+        return $customer['data']['type'];
+    }
 
     /**
      * 成功反馈封装

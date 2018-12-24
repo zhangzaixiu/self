@@ -1,0 +1,1 @@
+<?phpnamespace app\common\model;class CouponModel extends BaseModel{}
