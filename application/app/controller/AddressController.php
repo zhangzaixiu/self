@@ -115,14 +115,13 @@ class AddressController extends BaseController
 
             $customer_id = $this->getCustomerId(['token'=>$input['token']]);
 
-
-            $address = AddressModel::where(['is_default'=>1,'customer_id'=>$customer_id])->find();
-
-            if(empty($address)){
-                $address = AddressModel::where(['customer_id'=>$customer_id])->order(['id'=>'desc'])->find();
+            $list = AddressModel::appList(['customer_id'=>$customer_id,'limit'=>1]);
+            if($list['code'] ==0){
+                exception($list['msg']);
             }
 
-            return $this->succeed('操作成功',$address);
+            $list = array_values($list['rows']);
+            return $this->succeed('操作成功',$list[0]);
 
         }catch(\Exception $e){
             return $this->fail($e->getMessage());
