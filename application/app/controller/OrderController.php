@@ -9,11 +9,44 @@ use think\Db;
 
 class OrderController extends BaseController
 {
+
     /**
-     * 产品列表页添加购物车
+     * 订单列表
      * author: zzx
-     * Date: 2018/12/19 0019
-     * Time: 16:07
+     * Date: 2019/4/22 0022
+     * Time: 17:02
+     * @return \think\response\Json
+     */
+    public function index()
+    {
+        try{
+            $input = input('','','trim');
+            $customer = $this->getCustomer(['token'=>$input['token']]);
+            if($customer['code']==0){
+                exception($customer['msg']);
+            }
+            $customer_id = $customer['data']['id'];
+            if(empty($customer_id)){
+                exception('用户不存在');
+            }
+            $data = OrderAttrModel::getList(['customer_id'=>$customer_id,'limit'=>10]);
+            if($data['code'] == 0 ){
+                exception($data['msg'] );
+            }
+
+            return $this->succeed('操作成功',$data);
+
+        }catch(\Exception $e){
+            return $this->fail($e->getMessage());
+        }
+    }
+
+
+    /**
+     * 保存订单
+     * author: zzx
+     * Date: 2019/4/22 0022
+     * Time: 17:02
      * @return \think\response\Json
      */
     public function save()
