@@ -29,7 +29,7 @@ class OrderController extends BaseController
             if(empty($customer_id)){
                 exception('用户不存在');
             }
-            $data = OrderAttrModel::getList(['customer_id'=>$customer_id,'limit'=>10]);
+            $data = OrderModel::appList(['customer_id'=>$customer_id,'limit'=>10]);
             if($data['code'] == 0 ){
                 exception($data['msg'] );
             }
