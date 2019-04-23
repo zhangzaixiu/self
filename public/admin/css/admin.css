@@ -190,3 +190,8 @@ h4.btborder {
 }
 
 /********修改主题样式结束 *******/
+
+.table_img{
+    max-width: 50px;
+    max-height: 50px;
+}

@@ -24,7 +24,7 @@
         <div class="form-group col-sm-12">
             <label class="col-sm-2 control-label "><span class="required">*</span> 订单金额：</label>
             <div class="col-md-4 ">
-                <input type="text" class="form-control readonly"  readonly  value="{$data['price']}"  required >
+                <input type="text" class="form-control readonly"  readonly  value="{$data['total_price']}"  required >
             </div>
             <label class="col-sm-2 control-label "><span class="required">*</span> 支付方式：</label>
             <div class="col-md-4">
@@ -56,7 +56,7 @@
         <h4 class="padding-bottom-10 btborder">商品信息</h4>
         <table id="actTable" class="table table-bordered text-center cdtable"
                data-toggle="table"
-               data-url="{:url('admin/order_attr/index')}"
+               data-url="{:url('admin/order_attr/index',['order_id'=>$data['id']])}"
                data-pagination="false"
                data-side-pagination="server"
                data-striped="true"
@@ -68,7 +68,7 @@
             <thead>
             <tr>
                 <th class="text-center" data-field="product_name" data-sortable="true">商品名称</th>
-                <th class="text-center" data-field="category_name">分类名称</th>
+                <th class="text-center" data-field="img_url">图片</th>
                 <th class="text-center" data-field="count" data-sortable="true">商品数量</th>
                 <th class="text-center"  data-field="price">价格</th>
             </tr>
@@ -80,7 +80,7 @@
 <script src="/adminui/public/vendor/dropify/dropify.min.js"></script>
 <script>
     function detailFormatter(index, row) {
-        var attr = $.parseJSON(row.product_attr);
+        var attr = row.product_attr;
         var html = [];
         $.each(attr, function (key, value) {
             html.push('<p><b>' + key + ':</b> ' + value + '</p>');

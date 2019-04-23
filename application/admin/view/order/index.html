@@ -26,14 +26,16 @@
     <tr>
         <th class="text-center" data-field="order_sn" data-sortable="true">订单编号</th>
         <th class="text-center" data-field="customer_mobile">会员名称</th>
-        <th class="text-center" data-field="price" data-sortable="true">订单金额</th>
+        <th class="text-center" data-field="total_price" data-sortable="true">订单金额</th>
         <th class="text-center"  data-field="status">订单状态</th>
         <th class="text-center"  data-field="pay_type">支付方式</th>
         <th class="text-center"  data-field="create_time" data-sortable="true">创建时间</th>
-        <th class="text-center" data-field="operation"> 操作</th>
+        <th class="text-center"  data-field="operation"> 操作</th>
     </tr>
     </thead>
 </table>
+<link rel="stylesheet" href="/plugins/Magnific-Popup-master/dist/magnific-popup.css">
+<script src="/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.js"></script>
 <script>
     //服务信息 表格详情
     function detailFormatter(index, row) {
@@ -43,12 +45,12 @@
             url: "{:url('admin/order/attr')}"+'?id='+id,
             columns:[
                 {
-                    field:'category_name',
-                    title:'分类名称',
-                },
-                {
                     field:'product_name',
                     title:'产品名称',
+                },
+                {
+                    field:'img_url',
+                    title:'图片',
                 },
                 {
                     field:'count',
@@ -61,5 +63,7 @@
             ],
         });
         return table;
+
     }
+
 </script>
