@@ -1,10 +1,13 @@
 <?php
 namespace app\app\controller;
 
+use app\common\model\AddressModel;
+use app\common\model\CouponModel;
 use app\common\model\OrderAttrModel;
 use app\common\model\OrderModel;
 use app\common\model\ProductAttrModel;
 use app\common\model\ProductModel;
+use app\common\model\RegionModel;
 use think\Db;
 
 class OrderController extends BaseController
@@ -41,6 +44,51 @@ class OrderController extends BaseController
         }
     }
 
+
+    /**
+     * 订单详情
+     * author: zzx
+     * Date: 2019/4/23 0023
+     * Time: 10:08
+     * @return \think\response\Json
+     */
+    public function detail(){
+        try{
+            $input = input('','','trim');
+            $customer = $this->getCustomer(['token'=>$input['token']]);
+            if($customer['code']==0){
+                exception($customer['msg']);
+            }
+            $customer_id = $customer['data']['id'];
+            if(empty($customer_id)){
+                exception('用户不存在');
+            }
+            if(empty($input['id'])){
+                exception('错误请求');
+            }
+
+            $data = OrderModel::appList(['customer_id'=>$customer_id,'order_id'=>$input['id']]);
+
+            if($data['code'] == 0 ){
+                exception($data['msg'] );
+            }
+            $order = $data['pageList'][0];
+            $address = AddressModel::get($order['address_id']);
+            $address['region_name'] = RegionModel::address([$address['province'],$address['city'],$address['district']]);
+            if($order['coupon_id']){
+                $coupon = CouponModel::get($order['coupon_id']);
+                if(!empty($coupon)){
+                    $order['coupon_free'] = round($coupon['coupon'],2);
+                }
+            }else{
+                $order['coupon_free'] = '0.00';
+            }
+            return $this->succeed('操作成功',['order'=>$order,'address'=>$address]);
+
+        }catch(\Exception $e){
+            return $this->fail($e->getMessage());
+        }
+    }
 
     /**
      * 保存订单
