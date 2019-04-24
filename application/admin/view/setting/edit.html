@@ -1,7 +1,14 @@
 <form>
     {foreach $data as $v}
     <div class="form-group col-sm-12">
-        <label class="col-sm-2 control-label"><span class="required">*</span>{$v['name']}</label>
+        <label class="col-sm-2 control-label"><span class="required">*</span>{$v['name']}
+            {if $v['tip']}
+                <a href="javascript:void(0)" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="{$v['tip']}" style="color: #76838f">
+                    <i class="icon wb-help-circle" aria-hidden="true"></i>
+                </a>
+            {/if}
+
+        </label>
         <div class="col-md-4 " >
             <input type="text" name="{$v['key']}" required value="{$v['value']|default=''}">
         </div>
