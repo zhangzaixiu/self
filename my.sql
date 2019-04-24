@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2018-09-15 17:59:15
+Date: 2019-04-24 17:00:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,21 +22,31 @@ DROP TABLE IF EXISTS `my_address`;
 CREATE TABLE `my_address` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_id` int(11) DEFAULT NULL,
-  `region` varchar(255) DEFAULT NULL COMMENT '区域',
+  `province` int(11) DEFAULT NULL,
+  `city` int(11) DEFAULT NULL,
+  `district` int(11) DEFAULT NULL COMMENT '区域',
   `address` varchar(255) DEFAULT '' COMMENT '详细地址',
   `linkman` varchar(30) DEFAULT NULL COMMENT '联系人',
   `sex` tinyint(1) DEFAULT NULL COMMENT '性别',
   `mobile` varchar(11) DEFAULT NULL COMMENT '联系方式',
   `label` tinyint(1) DEFAULT NULL COMMENT '标签',
+  `is_default` tinyint(1) DEFAULT '0' COMMENT '是否默认',
   `user_id` int(11) DEFAULT '0',
   `update_time` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '修改时间',
   `create_time` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of my_address
 -- ----------------------------
+INSERT INTO `my_address` VALUES ('2', '389', '11', '1101', '110102', '324243', '567', null, '15467865432', null, '0', '0', '2018-12-24 13:46:00', '2018-12-24 13:46:00');
+INSERT INTO `my_address` VALUES ('3', '389', '11', '1101', '110102', 'werwe', '435', null, '15054252535', null, '0', '0', '2018-12-24 13:48:28', '2018-12-24 13:48:28');
+INSERT INTO `my_address` VALUES ('4', '389', '11', '1101', '110102', '23423', 'wr', null, '14534545432', null, '0', '0', '2018-12-24 13:52:27', '2018-12-24 13:52:27');
+INSERT INTO `my_address` VALUES ('5', '389', '11', '1401', '140106', '342342', '111', null, '15054223320', null, '0', '0', '2018-12-24 13:57:01', '2018-12-24 13:57:01');
+INSERT INTO `my_address` VALUES ('6', '389', '14', '1401', '140105', '23423', '3423', null, '15054258596', null, '0', '0', '2018-12-24 14:27:17', '2018-12-24 14:27:17');
+INSERT INTO `my_address` VALUES ('7', '389', '0', '14', '140106', '尔特热特瑞有人土土于一体岩土体育u', 'T认识', null, '15054223320', null, '1', '0', '2018-12-24 14:47:57', '2018-12-24 14:47:57');
+INSERT INTO `my_address` VALUES ('8', '389', '13', '1302', '130202', 'ertert', 'qqq', null, '15554856253', null, '0', '0', '2018-12-24 15:18:25', '2018-12-24 15:18:25');
 
 -- ----------------------------
 -- Table structure for my_banner
@@ -62,20 +72,115 @@ INSERT INTO `my_banner` VALUES ('26', '1', '1', '2567', 'http://self.com/admin/b
 INSERT INTO `my_banner` VALUES ('27', '1', '1', '2568', 'http://self.com/admin/banner/index.html', '0', '2018-09-05 17:25:34', '2018-09-05 17:25:34', '0');
 
 -- ----------------------------
--- Table structure for my_company
+-- Table structure for my_cart
 -- ----------------------------
-DROP TABLE IF EXISTS `my_company`;
-CREATE TABLE `my_company` (
-  `id` int(11) NOT NULL,
-  `name` varchar(50) DEFAULT NULL COMMENT '公司名称',
-  `linkman` varchar(20) DEFAULT NULL COMMENT '联系人',
-  `mobile` char(12) DEFAULT NULL COMMENT 'l联系方式',
+DROP TABLE IF EXISTS `my_cart`;
+CREATE TABLE `my_cart` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) DEFAULT NULL COMMENT '产品id',
+  `customer_id` int(11) DEFAULT NULL COMMENT '会员ID',
+  `count` int(11) DEFAULT NULL COMMENT '数量',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='购物车';
+
+-- ----------------------------
+-- Records of my_cart
+-- ----------------------------
+INSERT INTO `my_cart` VALUES ('4', '9', '389', '2', '2018-12-24 16:42:46', '2018-12-24 16:42:46');
+INSERT INTO `my_cart` VALUES ('9', '11', '389', '2', '2019-04-24 09:30:20', '2019-04-24 09:30:20');
+INSERT INTO `my_cart` VALUES ('11', '7', '389', '1', '2019-04-24 09:32:48', '2019-04-24 09:32:48');
+
+-- ----------------------------
+-- Table structure for my_comment
+-- ----------------------------
+DROP TABLE IF EXISTS `my_comment`;
+CREATE TABLE `my_comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT NULL,
+  `order_attr_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `customer_id` int(11) DEFAULT NULL,
+  `score` tinyint(2) DEFAULT '5',
+  `comment` text,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Records of my_comment
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for my_company
+-- ----------------------------
+DROP TABLE IF EXISTS `my_company`;
+CREATE TABLE `my_company` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL COMMENT '公司名称',
+  `linkman` varchar(20) DEFAULT NULL COMMENT '联系人',
+  `mobile` char(12) DEFAULT NULL COMMENT 'l联系方式',
+  `category_id` int(11) DEFAULT '0' COMMENT '所属行业分类',
+  `logo` int(11) DEFAULT NULL COMMENT 'logo路径',
+  `license` int(11) DEFAULT NULL COMMENT '营业执照',
+  `introduce` text COMMENT '简介',
+  `audit_status` tinyint(3) DEFAULT '1' COMMENT '1 待审核 2 已通过 3已拒绝 ',
+  `status` tinyint(3) DEFAULT '1' COMMENT '1正常 2停止',
+  `start_time` datetime DEFAULT NULL COMMENT '合作开始时间',
+  `end_time` datetime DEFAULT NULL COMMENT '合作结束时间',
+  `is_delete` tinyint(1) DEFAULT '0' COMMENT '是否删除',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Records of my_company
 -- ----------------------------
+INSERT INTO `my_company` VALUES ('1', '自营', '65756', '15563995229', '2', '2585', '2586', '<p>567567</p>', '1', '1', null, null, '0', '2018-09-25 15:58:34', '2018-09-25 15:58:34');
+
+-- ----------------------------
+-- Table structure for my_company_contract
+-- ----------------------------
+DROP TABLE IF EXISTS `my_company_contract`;
+CREATE TABLE `my_company_contract` (
+  `company_id` int(11) NOT NULL,
+  `file_id` int(11) DEFAULT NULL,
+  `type` tinyint(3) DEFAULT '1' COMMENT '文件类型 1签约合同',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`company_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司合作合同文件对应表';
+
+-- ----------------------------
+-- Records of my_company_contract
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for my_coupon
+-- ----------------------------
+DROP TABLE IF EXISTS `my_coupon`;
+CREATE TABLE `my_coupon` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL COMMENT '优惠券名称',
+  `coupon` decimal(10,0) DEFAULT '0' COMMENT '优惠券金额',
+  `price` decimal(10,2) DEFAULT '0.00' COMMENT '满减额度',
+  `product_category_id` int(11) DEFAULT NULL,
+  `start_time` date DEFAULT NULL COMMENT '开始时间',
+  `end_time` date DEFAULT NULL COMMENT '结束时间',
+  `update_time` datetime DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='优惠券表';
+
+-- ----------------------------
+-- Records of my_coupon
+-- ----------------------------
+INSERT INTO `my_coupon` VALUES ('1', '注册优惠券', '10', '10.00', null, '2018-12-19', '2018-12-29', '2018-12-18 15:32:21', '2018-12-25 15:32:25');
+INSERT INTO `my_coupon` VALUES ('2', '海鲜类优惠券', '20', '150.00', '19', '2018-12-18', '2019-01-18', '2018-12-19 15:33:35', '2019-01-03 15:33:40');
+INSERT INTO `my_coupon` VALUES ('3', '测试过期优惠券', '15', '20.00', null, '2018-12-19', '2018-12-20', null, null);
 
 -- ----------------------------
 -- Table structure for my_customer
@@ -87,9 +192,13 @@ CREATE TABLE `my_customer` (
   `name` varchar(50) DEFAULT '' COMMENT '客户名称',
   `mobile` varchar(15) DEFAULT '0' COMMENT '联系电话',
   `password` varchar(255) DEFAULT NULL,
+  `openid` varchar(255) DEFAULT NULL COMMENT '小程序openid',
   `source` tinyint(3) DEFAULT NULL COMMENT '来源(1web 2 admin 3app)',
   `status` tinyint(1) DEFAULT '0' COMMENT '状态 (1 正常 2冻结)',
+  `start_time` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '会员开始时间',
+  `end_time` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '会员结束时间',
   `isDelete` tinyint(2) DEFAULT '0',
+  `token` varchar(255) DEFAULT NULL COMMENT 'token',
   `user_id` int(11) DEFAULT '0',
   `update_time` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '修改时间',
   `create_time` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
@@ -99,9 +208,31 @@ CREATE TABLE `my_customer` (
 -- ----------------------------
 -- Records of my_customer
 -- ----------------------------
-INSERT INTO `my_customer` VALUES ('389', '1', '海信家电有限公司', '18888888888', '46cc468df60c961d8da2326337c7aa58', '1', '2', '0', '910', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `my_customer` VALUES ('545', '2', '', '15961019696', '46cc468df60c961d8da2326337c7aa58', '2', '2', '0', '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `my_customer` VALUES ('546', '1', '', '18888888777', '46cc468df60c961d8da2326337c7aa58', '1', '1', '0', '0', '2018-08-29 15:57:09', '2018-08-29 15:57:09');
+INSERT INTO `my_customer` VALUES ('389', '1', '18888888888', '18888888888', '21218cca77804d2ba1922c33e0151105', 'owTnm5cYCaG8TsywwW-G3LJUzbnU', '1', '2', null, null, '0', '$2y$10$2CIyJFytW9GsYl6cNTGI.uf5rhtC3L3SX58/wTRsE/XMsbWN.sjMS', '910', '2019-04-24 16:21:58', '0000-00-00 00:00:00');
+INSERT INTO `my_customer` VALUES ('545', '2', '15961019696', '15961019696', '21218cca77804d2ba1922c33e0151105', null, '2', '2', null, null, '0', '$2y$10$zesDjADDxpPhqIGhTSjv5.cF/.JHHUCkUM.ogiCJKC5ar01CctjCK', '0', '2018-12-27 15:49:07', '0000-00-00 00:00:00');
+INSERT INTO `my_customer` VALUES ('546', '1', '18888888777', '18888888777', '21218cca77804d2ba1922c33e0151105', null, '1', '1', null, null, '0', '3453', '0', '2018-08-29 15:57:09', '2018-08-29 15:57:09');
+
+-- ----------------------------
+-- Table structure for my_customer_coupon
+-- ----------------------------
+DROP TABLE IF EXISTS `my_customer_coupon`;
+CREATE TABLE `my_customer_coupon` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL,
+  `coupon_id` int(11) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0' COMMENT '1未使用 2已使用',
+  `use_time` datetime DEFAULT NULL COMMENT '使用时间',
+  `update_time` datetime DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户优惠券表';
+
+-- ----------------------------
+-- Records of my_customer_coupon
+-- ----------------------------
+INSERT INTO `my_customer_coupon` VALUES ('1', '389', '1', '1', null, '2018-11-26 15:34:01', '2019-01-04 15:34:04');
+INSERT INTO `my_customer_coupon` VALUES ('2', '389', '2', '1', null, '2018-12-10 15:35:03', '2018-12-19 15:35:06');
+INSERT INTO `my_customer_coupon` VALUES ('3', '389', '3', '1', null, null, null);
 
 -- ----------------------------
 -- Table structure for my_enter_category
@@ -117,17 +248,17 @@ CREATE TABLE `my_enter_category` (
   `require` text COMMENT '入驻要求',
   `cost` text COMMENT '费用说明',
   `question` text COMMENT '常见问题',
-  `statement` text COMMENT '用户须知',
+  `delete_time` datetime DEFAULT NULL COMMENT '删除时间',
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of my_enter_category
 -- ----------------------------
-INSERT INTO `my_enter_category` VALUES ('1', '111', null, '1', null, null, null, null, null, null, null, null);
-INSERT INTO `my_enter_category` VALUES ('2', '456345345', '2578', '1', '4', '<p>儿童</p>', '<p>尔特</p>', '<p>热特瑞</p>', '<p>尔特惹他</p>', null, '2018-09-15 17:26:22', '2018-09-15 17:26:22');
+INSERT INTO `my_enter_category` VALUES ('6', '567567', '2603', '1', '1', '<p>567</p>', '<p>567</p>', '<p>567567</p>', '<p>567567</p>', '0000-00-00 00:00:00', '2018-10-13 15:49:17', '2018-10-13 15:52:00');
+INSERT INTO `my_enter_category` VALUES ('7', '111', '2604', '1', '1', '<p>231</p>', '<p>12123</p>', '<p>213123</p>', '<p>123123</p>', null, '2018-10-13 15:57:28', '2018-10-13 15:57:28');
 
 -- ----------------------------
 -- Table structure for my_frontend_message
@@ -194,7 +325,7 @@ CREATE TABLE `my_frontend_message_category` (
   `update_time` datetime DEFAULT NULL,
   `sort` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='信息分类表';
 
 -- ----------------------------
 -- Records of my_frontend_message_category
@@ -242,6 +373,173 @@ INSERT INTO `my_news` VALUES ('16', '789789', '1', '2565', '<p>789<span style=\"
 INSERT INTO `my_news` VALUES ('17', 'qqqqq', '1', '2566', '<p><span style=\"font-weight: bold; font-style: italic; text-decoration-line: underline line-through; color: rgb(139, 170, 74);\">456456</span></p>', '2', null, null, '2018-09-05 14:07:49', '2018-09-05 14:07:49', '0');
 
 -- ----------------------------
+-- Table structure for my_order
+-- ----------------------------
+DROP TABLE IF EXISTS `my_order`;
+CREATE TABLE `my_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_sn` varchar(255) DEFAULT NULL,
+  `customer_id` int(11) DEFAULT NULL,
+  `address_id` int(11) DEFAULT NULL COMMENT '地址id',
+  `total_price` decimal(10,2) DEFAULT NULL COMMENT '合计金额',
+  `product_price` decimal(10,2) DEFAULT NULL COMMENT '商品价格',
+  `postage_price` decimal(10,2) DEFAULT NULL COMMENT '邮费',
+  `coupon_id` int(11) DEFAULT NULL COMMENT '优惠券id',
+  `pay_type` tinyint(2) DEFAULT '2' COMMENT '支付方式 1支付宝 2微信',
+  `pay_time` datetime DEFAULT NULL COMMENT '支付时间',
+  `pay_sn` varchar(255) DEFAULT NULL COMMENT '支付单号',
+  `status` tinyint(2) DEFAULT '1' COMMENT '订单状态 1待支付 2已支付 3待处理 4处理中 5已完成',
+  `note` varchar(255) DEFAULT NULL COMMENT '买家备注信息',
+  `end_time` datetime DEFAULT NULL COMMENT '交易完成时间',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='订单表';
+
+-- ----------------------------
+-- Records of my_order
+-- ----------------------------
+INSERT INTO `my_order` VALUES ('14', '201904231505104075', '389', '6', '181.00', '181.00', '0.00', '0', '2', '2019-04-23 15:05:10', null, '2', null, null, '2019-04-23 15:05:10', '2019-04-23 15:05:10');
+INSERT INTO `my_order` VALUES ('15', '201904231510253822', '389', '7', '458.00', '458.00', '0.00', '0', '2', '2019-04-15 15:10:25', null, '2', null, null, '2019-04-23 15:10:25', '2019-04-23 15:10:25');
+INSERT INTO `my_order` VALUES ('16', '201904231510482565', '389', '7', '458.00', '458.00', '0.00', '0', '2', '2019-04-23 15:10:48', null, '2', null, null, '2019-04-23 15:10:48', '2019-04-23 15:10:48');
+INSERT INTO `my_order` VALUES ('17', '201904231510587482', '389', '7', '458.00', '458.00', '0.00', '0', '2', '2019-04-23 15:10:58', null, '2', null, null, '2019-04-23 15:10:58', '2019-04-23 15:10:58');
+INSERT INTO `my_order` VALUES ('18', '201904231511337515', '389', '7', '458.00', '458.00', '0.00', '0', '2', '2019-04-16 15:11:33', null, '2', null, null, '2019-04-23 15:11:33', '2019-04-23 15:11:33');
+INSERT INTO `my_order` VALUES ('19', '201904231511387599', '389', '7', '458.00', '458.00', '0.00', '0', '2', '2019-04-23 15:11:38', null, '2', null, null, '2019-04-23 15:11:38', '2019-04-23 15:11:38');
+INSERT INTO `my_order` VALUES ('20', '201904231512098432', '389', '7', '458.00', '458.00', '0.00', '0', '2', '2019-04-23 15:12:09', null, '2', null, null, '2019-04-23 15:12:09', '2019-04-23 15:12:09');
+INSERT INTO `my_order` VALUES ('21', '201904241101362607', '389', '7', '90.00', '90.00', '0.00', '0', '2', '2019-04-24 11:01:36', null, '2', null, null, '2019-04-24 11:01:36', '2019-04-24 11:01:36');
+
+-- ----------------------------
+-- Table structure for my_order_attr
+-- ----------------------------
+DROP TABLE IF EXISTS `my_order_attr`;
+CREATE TABLE `my_order_attr` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL COMMENT '商品id',
+  `count` int(11) DEFAULT NULL,
+  `category_id` varchar(50) DEFAULT NULL,
+  `product_name` varchar(50) DEFAULT NULL COMMENT '商品名称',
+  `abstract` varchar(255) DEFAULT NULL COMMENT '简介',
+  `img` varchar(255) DEFAULT NULL COMMENT '商品图片',
+  `product_attr` text COMMENT '商品属性',
+  `price` decimal(10,2) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COMMENT='订单商品表';
+
+-- ----------------------------
+-- Records of my_order_attr
+-- ----------------------------
+INSERT INTO `my_order_attr` VALUES ('20', '14', '8', '3', '19', '东江湖蜜桔500g', '轻咬即化 自带4D环绕橘香', '/files/default/10-1542694168-54169.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '45.00', '2019-04-23 15:05:10', '2019-04-23 15:05:10');
+INSERT INTO `my_order_attr` VALUES ('21', '14', '9', '2', '19', '鲜水果玉米两根', '一口咬下去 嘴里爆出来甜浆', '/files/default/10-1542694032-25488.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '23.00', '2019-04-23 15:05:10', '2019-04-23 15:05:10');
+INSERT INTO `my_order_attr` VALUES ('22', '15', '8', '2', '19', '东江湖蜜桔500g', '轻咬即化 自带4D环绕橘香', '/files/default/10-1542694168-54169.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '45.00', '2019-04-23 15:10:25', '2019-04-23 15:10:25');
+INSERT INTO `my_order_attr` VALUES ('23', '15', '9', '1', '19', '鲜水果玉米两根', '一口咬下去 嘴里爆出来甜浆', '/files/default/10-1542694032-25488.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '23.00', '2019-04-23 15:10:25', '2019-04-23 15:10:25');
+INSERT INTO `my_order_attr` VALUES ('24', '15', '7', '1', '18', '进口香蕉1斤*1袋', '跟鲜花一起运过来的香蕉', '/files/default/10-1542694183-3530.jpg', 'a:1:{s:6:\"产地\";s:6:\"美国\";}', '345.00', '2019-04-23 15:10:25', '2019-04-23 15:10:25');
+INSERT INTO `my_order_attr` VALUES ('25', '16', '8', '2', '19', '东江湖蜜桔500g', '轻咬即化 自带4D环绕橘香', '/files/default/10-1542694168-54169.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '45.00', '2019-04-23 15:10:48', '2019-04-23 15:10:48');
+INSERT INTO `my_order_attr` VALUES ('26', '16', '9', '1', '19', '鲜水果玉米两根', '一口咬下去 嘴里爆出来甜浆', '/files/default/10-1542694032-25488.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '23.00', '2019-04-23 15:10:48', '2019-04-23 15:10:48');
+INSERT INTO `my_order_attr` VALUES ('27', '16', '7', '1', '18', '进口香蕉1斤*1袋', '跟鲜花一起运过来的香蕉', '/files/default/10-1542694183-3530.jpg', 'a:1:{s:6:\"产地\";s:6:\"美国\";}', '345.00', '2019-04-23 15:10:48', '2019-04-23 15:10:48');
+INSERT INTO `my_order_attr` VALUES ('28', '17', '8', '2', '19', '东江湖蜜桔500g', '轻咬即化 自带4D环绕橘香', '/files/default/10-1542694168-54169.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '45.00', '2019-04-23 15:10:58', '2019-04-23 15:10:58');
+INSERT INTO `my_order_attr` VALUES ('29', '17', '9', '1', '19', '鲜水果玉米两根', '一口咬下去 嘴里爆出来甜浆', '/files/default/10-1542694032-25488.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '23.00', '2019-04-23 15:10:58', '2019-04-23 15:10:58');
+INSERT INTO `my_order_attr` VALUES ('30', '17', '7', '1', '18', '进口香蕉1斤*1袋', '跟鲜花一起运过来的香蕉', '/files/default/10-1542694183-3530.jpg', 'a:1:{s:6:\"产地\";s:6:\"美国\";}', '345.00', '2019-04-23 15:10:58', '2019-04-23 15:10:58');
+INSERT INTO `my_order_attr` VALUES ('31', '18', '8', '2', '19', '东江湖蜜桔500g', '轻咬即化 自带4D环绕橘香', '/files/default/10-1542694168-54169.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '45.00', '2019-04-23 15:11:33', '2019-04-23 15:11:33');
+INSERT INTO `my_order_attr` VALUES ('32', '18', '9', '1', '19', '鲜水果玉米两根', '一口咬下去 嘴里爆出来甜浆', '/files/default/10-1542694032-25488.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '23.00', '2019-04-23 15:11:33', '2019-04-23 15:11:33');
+INSERT INTO `my_order_attr` VALUES ('33', '18', '7', '1', '18', '进口香蕉1斤*1袋', '跟鲜花一起运过来的香蕉', '/files/default/10-1542694183-3530.jpg', 'a:1:{s:6:\"产地\";s:6:\"美国\";}', '345.00', '2019-04-23 15:11:33', '2019-04-23 15:11:33');
+INSERT INTO `my_order_attr` VALUES ('34', '19', '8', '2', '19', '东江湖蜜桔500g', '轻咬即化 自带4D环绕橘香', '/files/default/10-1542694168-54169.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '45.00', '2019-04-23 15:11:38', '2019-04-23 15:11:38');
+INSERT INTO `my_order_attr` VALUES ('35', '19', '9', '1', '19', '鲜水果玉米两根', '一口咬下去 嘴里爆出来甜浆', '/files/default/10-1542694032-25488.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '23.00', '2019-04-23 15:11:38', '2019-04-23 15:11:38');
+INSERT INTO `my_order_attr` VALUES ('36', '19', '7', '1', '18', '进口香蕉1斤*1袋', '跟鲜花一起运过来的香蕉', '/files/default/10-1542694183-3530.jpg', 'a:1:{s:6:\"产地\";s:6:\"美国\";}', '345.00', '2019-04-23 15:11:38', '2019-04-23 15:11:38');
+INSERT INTO `my_order_attr` VALUES ('37', '20', '8', '2', '19', '东江湖蜜桔500g', '轻咬即化 自带4D环绕橘香', '/files/default/10-1542694168-54169.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '45.00', '2019-04-23 15:12:09', '2019-04-23 15:12:09');
+INSERT INTO `my_order_attr` VALUES ('38', '20', '9', '1', '19', '鲜水果玉米两根', '一口咬下去 嘴里爆出来甜浆', '/files/default/10-1542694032-25488.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '23.00', '2019-04-23 15:12:09', '2019-04-23 15:12:09');
+INSERT INTO `my_order_attr` VALUES ('39', '20', '7', '1', '18', '进口香蕉1斤*1袋', '跟鲜花一起运过来的香蕉', '/files/default/10-1542694183-3530.jpg', 'a:1:{s:6:\"产地\";s:6:\"美国\";}', '345.00', '2019-04-23 15:12:09', '2019-04-23 15:12:09');
+INSERT INTO `my_order_attr` VALUES ('40', '21', '8', '2', '19', '东江湖蜜桔500g', '轻咬即化 自带4D环绕橘香', '/files/default/10-1542694168-54169.jpg', 'a:1:{s:6:\"产地\";s:6:\"中国\";}', '45.00', '2019-04-24 11:01:36', '2019-04-24 11:01:36');
+
+-- ----------------------------
+-- Table structure for my_order_pay_log
+-- ----------------------------
+DROP TABLE IF EXISTS `my_order_pay_log`;
+CREATE TABLE `my_order_pay_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `type` tinyint(1) DEFAULT '1' COMMENT '1购买 2退款',
+  `note` varchar(50) DEFAULT NULL COMMENT '备注',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单支付流水';
+
+-- ----------------------------
+-- Records of my_order_pay_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for my_product
+-- ----------------------------
+DROP TABLE IF EXISTS `my_product`;
+CREATE TABLE `my_product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL COMMENT '产品名称',
+  `abstract` varchar(20) DEFAULT NULL COMMENT '简介',
+  `label` varchar(255) DEFAULT NULL COMMENT '标签',
+  `category_id` int(11) DEFAULT NULL COMMENT '分类id',
+  `company_id` int(11) DEFAULT NULL COMMENT '公司id',
+  `cover` varchar(255) DEFAULT NULL COMMENT '封面图片',
+  `img` varchar(255) DEFAULT NULL COMMENT '图片',
+  `detail` text COMMENT '详情',
+  `stock` int(11) DEFAULT NULL COMMENT '库存',
+  `line_price` decimal(10,2) DEFAULT NULL COMMENT '划线价',
+  `vip_price` decimal(10,2) DEFAULT '0.00' COMMENT '会员价',
+  `price` decimal(10,2) DEFAULT '0.00',
+  `status` tinyint(1) DEFAULT '1' COMMENT '1上架 2下架',
+  `sort` int(11) DEFAULT '1' COMMENT '排序',
+  `is_recommend` tinyint(1) DEFAULT '2' COMMENT '是否推荐 1推荐2不推荐',
+  `delete_time` datetime DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of my_product
+-- ----------------------------
+INSERT INTO `my_product` VALUES ('7', '进口香蕉1斤*1袋', '跟鲜花一起运过来的香蕉', '34', '18', '1', null, '/files/default/10-1542694183-3530.jpg', '<p>沃尔沃二 一口吃不完的强烈满足感</p>', '2', '34.00', '335.00', '345.00', '1', null, '2', null, '2018-11-15 13:20:28', '2018-11-15 13:20:28');
+INSERT INTO `my_product` VALUES ('8', '东江湖蜜桔500g', '轻咬即化 自带4D环绕橘香', '34', '19', '1', null, '/files/default/10-1542694168-54169.jpg', '<p>蜜桔皮薄肉嫩 香甜微酸 入口即化</p><p>富含维生素C 柠檬酸与膳食纤维</p><p><br></p>', '0', '34.00', '38.00', '45.00', '1', null, '1', null, '2018-11-15 13:21:24', '2019-04-24 11:01:36');
+INSERT INTO `my_product` VALUES ('9', '鲜水果玉米两根', '一口咬下去 嘴里爆出来甜浆', '11', '19', '1', null, '/files/default/10-1542694032-25488.jpg', '<p>水果玉米是适合生吃的超甜玉米 薄薄的表皮一咬就破</p>', '2', '34.00', '12.00', '23.00', '1', '1', '1', null, '2018-11-20 14:07:42', '2018-11-20 14:07:42');
+INSERT INTO `my_product` VALUES ('10', '测试库存', '简介简介', '1278978987', '14', '1', null, '/files/default/10-1556004792-86527.jpg,/files/default/10-1556004793-40146.jpg,/files/default/10-1556004793-15637.jpg', '<p><span style=\"font-weight: bold; text-decoration-line: underline;\">445654</span></p><p><span style=\"font-weight: bold; text-decoration-line: underline;\">谁发的发生放散阀岁数大</span></p><p><span style=\"font-weight: bold; text-decoration-line: underline;\">大概多少国防生的轨道上飞哥</span></p>', '2', '34.00', '34.00', '34.60', '1', '1', '1', null, '2019-04-23 15:33:33', '2019-04-23 15:33:33');
+INSERT INTO `my_product` VALUES ('11', '456', '4564564', '456456', '17', '1', null, '/files/default/10-1556004985-15099.jpg', '<p>45645654</p>', '2', '34.00', '45.00', '456.00', '1', '1', '1', null, '2019-04-23 15:39:47', '2019-04-23 15:39:47');
+INSERT INTO `my_product` VALUES ('12', '45656', '546', '456', '13', '1', null, '/files/default/10-1556006448-15606.jpg', '<p>456456</p>', '2', '34.00', '54.00', '45.00', '1', '1', '1', null, '2019-04-23 16:01:29', '2019-04-23 16:01:29');
+INSERT INTO `my_product` VALUES ('13', '435345', '345', '45', '14', '1', null, '/files/default/10-1556006610-3665.jpg', '<p>尔特瑞特人</p>', '2', '34.00', '5.00', '45.00', '1', '1', '1', null, '2019-04-23 16:03:36', '2019-04-23 16:03:36');
+INSERT INTO `my_product` VALUES ('15', '546', '546', '456', '11', '1', null, '/files/default/10-1556007123-61671.jpg', '<p>45645654</p>', '2', '34.00', '46.00', '46.00', '1', '1', '1', null, '2019-04-23 16:13:28', '2019-04-23 16:13:28');
+INSERT INTO `my_product` VALUES ('16', '345', '345', '3453', '12', '1', null, '/files/default/10-1556008221-21439.jpg,/files/default/10-1556008221-8317.jpg', '<p>沃尔沃二</p>', '2', '333.00', '435.00', '345.00', '1', '1', '1', null, '2019-04-23 16:30:26', '2019-04-23 16:30:26');
+
+-- ----------------------------
+-- Table structure for my_product_attr
+-- ----------------------------
+DROP TABLE IF EXISTS `my_product_attr`;
+CREATE TABLE `my_product_attr` (
+  `product_id` int(11) NOT NULL COMMENT '产品id',
+  `category_attr_id` int(11) NOT NULL COMMENT '属性',
+  `value` varchar(255) NOT NULL DEFAULT '' COMMENT '属性值',
+  PRIMARY KEY (`product_id`,`category_attr_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of my_product_attr
+-- ----------------------------
+INSERT INTO `my_product_attr` VALUES ('5', '26', '11111111111111');
+INSERT INTO `my_product_attr` VALUES ('5', '27', '3345');
+INSERT INTO `my_product_attr` VALUES ('5', '28', '34534');
+INSERT INTO `my_product_attr` VALUES ('7', '34', '美国');
+INSERT INTO `my_product_attr` VALUES ('8', '35', '中国');
+INSERT INTO `my_product_attr` VALUES ('9', '42', '中国');
+INSERT INTO `my_product_attr` VALUES ('10', '35', '456');
+INSERT INTO `my_product_attr` VALUES ('11', '40', '456');
+INSERT INTO `my_product_attr` VALUES ('12', '34', '46');
+INSERT INTO `my_product_attr` VALUES ('13', '35', '尔特');
+INSERT INTO `my_product_attr` VALUES ('15', '36', '456');
+INSERT INTO `my_product_attr` VALUES ('16', '38', 'wer');
+
+-- ----------------------------
 -- Table structure for my_product_category
 -- ----------------------------
 DROP TABLE IF EXISTS `my_product_category`;
@@ -252,28 +550,57 @@ CREATE TABLE `my_product_category` (
   `level` int(11) DEFAULT '1' COMMENT '层级',
   `sort` int(11) DEFAULT NULL,
   `parent_id` int(11) DEFAULT '0',
-  `is_top` tinyint(1) DEFAULT '2' COMMENT '1置顶 2不置顶',
   `is_show` tinyint(1) DEFAULT '1' COMMENT '1显示 2不显示',
   `label` char(4) DEFAULT NULL COMMENT '标签',
   `user_id` int(11) DEFAULT '0',
+  `delete_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '修改时间',
   `create_time` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of my_product_category
 -- ----------------------------
-INSERT INTO `my_product_category` VALUES ('1', '111', null, '1', '1', '0', '2', '1', null, '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `my_product_category` VALUES ('2', '111-2222', null, '2', '1', '1', '2', '2', null, '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `my_product_category` VALUES ('3', '111-333', null, '2', '2', '1', '2', '2', null, '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `my_product_category` VALUES ('4', '222', null, '1', '2', '0', '1', '1', null, '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `my_product_category` VALUES ('5', '222-222', null, '2', '1', '4', '2', '1', null, '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `my_product_category` VALUES ('6', '3333-1111', null, '3', '1', '5', '2', '1', null, '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `my_product_category` VALUES ('7', '一级', null, '2', '3', '4', '1', '1', null, '0', '2018-09-14 11:29:54', '2018-09-14 11:29:54');
-INSERT INTO `my_product_category` VALUES ('8', '二级', null, '3', '4', '7', '1', '1', null, '0', '2018-09-14 11:30:10', '2018-09-14 11:30:10');
-INSERT INTO `my_product_category` VALUES ('9', '三级', null, '4', '5', '8', '2', '2', null, '0', '2018-09-14 11:30:27', '2018-09-14 11:30:27');
-INSERT INTO `my_product_category` VALUES ('10', '三级-333', null, '4', '1', '8', '1', '1', null, '0', '2018-09-14 11:31:24', '2018-09-14 11:31:24');
+INSERT INTO `my_product_category` VALUES ('11', '火锅香锅', '2655', '1', '1', '0', '1', null, '0', null, '2018-11-14 17:28:38', '2018-11-14 17:28:38');
+INSERT INTO `my_product_category` VALUES ('12', '水果', '2655', '1', '1', '0', '1', null, '0', null, '2018-11-14 17:29:15', '2018-11-14 17:29:15');
+INSERT INTO `my_product_category` VALUES ('13', '蔬菜', null, '1', '1', '0', '1', null, '0', null, '2018-11-15 09:20:52', '2018-11-15 09:20:52');
+INSERT INTO `my_product_category` VALUES ('14', '肉蛋', null, '1', '1', '0', '1', null, '0', null, '2018-11-15 09:22:43', '2018-11-15 09:22:43');
+INSERT INTO `my_product_category` VALUES ('15', '粮油', null, '1', '1', '0', '1', null, '0', null, '2018-11-15 09:23:33', '2018-11-15 09:23:33');
+INSERT INTO `my_product_category` VALUES ('16', '日百', null, '1', '1', '0', '1', null, '0', null, '2018-11-15 09:25:00', '2018-11-15 09:25:00');
+INSERT INTO `my_product_category` VALUES ('17', '调料底料', '2668', '2', '1', '11', '1', null, '0', null, '2018-11-15 09:31:26', '2018-11-15 09:31:26');
+INSERT INTO `my_product_category` VALUES ('18', '肉类', '2653', '2', '1', '11', '1', null, '0', null, '2018-11-15 09:32:01', '2018-11-15 09:32:01');
+INSERT INTO `my_product_category` VALUES ('19', '海鲜区', '2667', '2', '1', '11', '1', null, '0', null, '2018-11-15 09:32:18', '2018-11-15 09:32:18');
+
+-- ----------------------------
+-- Table structure for my_product_category_attr
+-- ----------------------------
+DROP TABLE IF EXISTS `my_product_category_attr`;
+CREATE TABLE `my_product_category_attr` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) DEFAULT NULL,
+  `name` varchar(10) DEFAULT NULL,
+  `sort` int(11) DEFAULT '1' COMMENT '排序',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of my_product_category_attr
+-- ----------------------------
+INSERT INTO `my_product_category_attr` VALUES ('34', '13', '产地', '1', '2018-11-15 09:20:53', '2018-11-15 09:20:53');
+INSERT INTO `my_product_category_attr` VALUES ('35', '14', '产地', '1', '2018-11-15 09:22:43', '2018-11-15 09:22:43');
+INSERT INTO `my_product_category_attr` VALUES ('36', '11', '产地', '1', '2018-11-15 09:23:14', '2018-11-15 09:23:14');
+INSERT INTO `my_product_category_attr` VALUES ('37', '15', '产地', '1', '2018-11-15 09:23:33', '2018-11-15 09:23:33');
+INSERT INTO `my_product_category_attr` VALUES ('38', '12', '产地', '1', '2018-11-15 09:23:54', '2018-11-15 09:23:54');
+INSERT INTO `my_product_category_attr` VALUES ('39', '16', '产地', '1', '2018-11-15 09:25:00', '2018-11-15 09:25:00');
+INSERT INTO `my_product_category_attr` VALUES ('40', '17', '产地', '1', '2018-11-15 09:31:26', '2018-11-15 09:31:26');
+INSERT INTO `my_product_category_attr` VALUES ('41', '18', '产地', '1', '2018-11-15 09:32:01', '2018-11-15 09:32:01');
+INSERT INTO `my_product_category_attr` VALUES ('42', '19', '产地', '1', '2018-11-15 09:32:18', '2018-11-15 09:32:18');
+INSERT INTO `my_product_category_attr` VALUES ('43', '20', '产地', '1', '2018-11-15 09:35:13', '2018-11-15 09:35:13');
+INSERT INTO `my_product_category_attr` VALUES ('44', '21', '产地', '1', '2018-11-15 09:38:27', '2018-11-15 09:38:27');
+INSERT INTO `my_product_category_attr` VALUES ('45', '22', '产地', '1', '2018-11-15 09:39:01', '2018-11-15 09:39:01');
 
 -- ----------------------------
 -- Table structure for my_region
@@ -3807,6 +4134,26 @@ INSERT INTO `my_region` VALUES ('659004', '五家渠市', '3', '65', '6590', '65
 INSERT INTO `my_region` VALUES ('659006', '铁门关市', '3', '65', '6590', '6590', '0', null, '', '');
 
 -- ----------------------------
+-- Table structure for my_setting
+-- ----------------------------
+DROP TABLE IF EXISTS `my_setting`;
+CREATE TABLE `my_setting` (
+  `name` varchar(20) DEFAULT NULL COMMENT '名称',
+  `key` varchar(30) NOT NULL COMMENT '键',
+  `value` varchar(255) DEFAULT NULL COMMENT '值',
+  `tip` varchar(255) DEFAULT NULL COMMENT '提示符',
+  `user_id` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统设置表';
+
+-- ----------------------------
+-- Records of my_setting
+-- ----------------------------
+INSERT INTO `my_setting` VALUES ('是否使用会员模式', 'vip_module', '1', '1使用 0不使用', '10', '2019-03-04 15:25:01', '2019-04-24 16:43:20');
+
+-- ----------------------------
 -- Table structure for my_sys_file
 -- ----------------------------
 DROP TABLE IF EXISTS `my_sys_file`;
@@ -3822,7 +4169,7 @@ CREATE TABLE `my_sys_file` (
   `is_delete` int(2) DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `file_isdelete` (`is_delete`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2580 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='上传文件记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=2683 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='上传文件记录表';
 
 -- ----------------------------
 -- Records of my_sys_file
@@ -3890,6 +4237,109 @@ INSERT INTO `my_sys_file` VALUES ('2576', 'banner.jpg', '10-1536737058-49224.jpg
 INSERT INTO `my_sys_file` VALUES ('2577', 'banner.jpg', '10-1537003496-96139.jpg', '/files/default/10-1537003496-96139.jpg', 'jpg', '219916', '10', '2018-09-15 17:24:56', '0');
 INSERT INTO `my_sys_file` VALUES ('2578', 'banner.jpg', '10-1537003571-27946.jpg', '/files/default/10-1537003571-27946.jpg', 'jpg', '219916', '10', '2018-09-15 17:26:11', '0');
 INSERT INTO `my_sys_file` VALUES ('2579', 'banner1.jpg', '10-1537004107-79911.jpg', '/files/default/10-1537004107-79911.jpg', 'jpg', '171839', '10', '2018-09-15 17:35:07', '0');
+INSERT INTO `my_sys_file` VALUES ('2580', 'banner.jpg', '10-1537433623-12099.jpg', '/files/default/10-1537433623-12099.jpg', 'jpg', '219916', '10', '2018-09-20 16:53:43', '0');
+INSERT INTO `my_sys_file` VALUES ('2581', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1537861353-94104.jpg', '/files/default/10-1537861353-94104.jpg', 'jpg', '1070777', '10', '2018-09-25 15:42:33', '0');
+INSERT INTO `my_sys_file` VALUES ('2582', 'banner3.jpg', '10-1537861355-40560.jpg', '/files/default/10-1537861355-40560.jpg', 'jpg', '184805', '10', '2018-09-25 15:42:35', '0');
+INSERT INTO `my_sys_file` VALUES ('2583', 'banner.jpg', '10-1537862027-11018.jpg', '/files/default/10-1537862027-11018.jpg', 'jpg', '219916', '10', '2018-09-25 15:53:47', '0');
+INSERT INTO `my_sys_file` VALUES ('2584', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1537862030-66321.jpg', '/files/default/10-1537862030-66321.jpg', 'jpg', '1070777', '10', '2018-09-25 15:53:50', '0');
+INSERT INTO `my_sys_file` VALUES ('2585', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1537862309-12066.jpg', '/files/default/10-1537862309-12066.jpg', 'jpg', '1070777', '10', '2018-09-25 15:58:29', '0');
+INSERT INTO `my_sys_file` VALUES ('2586', 'banner2.jpg', '10-1537862312-49254.jpg', '/files/default/10-1537862312-49254.jpg', 'jpg', '135918', '10', '2018-09-25 15:58:32', '0');
+INSERT INTO `my_sys_file` VALUES ('2587', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1537863476-50506.jpg', '/files/default/10-1537863476-50506.jpg', 'jpg', '1070777', '10', '2018-09-25 16:17:56', '0');
+INSERT INTO `my_sys_file` VALUES ('2588', 'banner3.jpg', '10-1537863478-34685.jpg', '/files/default/10-1537863478-34685.jpg', 'jpg', '184805', '10', '2018-09-25 16:17:58', '0');
+INSERT INTO `my_sys_file` VALUES ('2589', '2-1531387039-46763.jpg', '10-1537864702-35723.jpg', '/files/default/10-1537864702-35723.jpg', 'jpg', '1093909', '10', '2018-09-25 16:38:22', '0');
+INSERT INTO `my_sys_file` VALUES ('2590', 'banner3.jpg', '10-1537864704-38818.jpg', '/files/default/10-1537864704-38818.jpg', 'jpg', '184805', '10', '2018-09-25 16:38:24', '0');
+INSERT INTO `my_sys_file` VALUES ('2591', '2-1531387039-46763.jpg', '10-1538296942-96127.jpg', '/files/default/10-1538296942-96127.jpg', 'jpg', '1093909', '10', '2018-09-30 16:42:22', '0');
+INSERT INTO `my_sys_file` VALUES ('2592', 'banner1.jpg', '10-1538968984-32434.jpg', '/files/default/10-1538968984-32434.jpg', 'jpg', '171839', '10', '2018-10-08 11:23:04', '0');
+INSERT INTO `my_sys_file` VALUES ('2593', 'banner.jpg', '10-1538970249-93653.jpg', '/files/default/10-1538970249-93653.jpg', 'jpg', '219916', '10', '2018-10-08 11:44:09', '0');
+INSERT INTO `my_sys_file` VALUES ('2594', 'banner.jpg', '10-1538970327-24648.jpg', '/files/default/10-1538970327-24648.jpg', 'jpg', '219916', '10', '2018-10-08 11:45:27', '0');
+INSERT INTO `my_sys_file` VALUES ('2595', 'banner.jpg', '10-1538970380-41054.jpg', '/files/default/10-1538970380-41054.jpg', 'jpg', '219916', '10', '2018-10-08 11:46:20', '0');
+INSERT INTO `my_sys_file` VALUES ('2596', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1538970560-77414.jpg', '/files/default/10-1538970560-77414.jpg', 'jpg', '1070777', '10', '2018-10-08 11:49:20', '0');
+INSERT INTO `my_sys_file` VALUES ('2597', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1538988593-81852.jpg', '/files/default/10-1538988593-81852.jpg', 'jpg', '1070777', '10', '2018-10-08 16:49:53', '0');
+INSERT INTO `my_sys_file` VALUES ('2598', 'banner.jpg', '10-1538989579-56459.jpg', '/files/default/10-1538989579-56459.jpg', 'jpg', '219916', '10', '2018-10-08 17:06:19', '0');
+INSERT INTO `my_sys_file` VALUES ('2599', 'banner.jpg', '10-1538990016-47611.jpg', '/files/default/10-1538990016-47611.jpg', 'jpg', '219916', '10', '2018-10-08 17:13:36', '0');
+INSERT INTO `my_sys_file` VALUES ('2600', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1539249431-69668.jpg', '/files/default/10-1539249431-69668.jpg', 'jpg', '1070777', '10', '2018-10-11 17:17:11', '0');
+INSERT INTO `my_sys_file` VALUES ('2601', '2-1531387039-46763.jpg', '10-1539415878-64582.jpg', '/files/default/10-1539415878-64582.jpg', 'jpg', '1093909', '10', '2018-10-13 15:31:20', '0');
+INSERT INTO `my_sys_file` VALUES ('2602', 'banner1.jpg', '10-1539416924-36199.jpg', '/files/default/10-1539416924-36199.jpg', 'jpg', '171839', '10', '2018-10-13 15:48:44', '0');
+INSERT INTO `my_sys_file` VALUES ('2603', 'banner1.jpg', '10-1539416951-20095.jpg', '/files/default/10-1539416951-20095.jpg', 'jpg', '171839', '10', '2018-10-13 15:49:11', '0');
+INSERT INTO `my_sys_file` VALUES ('2604', 'banner1.jpg', '10-1539417440-82033.jpg', '/files/default/10-1539417440-82033.jpg', 'jpg', '171839', '10', '2018-10-13 15:57:20', '0');
+INSERT INTO `my_sys_file` VALUES ('2605', 'banner2.jpg', '10-1542246480-62741.jpg', '/files/default/10-1542246480-62741.jpg', 'jpg', '135918', '10', '2018-11-15 09:48:00', '0');
+INSERT INTO `my_sys_file` VALUES ('2606', '2-1531387039-46763.jpg', '10-1542253316-30808.jpg', '/files/default/10-1542253316-30808.jpg', 'jpg', '1093909', '10', '2018-11-15 11:41:56', '0');
+INSERT INTO `my_sys_file` VALUES ('2607', '2-1531387039-46763 (1).jpg', '10-1542253388-79406.jpg', '/files/default/10-1542253388-79406.jpg', 'jpg', '1093909', '10', '2018-11-15 11:43:08', '0');
+INSERT INTO `my_sys_file` VALUES ('2608', '2-1531387039-46763 (1).jpg', '10-1542253447-22235.jpg', '/files/default/10-1542253447-22235.jpg', 'jpg', '1093909', '10', '2018-11-15 11:44:07', '0');
+INSERT INTO `my_sys_file` VALUES ('2609', 'banner.jpg', '10-1542253528-26859.jpg', '/files/default/10-1542253528-26859.jpg', 'jpg', '219916', '10', '2018-11-15 11:45:28', '0');
+INSERT INTO `my_sys_file` VALUES ('2610', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1542253529-35587.jpg', '/files/default/10-1542253529-35587.jpg', 'jpg', '1070777', '10', '2018-11-15 11:45:29', '0');
+INSERT INTO `my_sys_file` VALUES ('2611', 'banner.jpg', '10-1542253585-76896.jpg', '/files/default/10-1542253585-76896.jpg', 'jpg', '219916', '10', '2018-11-15 11:46:25', '0');
+INSERT INTO `my_sys_file` VALUES ('2612', '2-1531387039-46763 (1).jpg', '10-1542253586-51966.jpg', '/files/default/10-1542253586-51966.jpg', 'jpg', '1093909', '10', '2018-11-15 11:46:26', '0');
+INSERT INTO `my_sys_file` VALUES ('2613', 'banner1.jpg', '10-1542253700-6742.jpg', '/files/default/10-1542253700-6742.jpg', 'jpg', '171839', '10', '2018-11-15 11:48:20', '0');
+INSERT INTO `my_sys_file` VALUES ('2614', 'banner2.jpg', '10-1542253701-74776.jpg', '/files/default/10-1542253701-74776.jpg', 'jpg', '135918', '10', '2018-11-15 11:48:21', '0');
+INSERT INTO `my_sys_file` VALUES ('2615', '2-1531387039-46763.jpg', '10-1542253709-17320.jpg', '/files/default/10-1542253709-17320.jpg', 'jpg', '1093909', '10', '2018-11-15 11:48:29', '0');
+INSERT INTO `my_sys_file` VALUES ('2616', 'banner.jpg', '10-1542258687-60262.jpg', '/files/default/10-1542258687-60262.jpg', 'jpg', '219916', '10', '2018-11-15 13:11:27', '0');
+INSERT INTO `my_sys_file` VALUES ('2617', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1542258688-73332.jpg', '/files/default/10-1542258688-73332.jpg', 'jpg', '1070777', '10', '2018-11-15 13:11:28', '0');
+INSERT INTO `my_sys_file` VALUES ('2618', '2-1531387039-46763 (1).jpg', '10-1542259049-97490.jpg', '/files/default/10-1542259049-97490.jpg', 'jpg', '1093909', '10', '2018-11-15 13:17:29', '0');
+INSERT INTO `my_sys_file` VALUES ('2619', 'banner.jpg', '10-1542259092-14312.jpg', '/files/default/10-1542259092-14312.jpg', 'jpg', '219916', '10', '2018-11-15 13:18:12', '0');
+INSERT INTO `my_sys_file` VALUES ('2620', 'banner.jpg', '10-1542259138-97726.jpg', '/files/default/10-1542259138-97726.jpg', 'jpg', '219916', '10', '2018-11-15 13:18:58', '0');
+INSERT INTO `my_sys_file` VALUES ('2621', '2-1531387039-46763 (1).jpg', '10-1542259140-31433.jpg', '/files/default/10-1542259140-31433.jpg', 'jpg', '1093909', '10', '2018-11-15 13:19:00', '0');
+INSERT INTO `my_sys_file` VALUES ('2622', 'banner.jpg', '10-1542259221-72680.jpg', '/files/default/10-1542259221-72680.jpg', 'jpg', '219916', '10', '2018-11-15 13:20:21', '0');
+INSERT INTO `my_sys_file` VALUES ('2623', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1542259222-36882.jpg', '/files/default/10-1542259222-36882.jpg', 'jpg', '1070777', '10', '2018-11-15 13:20:22', '0');
+INSERT INTO `my_sys_file` VALUES ('2624', 'banner.jpg', '10-1542259273-53211.jpg', '/files/default/10-1542259273-53211.jpg', 'jpg', '219916', '10', '2018-11-15 13:21:13', '0');
+INSERT INTO `my_sys_file` VALUES ('2625', '2-1531387039-46763.jpg', '10-1542259274-82162.jpg', '/files/default/10-1542259274-82162.jpg', 'jpg', '1093909', '10', '2018-11-15 13:21:14', '0');
+INSERT INTO `my_sys_file` VALUES ('2626', 'banner.jpg', '10-1542259331-60476.jpg', '/files/default/10-1542259331-60476.jpg', 'jpg', '219916', '10', '2018-11-15 13:22:11', '0');
+INSERT INTO `my_sys_file` VALUES ('2627', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1542259332-61397.jpg', '/files/default/10-1542259332-61397.jpg', 'jpg', '1070777', '10', '2018-11-15 13:22:12', '0');
+INSERT INTO `my_sys_file` VALUES ('2628', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1542260559-4667.jpg', '/files/default/10-1542260559-4667.jpg', 'jpg', '1070777', '10', '2018-11-15 13:42:39', '0');
+INSERT INTO `my_sys_file` VALUES ('2629', 'banner1.jpg', '10-1542260601-76167.jpg', '/files/default/10-1542260601-76167.jpg', 'jpg', '171839', '10', '2018-11-15 13:43:21', '0');
+INSERT INTO `my_sys_file` VALUES ('2630', 'banner.jpg', '10-1542260602-4389.jpg', '/files/default/10-1542260602-4389.jpg', 'jpg', '219916', '10', '2018-11-15 13:43:22', '0');
+INSERT INTO `my_sys_file` VALUES ('2631', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1542260602-66784.jpg', '/files/default/10-1542260602-66784.jpg', 'jpg', '1070777', '10', '2018-11-15 13:43:22', '0');
+INSERT INTO `my_sys_file` VALUES ('2632', 'banner.jpg', '10-1542260696-30005.jpg', '/files/default/10-1542260696-30005.jpg', 'jpg', '219916', '10', '2018-11-15 13:44:56', '0');
+INSERT INTO `my_sys_file` VALUES ('2633', 'banner.jpg', '10-1542260790-85156.jpg', '/files/default/10-1542260790-85156.jpg', 'jpg', '219916', '10', '2018-11-15 13:46:30', '0');
+INSERT INTO `my_sys_file` VALUES ('2634', 'banner1.jpg', '10-1542260790-44053.jpg', '/files/default/10-1542260790-44053.jpg', 'jpg', '171839', '10', '2018-11-15 13:46:30', '0');
+INSERT INTO `my_sys_file` VALUES ('2635', 'banner.jpg', '10-1542260945-86219.jpg', '/files/default/10-1542260945-86219.jpg', 'jpg', '219916', '10', '2018-11-15 13:49:05', '0');
+INSERT INTO `my_sys_file` VALUES ('2636', 'banner1.jpg', '10-1542260946-18593.jpg', '/files/default/10-1542260946-18593.jpg', 'jpg', '171839', '10', '2018-11-15 13:49:06', '0');
+INSERT INTO `my_sys_file` VALUES ('2637', 'banner2.jpg', '10-1542260946-10830.jpg', '/files/default/10-1542260946-10830.jpg', 'jpg', '135918', '10', '2018-11-15 13:49:06', '0');
+INSERT INTO `my_sys_file` VALUES ('2638', 'banner.jpg', '10-1542261012-33603.jpg', '/files/default/10-1542261012-33603.jpg', 'jpg', '219916', '10', '2018-11-15 13:50:12', '0');
+INSERT INTO `my_sys_file` VALUES ('2639', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1542261012-57507.jpg', '/files/default/10-1542261012-57507.jpg', 'jpg', '1070777', '10', '2018-11-15 13:50:12', '0');
+INSERT INTO `my_sys_file` VALUES ('2640', 'banner3.jpg', '10-1542261025-37103.jpg', '/files/default/10-1542261025-37103.jpg', 'jpg', '184805', '10', '2018-11-15 13:50:25', '0');
+INSERT INTO `my_sys_file` VALUES ('2641', 'banner.jpg', '10-1542261027-39150.jpg', '/files/default/10-1542261027-39150.jpg', 'jpg', '219916', '10', '2018-11-15 13:50:27', '0');
+INSERT INTO `my_sys_file` VALUES ('2642', 'banner.jpg', '10-1542261084-6290.jpg', '/files/default/10-1542261084-6290.jpg', 'jpg', '219916', '10', '2018-11-15 13:51:24', '0');
+INSERT INTO `my_sys_file` VALUES ('2643', 'banner1.jpg', '10-1542261085-97627.jpg', '/files/default/10-1542261085-97627.jpg', 'jpg', '171839', '10', '2018-11-15 13:51:25', '0');
+INSERT INTO `my_sys_file` VALUES ('2644', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1542261085-83135.jpg', '/files/default/10-1542261085-83135.jpg', 'jpg', '1070777', '10', '2018-11-15 13:51:25', '0');
+INSERT INTO `my_sys_file` VALUES ('2645', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1542329438-33354.jpg', '/files/default/10-1542329438-33354.jpg', 'jpg', '1070777', '10', '2018-11-16 08:50:38', '0');
+INSERT INTO `my_sys_file` VALUES ('2646', 'banner1.jpg', '10-1542329443-37794.jpg', '/files/default/10-1542329443-37794.jpg', 'jpg', '171839', '10', '2018-11-16 08:50:43', '0');
+INSERT INTO `my_sys_file` VALUES ('2647', 'banner.jpg', '10-1542329543-79075.jpg', '/files/default/10-1542329543-79075.jpg', 'jpg', '219916', '10', '2018-11-16 08:52:23', '0');
+INSERT INTO `my_sys_file` VALUES ('2648', 'banner.jpg', '10-1542329597-2915.jpg', '/files/default/10-1542329597-2915.jpg', 'jpg', '219916', '10', '2018-11-16 08:53:17', '0');
+INSERT INTO `my_sys_file` VALUES ('2649', 'banner.jpg', '10-1542329654-93808.jpg', '/files/default/10-1542329654-93808.jpg', 'jpg', '219916', '10', '2018-11-16 08:54:14', '0');
+INSERT INTO `my_sys_file` VALUES ('2650', 'banner.jpg', '10-1542332799-11167.jpg', '/files/default/10-1542332799-11167.jpg', 'jpg', '219916', '10', '2018-11-16 09:46:39', '0');
+INSERT INTO `my_sys_file` VALUES ('2651', 'banner.jpg', '10-1542332849-77308.jpg', '/files/default/10-1542332849-77308.jpg', 'jpg', '219916', '10', '2018-11-16 09:47:29', '0');
+INSERT INTO `my_sys_file` VALUES ('2652', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1542332857-58228.jpg', '/files/default/10-1542332857-58228.jpg', 'jpg', '1070777', '10', '2018-11-16 09:47:37', '0');
+INSERT INTO `my_sys_file` VALUES ('2653', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1542333362-91131.jpg', '/files/default/10-1542333362-91131.jpg', 'jpg', '1070777', '10', '2018-11-16 09:56:02', '0');
+INSERT INTO `my_sys_file` VALUES ('2654', 'banner1.jpg', '10-1542333375-25225.jpg', '/files/default/10-1542333375-25225.jpg', 'jpg', '171839', '10', '2018-11-16 09:56:15', '0');
+INSERT INTO `my_sys_file` VALUES ('2655', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1542333434-40195.jpg', '/files/default/10-1542333434-40195.jpg', 'jpg', '1070777', '10', '2018-11-16 09:57:14', '0');
+INSERT INTO `my_sys_file` VALUES ('2656', 'banner3.jpg', '10-1542333491-7262.jpg', '/files/default/10-1542333491-7262.jpg', 'jpg', '184805', '10', '2018-11-16 09:58:11', '0');
+INSERT INTO `my_sys_file` VALUES ('2657', 'veer-164374587.jpg', '10-1542359201-44729.jpg', '/files/default/10-1542359201-44729.jpg', 'jpg', '100502', '10', '2018-11-16 17:06:41', '0');
+INSERT INTO `my_sys_file` VALUES ('2658', 'veer-159841571.jpg', '10-1542359220-21811.jpg', '/files/default/10-1542359220-21811.jpg', 'jpg', '28984', '10', '2018-11-16 17:07:00', '0');
+INSERT INTO `my_sys_file` VALUES ('2659', 'veer-142390493.jpg', '10-1542359221-22538.jpg', '/files/default/10-1542359221-22538.jpg', 'jpg', '35774', '10', '2018-11-16 17:07:01', '0');
+INSERT INTO `my_sys_file` VALUES ('2660', 'veer-164374587.jpg', '10-1542359234-48612.jpg', '/files/default/10-1542359234-48612.jpg', 'jpg', '100502', '10', '2018-11-16 17:07:14', '0');
+INSERT INTO `my_sys_file` VALUES ('2661', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1542682769-87087.jpg', '/files/default/10-1542682769-87087.jpg', 'jpg', '1070777', '10', '2018-11-20 10:59:29', '0');
+INSERT INTO `my_sys_file` VALUES ('2662', 'banner1.jpg', '10-1542682791-8085.jpg', '/files/default/10-1542682791-8085.jpg', 'jpg', '171839', '10', '2018-11-20 10:59:51', '0');
+INSERT INTO `my_sys_file` VALUES ('2663', 'u=3483578874,4226865514&fm=26&gp=0.jpg', '10-1542694032-25488.jpg', '/files/default/10-1542694032-25488.jpg', 'jpg', '42252', '10', '2018-11-20 14:07:12', '0');
+INSERT INTO `my_sys_file` VALUES ('2664', 'u=260819863,250595682&fm=26&gp=0.jpg', '10-1542694168-54169.jpg', '/files/default/10-1542694168-54169.jpg', 'jpg', '37250', '10', '2018-11-20 14:09:28', '0');
+INSERT INTO `my_sys_file` VALUES ('2665', 'u=82853784,4186447219&fm=27&gp=0.jpg', '10-1542694183-3530.jpg', '/files/default/10-1542694183-3530.jpg', 'jpg', '12027', '10', '2018-11-20 14:09:43', '0');
+INSERT INTO `my_sys_file` VALUES ('2666', 'u=3333503780,1861771238&fm=26&gp=0.jpg', '10-1542694451-62766.jpg', '/files/default/10-1542694451-62766.jpg', 'jpg', '32634', '10', '2018-11-20 14:14:11', '0');
+INSERT INTO `my_sys_file` VALUES ('2667', 'u=161889380,1267810110&fm=26&gp=0.jpg', '10-1542694514-30331.jpg', '/files/default/10-1542694514-30331.jpg', 'jpg', '38688', '10', '2018-11-20 14:15:14', '0');
+INSERT INTO `my_sys_file` VALUES ('2668', 'u=2643736692,1871861997&fm=26&gp=0.jpg', '10-1542694581-17484.jpg', '/files/default/10-1542694581-17484.jpg', 'jpg', '42265', '10', '2018-11-20 14:16:21', '0');
+INSERT INTO `my_sys_file` VALUES ('2669', '9faa061ba8eedcc40df82f4b53d6554a.png', '10-1545268986-88511.png', '/files/default/10-1545268986-88511.png', 'png', '11819', '10', '2018-12-20 09:23:06', '0');
+INSERT INTO `my_sys_file` VALUES ('2670', '6bde65526e422dd547ced490bca94a90.png', '10-1545268987-22494.png', '/files/default/10-1545268987-22494.png', 'png', '334768', '10', '2018-12-20 09:23:07', '0');
+INSERT INTO `my_sys_file` VALUES ('2671', '8af174b55a714a3b14bf45c973efc4b8.png', '10-1545268987-41369.png', '/files/default/10-1545268987-41369.png', 'png', '561574', '10', '2018-12-20 09:23:07', '0');
+INSERT INTO `my_sys_file` VALUES ('2672', 'banner.jpg', '10-1556004489-79350.jpg', '/files/default/10-1556004489-79350.jpg', 'jpg', '219916', '10', '2019-04-23 15:28:09', '0');
+INSERT INTO `my_sys_file` VALUES ('2673', '2-1531387039-46763.jpg', '10-1556004490-10424.jpg', '/files/default/10-1556004490-10424.jpg', 'jpg', '1093909', '10', '2019-04-23 15:28:10', '0');
+INSERT INTO `my_sys_file` VALUES ('2674', '2-1531387039-46763.jpg', '10-1556004792-86527.jpg', '/files/default/10-1556004792-86527.jpg', 'jpg', '1093909', '10', '2019-04-23 15:33:12', '0');
+INSERT INTO `my_sys_file` VALUES ('2675', 'u=2643736692,1871861997&fm=26&gp=0.jpg', '10-1556004793-40146.jpg', '/files/default/10-1556004793-40146.jpg', 'jpg', '42265', '10', '2019-04-23 15:33:13', '0');
+INSERT INTO `my_sys_file` VALUES ('2676', 'u=260819863,250595682&fm=26&gp=0.jpg', '10-1556004793-15637.jpg', '/files/default/10-1556004793-15637.jpg', 'jpg', '37250', '10', '2019-04-23 15:33:13', '0');
+INSERT INTO `my_sys_file` VALUES ('2677', 'banner1.jpg', '10-1556004985-15099.jpg', '/files/default/10-1556004985-15099.jpg', 'jpg', '171839', '10', '2019-04-23 15:36:25', '0');
+INSERT INTO `my_sys_file` VALUES ('2678', 'u=3333503780,1861771238&fm=26&gp=0.jpg', '10-1556006448-15606.jpg', '/files/default/10-1556006448-15606.jpg', 'jpg', '32634', '10', '2019-04-23 16:00:48', '0');
+INSERT INTO `my_sys_file` VALUES ('2679', '2-1531387039-46763 (1).jpg', '10-1556006610-3665.jpg', '/files/default/10-1556006610-3665.jpg', 'jpg', '1093909', '10', '2019-04-23 16:03:30', '0');
+INSERT INTO `my_sys_file` VALUES ('2680', '2-1531387039-46763.jpg', '10-1556007123-61671.jpg', '/files/default/10-1556007123-61671.jpg', 'jpg', '1093909', '10', '2019-04-23 16:12:03', '0');
+INSERT INTO `my_sys_file` VALUES ('2681', '2-1531387039-46763.jpg', '10-1556008221-21439.jpg', '/files/default/10-1556008221-21439.jpg', 'jpg', '1093909', '10', '2019-04-23 16:30:21', '0');
+INSERT INTO `my_sys_file` VALUES ('2682', 'b5569230f08ed52abc43f24df2306aab.jpg', '10-1556008221-8317.jpg', '/files/default/10-1556008221-8317.jpg', 'jpg', '1070777', '10', '2019-04-23 16:30:21', '0');
 
 -- ----------------------------
 -- Table structure for my_user
@@ -3918,7 +4368,7 @@ CREATE TABLE `my_user` (
 -- ----------------------------
 -- Records of my_user
 -- ----------------------------
-INSERT INTO `my_user` VALUES ('10', '超级管理员', '1', '18888888888', '46cc468df60c961d8da2326337c7aa58', '1', null, '1', null, '', '2018-09-15 10:24:01', '19', '2018-09-15 10:24:01', '2018-08-24 13:51:09', '0');
+INSERT INTO `my_user` VALUES ('10', '超级管理员', '1', '18888888888', '46cc468df60c961d8da2326337c7aa58', '1', null, '1', null, '', '2019-04-24 08:56:32', '44', '2019-04-24 08:56:32', '2018-08-24 13:51:09', '0');
 INSERT INTO `my_user` VALUES ('11', '123', '21', '15054223320', '46cc468df60c961d8da2326337c7aa58', '1', null, '1', null, '', '0000-00-00 00:00:00', '0', '2018-08-28 16:38:40', '2018-08-28 16:38:40', '10');
 
 -- ----------------------------
@@ -3953,37 +4403,20 @@ CREATE TABLE `my_user_menu` (
   `user_id` int(11) DEFAULT '0' COMMENT '11',
   `is_show` tinyint(2) DEFAULT '1' COMMENT '显示隐藏（隐藏的不必授权）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=270 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=278 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色菜单表';
 
 -- ----------------------------
 -- Records of my_user_menu
 -- ----------------------------
-INSERT INTO `my_user_menu` VALUES ('1', '工作台', 'admin', '0', '1', 'fa-dashboard', '5000', 'admin/index/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('2', '服务管理', 'admin', '0', '1', 'fa-server', '5000', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('3', '空间管理', 'admin', '0', '1', 'fa-building-o', '5000', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('5', '平台管理', 'admin', '0', '1', 'fa-desktop', '5000', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('6', '投资管理', 'admin', '0', '1', 'fa-credit-card', '5000', 'admin/invest/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
-INSERT INTO `my_user_menu` VALUES ('7', '系统管理', 'admin', '0', '1', 'fa-gears', '4999', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('58', '档案库', 'admin', '7', '2', null, '5000', 'admin/archive/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
+INSERT INTO `my_user_menu` VALUES ('1', '工作台', 'admin', '0', '1', 'fa-dashboard', '6000', 'admin/index/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('5', '网站平台', 'admin', '0', '1', 'fa-desktop', '4200', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('7', '系统管理', 'admin', '0', '1', 'fa-gears', '4000', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('59', '企业库', 'admin', '7', '2', null, '5000', 'admin/company/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
-INSERT INTO `my_user_menu` VALUES ('60', '用户管理', 'admin', '7', '2', null, '5000', 'admin/user/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('61', '人力资源管理', 'admin', '7', '2', null, '5000', 'admin/staff/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
-INSERT INTO `my_user_menu` VALUES ('62', '大事记', 'admin', '7', '2', null, '5000', 'admin/memorabilia/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
-INSERT INTO `my_user_menu` VALUES ('63', '咨询服务', 'admin', '2', '2', null, '5000', 'admin/consult/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('64', '工商注册', 'admin', '2', '2', null, '5000', 'admin/business/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('65', '商标注册', 'admin', '2', '2', null, '5000', 'admin/brand/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('66', '商务秘书', 'admin', '2', '2', null, '5000', 'admin/secretary/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('67', '股权服务', 'admin', '2', '2', null, '5000', 'admin/stock/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('68', '定制服务', 'admin', '2', '2', null, '5000', 'admin/customize/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('69', '服务缴费管理', 'admin', '2', '2', null, '5000', 'admin/service_pay_log/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('70', '合同管理', 'admin', '3', '2', null, '5000', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('71', '孵化空间管理', 'admin', '3', '2', null, '5000', 'admin/iqbt/iqbtlist', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('60', '管理员管理', 'admin', '7', '2', null, '5000', 'admin/user/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('75', 'banner设置', 'admin', '5', '2', null, '5000', 'admin/banner/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('76', '会员管理', 'admin', '5', '2', null, '5000', 'admin/vip/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
-INSERT INTO `my_user_menu` VALUES ('77', '第三方服务管理', 'admin', '5', '2', null, '5000', 'admin/etprs_service/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
 INSERT INTO `my_user_menu` VALUES ('78', '信息中心', 'admin', '5', '2', null, '5000', 'admin/frontend_message/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('79', '新闻资讯', 'admin', '5', '2', null, '5000', 'admin/news/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('80', '活动管理', 'admin', '5', '2', null, '5000', 'admin/activity/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
 INSERT INTO `my_user_menu` VALUES ('81', '用户管理', 'admin', '263', '2', '', '5000', 'admin/customer/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('82', '添加新角色', 'admin', '60', '3', null, '5000', 'admin/role/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('83', '编辑角色', 'admin', '60', '3', null, '5000', 'admin/role/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
@@ -3993,161 +4426,256 @@ INSERT INTO `my_user_menu` VALUES ('86', '重置密码', 'admin', '60', '3', nul
 INSERT INTO `my_user_menu` VALUES ('87', '冻结用户', 'admin', '60', '3', null, '5000', 'admin/user/frzy', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('88', '解冻用户', 'admin', '60', '3', null, '5000', 'admin/user/unfrzy', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('89', '编辑用户', 'admin', '60', '3', null, '5000', 'admin/user/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('90', '导入', 'admin', '59', '3', null, '5000', 'admin/company/import', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('91', '新增', 'admin', '61', '3', null, '5000', 'admin/staff/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('93', '导入', 'admin', '61', '3', null, '5000', 'admin/staff/import', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('94', '导出', 'admin', '61', '3', null, '5000', 'admin/staff/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('95', '编辑', 'admin', '61', '3', null, '5000', 'admin/staff/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('97', '新增', 'admin', '62', '3', null, '5000', 'admin/memorabilia/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('99', '查看', 'admin', '62', '3', null, '5000', 'admin/memorabilia/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('100', '编辑', 'admin', '62', '3', null, '5000', 'admin/memorabilia/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('102', '新增', 'admin', '6', '3', null, '5000', 'admin/invest/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('103', '查看', 'admin', '6', '3', null, '5000', 'admin/invest/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('104', '编辑', 'admin', '6', '3', null, '5000', 'admin/invest/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('105', '新增', 'admin', '64', '3', null, '5000', 'admin/business/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('106', '服务设置', 'admin', '64', '3', null, '5000', 'admin/service/index', 'id=1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('107', '查看', 'admin', '64', '3', null, '5000', 'admin/business/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('108', '新增', 'admin', '63', '3', null, '5000', 'admin/consult/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('109', '查看', 'admin', '63', '3', null, '5000', 'admin/consult/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('110', '服务设置', 'admin', '65', '3', null, '5000', 'admin/service/index', 'id=2', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('111', '新增', 'admin', '65', '3', null, '5000', 'admin/brand/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('112', '查看', 'admin', '65', '3', null, '5000', 'admin/brand/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('114', '新增', 'admin', '67', '3', null, '5000', 'admin/stock/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('115', '查看', 'admin', '67', '3', null, '5000', 'admin/stock/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('116', '服务设置', 'admin', '67', '3', null, '5000', 'admin/service/index', 'id=4', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('119', '导出', 'admin', '67', '3', null, '5000', 'admin/stock/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('120', '新增', 'admin', '68', '3', null, '5000', 'admin/customize/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('121', '查看', 'admin', '68', '3', null, '5000', 'admin/customize/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('122', '服务设置', 'admin', '68', '3', null, '5000', 'admin/service/index', 'id=5', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('123', '合同管理', 'admin', '2', '2', null, '5000', 'admin/service_pact/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('124', '新增', 'admin', '66', '3', null, '5000', 'admin/secretary/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('125', '服务设置', 'admin', '66', '3', null, '5000', 'admin/service/index', 'id=3', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('126', '查看', 'admin', '66', '3', null, '5000', 'admin/secretary/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('127', '纳税管理', 'admin', '66', '3', null, '5000', 'admin/tax/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('128', '数据统计', 'admin', '127', '4', null, '5000', 'admin/tax/statistic', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('129', '年报管理', 'admin', '66', '3', null, '5000', 'admin/year_report/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('130', '上传', 'admin', '58', '3', null, '3', 'admin/archive/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('131', '导出', 'admin', '58', '3', null, '2', 'admin/archive/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('132', '下载', 'admin', '58', '3', null, '1', 'admin/archive/downloadcheck', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('133', '新增', 'admin', '59', '3', null, '5000', 'admin/company/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('134', '查看', 'admin', '59', '3', null, '5000', 'admin/company/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('136', '导出', 'admin', '59', '3', null, '5000', 'admin/company/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('137', '编辑', 'admin', '59', '3', null, '5000', 'admin/company/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('138', '导出', 'admin', '6', '3', null, '5000', 'admin/invest/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('139', '导出', 'admin', '63', '3', null, '5000', 'admin/consult/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('140', '分配', 'admin', '63', '3', null, '5000', 'admin/consult/operator', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('141', '导出', 'admin', '64', '3', null, '5000', 'admin/service/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('142', '导出', 'admin', '65', '3', null, '5000', 'admin/brand/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('143', '导出', 'admin', '66', '3', null, '5000', 'admin/secretary/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('144', '导出', 'admin', '68', '3', null, '5000', 'admin/customize/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('145', '导出', 'admin', '69', '3', null, '5000', 'admin/service_pay_log/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('146', '编辑', 'admin', '69', '3', null, '5000', 'admin/service_pay_log/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('147', '上传', 'admin', '123', '3', null, '5000', 'admin/service_pact/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('148', '导出', 'admin', '123', '3', null, '5000', 'admin/service_pact/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('149', '编辑', 'admin', '123', '3', null, '5000', 'admin/service_pact/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('133', '新增', 'admin', '272', '3', null, '5000', 'admin/company/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('134', '查看', 'admin', '272', '3', null, '5000', 'admin/company/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('137', '编辑', 'admin', '272', '3', null, '5000', 'admin/company/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('150', '新增banner', 'admin', '75', '3', null, '5000', 'admin/banner/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('151', '删除', 'admin', '75', '3', null, '5000', 'admin/banner/delete', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('152', '房间管理', 'admin', '3', '2', null, '5000', 'admin/room/roominfo?buildId=0&iqbtId=0', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('153', '新增', 'admin', '152', '3', null, '5000', 'admin/room/addroomnew', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('154', '编辑', 'admin', '152', '3', null, '5000', 'admin/room/editnew', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('155', '删除', 'admin', '152', '3', null, '5000', 'admin/room/delRoom', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('156', '导出', 'admin', '152', '3', null, '5000', 'admin/room/exportRooms', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('157', '新增', 'admin', '76', '3', null, '5000', 'admin/vip/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('158', '导出', 'admin', '76', '3', null, '5000', 'admin/vip/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('159', '查看', 'admin', '76', '3', null, '5000', 'admin/vip/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('160', '会员设置', 'admin', '76', '3', null, '5000', 'admin/vip_setting/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('161', '会员收款明细', 'admin', '76', '3', null, '5000', 'admin/vip_pay_log/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('162', '新增', 'admin', '161', '4', null, '5000', 'admin/vip_pay_log/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('163', '导入', 'admin', '161', '4', null, '5000', 'admin/vip_pay_log/import', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('164', '导出', 'admin', '161', '4', null, '5000', 'admin/vip_pay_log/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('165', '导入', 'admin', '127', '4', null, '5000', 'admin/tax/import', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('166', '导出', 'admin', '127', '4', null, '5000', 'admin/tax/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('167', '上报', 'admin', '127', '4', null, '5000', 'admin/tax/report', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('168', '导入', 'admin', '129', '4', null, '5000', 'admin/year_report/import', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('169', '导出', 'admin', '129', '4', null, '5000', 'admin/year_report/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('170', '查看', 'admin', '77', '3', null, '5000', 'admin/etprs_service/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('171', '下线', 'admin', '77', '3', null, '5000', 'admin/etprs_service/off', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('172', '删除', 'admin', '77', '3', null, '5000', 'admin/etprs_service/delete', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('173', '服务类型管理', 'admin', '77', '3', null, '5000', 'admin/etprs_service_category/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('173', '信息分类', 'admin', '77', '3', null, '5000', 'admin/etprs_service_category/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('174', '新增', 'admin', '173', '4', null, '5000', 'admin/etprs_service_category/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('175', '编辑', 'admin', '173', '4', null, '5000', 'admin/etprs_service_category/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('176', '预约参观', 'admin', '1', '3', null, '5000', 'admin/work/visit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('177', '确认', 'admin', '176', '4', null, '5000', 'admin/work/addCstm', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('178', '查看', 'admin', '176', '4', null, '5000', 'admin/work/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('180', '活动报名', 'admin', '1', '3', null, '5000', 'admin/work/actapl', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('182', '通过', 'admin', '180', '4', null, '5000', 'admin/activity/saveSign', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('183', '拒绝', 'admin', '180', '4', null, '5000', 'admin/activity/saveSign', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('186', '新增', 'admin', '78', '3', null, '5000', 'admin/frontend_message/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('187', '导出', 'admin', '78', '3', null, '5000', 'admin/message/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('188', '查看', 'admin', '78', '3', null, '5000', 'admin/frontend_message/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('189', '下线', 'admin', '78', '3', null, '5000', 'admin/frontend_message/off', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('190', '申请入驻', 'admin', '1', '3', null, '5000', 'admin/work/etprslist', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('191', '查看', 'admin', '190', '4', null, '5000', 'admin/Etprs/etprsdetail', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('192', '编辑', 'admin', '78', '3', null, '5000', 'admin/frontend_message/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('193', '服务订单', 'admin', '1', '3', null, '5000', 'admin/work/serviceorderlist', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('194', '新增', 'admin', '79', '3', null, '5000', 'admin/news/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('195', '查看', 'admin', '79', '3', null, '5000', 'admin/news/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('196', '编辑', 'admin', '79', '3', null, '5000', 'admin/news/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('197', '导出', 'admin', '79', '3', null, '5000', 'admin/news/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('198', '设置banner', 'admin', '79', '3', null, '5000', 'admin/news/banner', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('199', '删除', 'admin', '79', '3', null, '5000', 'admin/news/delete', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('200', '导入', 'admin', '81', '3', null, '5000', 'admin/company_plat/import', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('201', '导出', 'admin', '81', '3', null, '5000', 'admin/company_plat/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('202', '新增', 'admin', '81', '3', null, '5000', 'admin/company_plat/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('203', '重置密码', 'admin', '81', '3', null, '5000', 'admin/company_plat/reset', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('204', '冻结', 'admin', '81', '3', null, '5000', 'admin/company_plat/freeze', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('205', '解冻', 'admin', '81', '3', null, '5000', 'admin/company_plat/unfreeze', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('207', '新增', 'admin', '72', '3', null, '5000', 'admin/customer/addCustomer', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('208', '导入', 'admin', '72', '3', null, '5000', 'admin/index/customerXlsData', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('209', '编辑', 'admin', '72', '3', null, '5000', 'admin/customer/editcustomer', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('210', '跟进', 'admin', '72', '3', null, '5000', 'admin/customer/addflow', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('211', '导出', 'admin', '72', '3', null, '5000', 'admin/customer/exportCus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('212', '发起入驻', 'admin', '73', '3', null, '5000', 'admin/etprs/enter', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('213', '导入', 'admin', '73', '3', null, '5000', 'admin/index/etprsXlsData', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('214', '导出', 'admin', '73', '3', null, '5000', 'admin/etprs/exportEtprs', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('215', '企业信息', 'admin', '5', '3', null, '5000', 'admin/etprs/etprsdetail', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('216', '退出', 'admin', '73', '3', null, '5000', 'admin/etprs/backCus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('217', '毕业', 'admin', '73', '3', null, '5000', 'admin/etprs/saveQuit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('218', '上传', 'admin', '74', '3', null, '5000', 'admin/pact/savePact', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('219', '导出', 'admin', '74', '3', null, '5000', 'admin/pact/exportEtprs', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('220', '编辑', 'admin', '74', '3', null, '5000', 'admin/pact/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('221', '新增空间', 'admin', '71', '3', null, '5000', 'admin/iqbt/addiqbt', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('222', '查看', 'admin', '71', '3', null, '5000', 'admin/iqbt/iqbtInfo', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('223', '楼座管理', 'admin', '71', '3', null, '5000', 'admin/room/buildlist', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('224', '编辑', 'admin', '71', '3', null, '5000', 'admin/iqbt/editIqbt', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('225', '导出', 'admin', '80', '3', null, '5000', 'admin/activity/exportAct', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('226', '发布活动', 'admin', '80', '3', null, '5000', 'admin/activity/addact', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('227', '查看', 'admin', '80', '3', null, '5000', 'admin/activity/actinfo', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('228', '编辑', 'admin', '80', '3', null, '5000', 'admin/activity/editact', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('229', '上传活动总结', 'admin', '80', '3', null, '5000', 'admin/activity/summary', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('230', '查看活动总结', 'admin', '80', '3', null, '5000', 'admin/activity/suminfo', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('231', '编辑活动总结', 'admin', '80', '3', null, '5000', 'admin/activity/summary', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('232', '报名管理', 'admin', '80', '3', null, '5000', 'admin/activity/signmanage', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('233', '导入', 'admin', '232', '4', null, '5000', 'admin/index/actapplyxlsdata', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('234', '导出', 'admin', '232', '4', null, '5000', 'admin/activity/exportSign', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('235', '通过', 'admin', '232', '4', null, '5000', 'admin/activity/saveSign', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('236', '拒绝', 'admin', '232', '4', null, '5000', 'admin/activity/saveSign', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('237', '确认订单', 'admin', '64', '3', null, '5000', 'admin/business/changeStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('238', '确认订单', 'admin', '65', '3', null, '5000', 'admin/brand/changeStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('239', '确认订单', 'admin', '66', '3', null, '5000', 'admin/secretary/changeStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('240', '确认订单', 'admin', '67', '3', null, '5000', 'admin/stock/changeStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('241', '确认订单', 'admin', '68', '3', null, '5000', 'admin/customize/changeStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('242', '编辑', 'admin', '215', '4', null, '5000', 'admin/etprs/saveEditEtprs', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('243', '拒绝', 'admin', '215', '4', null, '5000', 'admin/etprs/changeVipStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('244', '通过', 'admin', '215', '4', null, '5000', 'admin/etprs/changeVipStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('245', '确认入驻', 'admin', '190', '4', null, '5000', 'admin/etprs/changeStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('246', '保存', 'admin', '176', '4', null, '5000', 'admin/work/saveVisit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('257', '签约入驻', 'admin', '73', '3', null, '5000', 'admin/etprs/roomAllo', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('258', '签约入驻', 'admin', '73', '3', null, '5000', 'admin/etprs/roomallochange', 'id=1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('259', '变更', 'admin', '73', '3', null, '5000', 'admin/etprs/roomallochange', 'id=2', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('260', '续约', 'admin', '73', '3', null, '5000', 'admin/etprs/roomallochange', 'id=3', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('261', '信息分类', 'admin', '78', '3', null, '5000', 'admin/frontend_message_category/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('263', '会员管理', 'admin', '0', '1', 'fa-users', '5000', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('265', '分类管理', 'admin', '0', '1', 'fa-tags', '5000', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('263', '用户管理', 'admin', '0', '1', 'fa-users', '4100', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('265', '商品管理', 'admin', '0', '1', 'fa-tags', '5000', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('266', '商品分类', 'admin', '265', '2', null, '1', 'admin/product_category/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 INSERT INTO `my_user_menu` VALUES ('267', '商品管理', 'admin', '265', '2', null, '1', 'admin/product/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('268', '商家入驻', 'admin', '265', '2', null, '1', 'admin/company/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
-INSERT INTO `my_user_menu` VALUES ('269', '入驻品类', 'admin', '265', '2', null, '1', 'admin/enter_category/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('269', '入驻品类', 'admin', '265', '2', null, '1', 'admin/enter_category/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
+INSERT INTO `my_user_menu` VALUES ('270', '订单管理', 'admin', '271', '2', null, '1', 'admin/order/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('271', '订单管理', 'admin', '0', '1', 'fa-credit-card', '4500', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('272', '入驻商家', 'admin', '0', '1', 'fa-building-o', '4900', 'admin/company/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('273', '订单详情', 'admin', '270', '3', null, '1', 'admin/order/detail', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('274', '添加商品', 'admin', '267', '3', null, '1', 'admin/product/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('275', '商品详情', 'admin', '267', '3', null, '1', 'admin/product/detail', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('276', '用户详情', 'admin', '263', '3', null, '1', 'admin/customer/detail', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu` VALUES ('277', '系统参数', 'admin', '7', '2', null, '1', 'admin/setting/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+
+-- ----------------------------
+-- Table structure for my_user_menu_copy
+-- ----------------------------
+DROP TABLE IF EXISTS `my_user_menu_copy`;
+CREATE TABLE `my_user_menu_copy` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT '' COMMENT '菜单名称',
+  `model` varchar(30) DEFAULT '' COMMENT '模块名称',
+  `parent_id` int(11) DEFAULT '0' COMMENT '父菜单ID',
+  `level` int(2) DEFAULT '1' COMMENT '菜单级别',
+  `icon` varchar(50) DEFAULT NULL COMMENT 'icon图表',
+  `sort` int(5) DEFAULT '1' COMMENT '排序 数字越大越靠前',
+  `url` varchar(256) DEFAULT '' COMMENT '地址',
+  `param` varchar(255) DEFAULT NULL,
+  `create_time` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '最后修改时间',
+  `update_time` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '注册时间',
+  `user_id` int(11) DEFAULT '0' COMMENT '11',
+  `is_show` tinyint(2) DEFAULT '1' COMMENT '显示隐藏（隐藏的不必授权）',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=271 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色菜单表';
+
+-- ----------------------------
+-- Records of my_user_menu_copy
+-- ----------------------------
+INSERT INTO `my_user_menu_copy` VALUES ('1', '工作台', 'admin', '0', '1', 'fa-dashboard', '5000', 'admin/index/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('2', '服务管理', 'admin', '0', '1', 'fa-server', '5000', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('3', '空间管理', 'admin', '0', '1', 'fa-building-o', '5000', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('5', '平台管理', 'admin', '0', '1', 'fa-desktop', '5000', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('6', '投资管理', 'admin', '0', '1', 'fa-credit-card', '5000', 'admin/invest/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
+INSERT INTO `my_user_menu_copy` VALUES ('7', '系统管理', 'admin', '0', '1', 'fa-gears', '4999', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('58', '档案库', 'admin', '7', '2', null, '5000', 'admin/archive/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
+INSERT INTO `my_user_menu_copy` VALUES ('59', '企业库', 'admin', '7', '2', null, '5000', 'admin/company/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
+INSERT INTO `my_user_menu_copy` VALUES ('60', '用户管理', 'admin', '7', '2', null, '5000', 'admin/user/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('61', '人力资源管理', 'admin', '7', '2', null, '5000', 'admin/staff/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
+INSERT INTO `my_user_menu_copy` VALUES ('62', '大事记', 'admin', '7', '2', null, '5000', 'admin/memorabilia/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
+INSERT INTO `my_user_menu_copy` VALUES ('63', '咨询服务', 'admin', '2', '2', null, '5000', 'admin/consult/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('64', '工商注册', 'admin', '2', '2', null, '5000', 'admin/business/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('65', '商标注册', 'admin', '2', '2', null, '5000', 'admin/brand/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('66', '商务秘书', 'admin', '2', '2', null, '5000', 'admin/secretary/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('67', '股权服务', 'admin', '2', '2', null, '5000', 'admin/stock/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('68', '定制服务', 'admin', '2', '2', null, '5000', 'admin/customize/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('69', '服务缴费管理', 'admin', '2', '2', null, '5000', 'admin/service_pay_log/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('70', '合同管理', 'admin', '3', '2', null, '5000', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('71', '孵化空间管理', 'admin', '3', '2', null, '5000', 'admin/iqbt/iqbtlist', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('75', 'banner设置', 'admin', '5', '2', null, '5000', 'admin/banner/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('76', '会员管理', 'admin', '5', '2', null, '5000', 'admin/vip/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
+INSERT INTO `my_user_menu_copy` VALUES ('77', '第三方服务管理', 'admin', '5', '2', null, '5000', 'admin/etprs_service/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
+INSERT INTO `my_user_menu_copy` VALUES ('78', '信息中心', 'admin', '5', '2', null, '5000', 'admin/frontend_message/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('79', '新闻资讯', 'admin', '5', '2', null, '5000', 'admin/news/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('80', '活动管理', 'admin', '5', '2', null, '5000', 'admin/activity/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
+INSERT INTO `my_user_menu_copy` VALUES ('81', '用户管理', 'admin', '263', '2', '', '5000', 'admin/customer/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('82', '添加新角色', 'admin', '60', '3', null, '5000', 'admin/role/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('83', '编辑角色', 'admin', '60', '3', null, '5000', 'admin/role/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('84', '删除角色', 'admin', '60', '3', null, '5000', 'admin/role/delete', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('85', '添加用户', 'admin', '60', '3', null, '5000', 'admin/user/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('86', '重置密码', 'admin', '60', '3', null, '5000', 'admin/user/resetdftpwd', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('87', '冻结用户', 'admin', '60', '3', null, '5000', 'admin/user/frzy', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('88', '解冻用户', 'admin', '60', '3', null, '5000', 'admin/user/unfrzy', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('89', '编辑用户', 'admin', '60', '3', null, '5000', 'admin/user/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('90', '导入', 'admin', '59', '3', null, '5000', 'admin/company/import', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('91', '新增', 'admin', '61', '3', null, '5000', 'admin/staff/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('93', '导入', 'admin', '61', '3', null, '5000', 'admin/staff/import', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('94', '导出', 'admin', '61', '3', null, '5000', 'admin/staff/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('95', '编辑', 'admin', '61', '3', null, '5000', 'admin/staff/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('97', '新增', 'admin', '62', '3', null, '5000', 'admin/memorabilia/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('99', '查看', 'admin', '62', '3', null, '5000', 'admin/memorabilia/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('100', '编辑', 'admin', '62', '3', null, '5000', 'admin/memorabilia/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('102', '新增', 'admin', '6', '3', null, '5000', 'admin/invest/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('103', '查看', 'admin', '6', '3', null, '5000', 'admin/invest/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('104', '编辑', 'admin', '6', '3', null, '5000', 'admin/invest/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('105', '新增', 'admin', '64', '3', null, '5000', 'admin/business/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('106', '服务设置', 'admin', '64', '3', null, '5000', 'admin/service/index', 'id=1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('107', '查看', 'admin', '64', '3', null, '5000', 'admin/business/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('108', '新增', 'admin', '63', '3', null, '5000', 'admin/consult/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('109', '查看', 'admin', '63', '3', null, '5000', 'admin/consult/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('110', '服务设置', 'admin', '65', '3', null, '5000', 'admin/service/index', 'id=2', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('111', '新增', 'admin', '65', '3', null, '5000', 'admin/brand/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('112', '查看', 'admin', '65', '3', null, '5000', 'admin/brand/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('114', '新增', 'admin', '67', '3', null, '5000', 'admin/stock/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('115', '查看', 'admin', '67', '3', null, '5000', 'admin/stock/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('116', '服务设置', 'admin', '67', '3', null, '5000', 'admin/service/index', 'id=4', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('119', '导出', 'admin', '67', '3', null, '5000', 'admin/stock/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('120', '新增', 'admin', '68', '3', null, '5000', 'admin/customize/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('121', '查看', 'admin', '68', '3', null, '5000', 'admin/customize/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('122', '服务设置', 'admin', '68', '3', null, '5000', 'admin/service/index', 'id=5', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('123', '合同管理', 'admin', '2', '2', null, '5000', 'admin/service_pact/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('124', '新增', 'admin', '66', '3', null, '5000', 'admin/secretary/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('125', '服务设置', 'admin', '66', '3', null, '5000', 'admin/service/index', 'id=3', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('126', '查看', 'admin', '66', '3', null, '5000', 'admin/secretary/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('127', '纳税管理', 'admin', '66', '3', null, '5000', 'admin/tax/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('128', '数据统计', 'admin', '127', '4', null, '5000', 'admin/tax/statistic', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('129', '年报管理', 'admin', '66', '3', null, '5000', 'admin/year_report/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('130', '上传', 'admin', '58', '3', null, '3', 'admin/archive/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('131', '导出', 'admin', '58', '3', null, '2', 'admin/archive/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('132', '下载', 'admin', '58', '3', null, '1', 'admin/archive/downloadcheck', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('133', '新增', 'admin', '59', '3', null, '5000', 'admin/company/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('134', '查看', 'admin', '59', '3', null, '5000', 'admin/company/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('136', '导出', 'admin', '59', '3', null, '5000', 'admin/company/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('137', '编辑', 'admin', '59', '3', null, '5000', 'admin/company/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('138', '导出', 'admin', '6', '3', null, '5000', 'admin/invest/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('139', '导出', 'admin', '63', '3', null, '5000', 'admin/consult/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('140', '分配', 'admin', '63', '3', null, '5000', 'admin/consult/operator', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('141', '导出', 'admin', '64', '3', null, '5000', 'admin/service/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('142', '导出', 'admin', '65', '3', null, '5000', 'admin/brand/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('143', '导出', 'admin', '66', '3', null, '5000', 'admin/secretary/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('144', '导出', 'admin', '68', '3', null, '5000', 'admin/customize/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('145', '导出', 'admin', '69', '3', null, '5000', 'admin/service_pay_log/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('146', '编辑', 'admin', '69', '3', null, '5000', 'admin/service_pay_log/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('147', '上传', 'admin', '123', '3', null, '5000', 'admin/service_pact/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('148', '导出', 'admin', '123', '3', null, '5000', 'admin/service_pact/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('149', '编辑', 'admin', '123', '3', null, '5000', 'admin/service_pact/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('150', '新增banner', 'admin', '75', '3', null, '5000', 'admin/banner/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('151', '删除', 'admin', '75', '3', null, '5000', 'admin/banner/delete', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('152', '房间管理', 'admin', '3', '2', null, '5000', 'admin/room/roominfo?buildId=0&iqbtId=0', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('153', '新增', 'admin', '152', '3', null, '5000', 'admin/room/addroomnew', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('154', '编辑', 'admin', '152', '3', null, '5000', 'admin/room/editnew', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('155', '删除', 'admin', '152', '3', null, '5000', 'admin/room/delRoom', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('156', '导出', 'admin', '152', '3', null, '5000', 'admin/room/exportRooms', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('157', '新增', 'admin', '76', '3', null, '5000', 'admin/vip/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('158', '导出', 'admin', '76', '3', null, '5000', 'admin/vip/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('159', '查看', 'admin', '76', '3', null, '5000', 'admin/vip/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('160', '会员设置', 'admin', '76', '3', null, '5000', 'admin/vip_setting/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('161', '会员收款明细', 'admin', '76', '3', null, '5000', 'admin/vip_pay_log/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('162', '新增', 'admin', '161', '4', null, '5000', 'admin/vip_pay_log/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('163', '导入', 'admin', '161', '4', null, '5000', 'admin/vip_pay_log/import', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('164', '导出', 'admin', '161', '4', null, '5000', 'admin/vip_pay_log/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('165', '导入', 'admin', '127', '4', null, '5000', 'admin/tax/import', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('166', '导出', 'admin', '127', '4', null, '5000', 'admin/tax/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('167', '上报', 'admin', '127', '4', null, '5000', 'admin/tax/report', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('168', '导入', 'admin', '129', '4', null, '5000', 'admin/year_report/import', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('169', '导出', 'admin', '129', '4', null, '5000', 'admin/year_report/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('170', '查看', 'admin', '77', '3', null, '5000', 'admin/etprs_service/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('171', '下线', 'admin', '77', '3', null, '5000', 'admin/etprs_service/off', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('172', '删除', 'admin', '77', '3', null, '5000', 'admin/etprs_service/delete', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('173', '服务类型管理', 'admin', '77', '3', null, '5000', 'admin/etprs_service_category/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('174', '新增', 'admin', '173', '4', null, '5000', 'admin/etprs_service_category/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('175', '编辑', 'admin', '173', '4', null, '5000', 'admin/etprs_service_category/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('176', '预约参观', 'admin', '1', '3', null, '5000', 'admin/work/visit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('177', '确认', 'admin', '176', '4', null, '5000', 'admin/work/addCstm', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('178', '查看', 'admin', '176', '4', null, '5000', 'admin/work/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('180', '活动报名', 'admin', '1', '3', null, '5000', 'admin/work/actapl', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('182', '通过', 'admin', '180', '4', null, '5000', 'admin/activity/saveSign', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('183', '拒绝', 'admin', '180', '4', null, '5000', 'admin/activity/saveSign', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('186', '新增', 'admin', '78', '3', null, '5000', 'admin/frontend_message/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('187', '导出', 'admin', '78', '3', null, '5000', 'admin/message/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('188', '查看', 'admin', '78', '3', null, '5000', 'admin/frontend_message/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('189', '下线', 'admin', '78', '3', null, '5000', 'admin/frontend_message/off', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('190', '申请入驻', 'admin', '1', '3', null, '5000', 'admin/work/etprslist', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('191', '查看', 'admin', '190', '4', null, '5000', 'admin/Etprs/etprsdetail', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('192', '编辑', 'admin', '78', '3', null, '5000', 'admin/frontend_message/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('193', '服务订单', 'admin', '1', '3', null, '5000', 'admin/work/serviceorderlist', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('194', '新增', 'admin', '79', '3', null, '5000', 'admin/news/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('195', '查看', 'admin', '79', '3', null, '5000', 'admin/news/show', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('196', '编辑', 'admin', '79', '3', null, '5000', 'admin/news/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('197', '导出', 'admin', '79', '3', null, '5000', 'admin/news/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('198', '设置banner', 'admin', '79', '3', null, '5000', 'admin/news/banner', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('199', '删除', 'admin', '79', '3', null, '5000', 'admin/news/delete', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('200', '导入', 'admin', '81', '3', null, '5000', 'admin/company_plat/import', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('201', '导出', 'admin', '81', '3', null, '5000', 'admin/company_plat/export', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('202', '新增', 'admin', '81', '3', null, '5000', 'admin/company_plat/create', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('203', '重置密码', 'admin', '81', '3', null, '5000', 'admin/company_plat/reset', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('204', '冻结', 'admin', '81', '3', null, '5000', 'admin/company_plat/freeze', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('205', '解冻', 'admin', '81', '3', null, '5000', 'admin/company_plat/unfreeze', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('207', '新增', 'admin', '72', '3', null, '5000', 'admin/customer/addCustomer', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('208', '导入', 'admin', '72', '3', null, '5000', 'admin/index/customerXlsData', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('209', '编辑', 'admin', '72', '3', null, '5000', 'admin/customer/editcustomer', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('210', '跟进', 'admin', '72', '3', null, '5000', 'admin/customer/addflow', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('211', '导出', 'admin', '72', '3', null, '5000', 'admin/customer/exportCus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('212', '发起入驻', 'admin', '73', '3', null, '5000', 'admin/etprs/enter', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('213', '导入', 'admin', '73', '3', null, '5000', 'admin/index/etprsXlsData', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('214', '导出', 'admin', '73', '3', null, '5000', 'admin/etprs/exportEtprs', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('215', '企业信息', 'admin', '5', '3', null, '5000', 'admin/etprs/etprsdetail', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('216', '退出', 'admin', '73', '3', null, '5000', 'admin/etprs/backCus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('217', '毕业', 'admin', '73', '3', null, '5000', 'admin/etprs/saveQuit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('218', '上传', 'admin', '74', '3', null, '5000', 'admin/pact/savePact', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('219', '导出', 'admin', '74', '3', null, '5000', 'admin/pact/exportEtprs', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('220', '编辑', 'admin', '74', '3', null, '5000', 'admin/pact/edit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('221', '新增空间', 'admin', '71', '3', null, '5000', 'admin/iqbt/addiqbt', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('222', '查看', 'admin', '71', '3', null, '5000', 'admin/iqbt/iqbtInfo', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('223', '楼座管理', 'admin', '71', '3', null, '5000', 'admin/room/buildlist', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('224', '编辑', 'admin', '71', '3', null, '5000', 'admin/iqbt/editIqbt', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('225', '导出', 'admin', '80', '3', null, '5000', 'admin/activity/exportAct', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('226', '发布活动', 'admin', '80', '3', null, '5000', 'admin/activity/addact', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('227', '查看', 'admin', '80', '3', null, '5000', 'admin/activity/actinfo', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('228', '编辑', 'admin', '80', '3', null, '5000', 'admin/activity/editact', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('229', '上传活动总结', 'admin', '80', '3', null, '5000', 'admin/activity/summary', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('230', '查看活动总结', 'admin', '80', '3', null, '5000', 'admin/activity/suminfo', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('231', '编辑活动总结', 'admin', '80', '3', null, '5000', 'admin/activity/summary', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('232', '报名管理', 'admin', '80', '3', null, '5000', 'admin/activity/signmanage', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('233', '导入', 'admin', '232', '4', null, '5000', 'admin/index/actapplyxlsdata', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('234', '导出', 'admin', '232', '4', null, '5000', 'admin/activity/exportSign', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('235', '通过', 'admin', '232', '4', null, '5000', 'admin/activity/saveSign', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('236', '拒绝', 'admin', '232', '4', null, '5000', 'admin/activity/saveSign', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('237', '确认订单', 'admin', '64', '3', null, '5000', 'admin/business/changeStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('238', '确认订单', 'admin', '65', '3', null, '5000', 'admin/brand/changeStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('239', '确认订单', 'admin', '66', '3', null, '5000', 'admin/secretary/changeStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('240', '确认订单', 'admin', '67', '3', null, '5000', 'admin/stock/changeStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('241', '确认订单', 'admin', '68', '3', null, '5000', 'admin/customize/changeStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('242', '编辑', 'admin', '215', '4', null, '5000', 'admin/etprs/saveEditEtprs', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('243', '拒绝', 'admin', '215', '4', null, '5000', 'admin/etprs/changeVipStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('244', '通过', 'admin', '215', '4', null, '5000', 'admin/etprs/changeVipStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('245', '确认入驻', 'admin', '190', '4', null, '5000', 'admin/etprs/changeStatus', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('246', '保存', 'admin', '176', '4', null, '5000', 'admin/work/saveVisit', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('257', '签约入驻', 'admin', '73', '3', null, '5000', 'admin/etprs/roomAllo', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('258', '签约入驻', 'admin', '73', '3', null, '5000', 'admin/etprs/roomallochange', 'id=1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('259', '变更', 'admin', '73', '3', null, '5000', 'admin/etprs/roomallochange', 'id=2', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('260', '续约', 'admin', '73', '3', null, '5000', 'admin/etprs/roomallochange', 'id=3', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('261', '信息分类', 'admin', '78', '3', null, '5000', 'admin/frontend_message_category/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('263', '会员管理', 'admin', '0', '1', 'fa-users', '5000', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('265', '分类管理', 'admin', '0', '1', 'fa-tags', '5000', '', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('266', '商品分类', 'admin', '265', '2', null, '1', 'admin/product_category/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('267', '商品管理', 'admin', '265', '2', null, '1', 'admin/product/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('268', '商家入驻', 'admin', '265', '2', null, '1', 'admin/company/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('269', '入驻品类', 'admin', '265', '2', null, '1', 'admin/enter_category/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
+INSERT INTO `my_user_menu_copy` VALUES ('270', '订单管理', 'admin', '265', '2', null, '1', 'admin/order/index', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '1');
 
 -- ----------------------------
 -- Table structure for my_user_role
@@ -4176,3 +4704,24 @@ INSERT INTO `my_user_role` VALUES ('13', '运营管理者', '', null, '0', '0000
 INSERT INTO `my_user_role` VALUES ('14', '招商管理员', '36,3,4,50,51,54', null, '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '854', '0');
 INSERT INTO `my_user_role` VALUES ('15', '企业服务管理员', '35,30,38,9,10,25', null, '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '854', '0');
 INSERT INTO `my_user_role` VALUES ('21', '任天野544', '5,75,76,77,78,79,80,81,150,151,157,158,159,160,161,162,163,164,170,171,172,173,174,175,186,187,188,189,192,194,195,196,197,198,199,200,201,202,203,204,205,225,226,227,228,229,230,231,232,233,234,235,236', null, '0', '2018-08-28 16:38:25', '2018-08-18 10:21:10', '0', '0');
+
+-- ----------------------------
+-- Table structure for my_vip_pay_log
+-- ----------------------------
+DROP TABLE IF EXISTS `my_vip_pay_log`;
+CREATE TABLE `my_vip_pay_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `start_time` datetime DEFAULT NULL COMMENT '开始时间',
+  `end_time` datetime DEFAULT NULL COMMENT '结束时间',
+  `pay_type` tinyint(1) DEFAULT NULL COMMENT '1微信 2支付宝 2其他',
+  `pay_sn` varchar(255) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会员支付流水表';
+
+-- ----------------------------
+-- Records of my_vip_pay_log
+-- ----------------------------
