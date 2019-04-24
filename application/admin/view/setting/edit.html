@@ -1,0 +1,46 @@
+<form>
+    {foreach $data as $v}
+    <div class="form-group col-sm-12">
+        <label class="col-sm-2 control-label"><span class="required">*</span>{$v['name']}</label>
+        <div class="col-md-4 " >
+            <input type="text" name="{$v['key']}" required value="{$v['value']|default=''}">
+        </div>
+    </div>
+    {/foreach}
+    <div class="form-group col-md-12 text-center">
+        <div class="btn-group " role="group">
+            <button type="button" class="btn btn-primary btn-outline"
+                    data-url="<?=url('admin/setting/save')?>" id="submit_btn">
+                <i class="icon wb-cloud" aria-hidden="true"></i> 保存
+            </button>
+        </div>
+    </div>
+</form>
+
+<script>
+
+
+    //保存表单
+    $("body").on('click','#submit_btn',function () {
+        var form= $(this).closest("form"),url = $(this).data('url');
+        //验证
+        var flag = form.valid();
+        if(!flag){
+            return;
+        }
+        var data=serializeData(form);
+
+        $.post(url, data, function (res) {
+            if (res["success"]) {
+                toastr.success(res["msg"]);
+                setTimeout(function(){
+                    window.location.reload();
+                },1000);
+            } else {
+                toastr.error(res["msg"]);
+            }
+        });
+    });
+
+</script>
+
