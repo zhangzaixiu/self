@@ -114,6 +114,16 @@ class OrderController extends BaseController
 
             //order_attr
             foreach ($data['list'] as $k => &$v) {
+                //product库存
+                $product = ProductModel::get($v['product_id']);
+                if(empty($product)){
+                    exception('商品不存在');
+                }
+                $product->stock -= $v['count'];
+                if(false === $product->save()){
+                    exception('商品库存保存失败');
+                }
+
                 $v['order_id'] = $order->id;
                 $product = ProductModel::get($v['product_id']);
                 if (empty($product)) {
