@@ -1,1 +1,280 @@
-尔特瑞特
+<style>
+    .widget-shadow{
+        border: 1px solid #e1e1e1;
+    }
+</style>
+<link rel="stylesheet" href="/adminui/public/vendor/morris-js/morris.css">
+
+<link rel="stylesheet" href="/adminui/public/vendor/chartist-js/chartist.css">
+
+<link rel="stylesheet" href="/adminui/public/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css">
+<link rel="stylesheet" href="/adminui/public/css/examples/pages/home/ecommerce.css">
+
+<div class="row" data-plugin="matchHeight" data-by-row="true">
+    <div class="col-lg-3 col-sm-6 col-xs-12 info-panel">
+        <div class="widget widget-shadow">
+            <div class="widget-content bg-white padding-20">
+                <button type="button" class="btn btn-floating btn-sm btn-warning">
+                    <i class="icon wb-shopping-cart"></i>
+                </button>
+                <span class="margin-left-15 font-weight-400">订单数量</span>
+                <div class="content-text text-center margin-bottom-0">
+                    <i class="text-danger icon wb-triangle-up font-size-20"> </i>
+                    <span class="font-size-40 font-weight-100">399</span>
+                    <p class="blue-grey-400 font-weight-100 margin-0">+45% 同比增长</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-6 col-xs-12 info-panel">
+        <div class="widget widget-shadow">
+            <div class="widget-content bg-white padding-20">
+                <button type="button" class="btn btn-floating btn-sm btn-danger">
+                    <i class="icon fa-yen"></i>
+                </button>
+                <span class="margin-left-15 font-weight-400">收入金额</span>
+                <div class="content-text text-center margin-bottom-0">
+                    <i class="text-success icon wb-triangle-down font-size-20"> </i>
+                    <span class="font-size-40 font-weight-100">¥18,628</span>
+                    <p class="blue-grey-400 font-weight-100 margin-0">+45% 同比增长</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-sm-6 col-xs-12 info-panel">
+        <div class="widget widget-shadow">
+            <div class="widget-content bg-white padding-20">
+                <button type="button" class="btn btn-floating btn-sm btn-success">
+                    <i class="icon wb-eye"></i>
+                </button>
+                <span class="margin-left-15 font-weight-400">商品数量</span>
+                <div class="content-text text-center margin-bottom-0">
+                    <i class="text-danger icon wb-triangle-up font-size-20"> </i>
+                    <span class="font-size-40 font-weight-100">23,456</span>
+                    <p class="blue-grey-400 font-weight-100 margin-0">+25% 同比增长</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-6 col-xs-12 info-panel">
+        <div class="widget widget-shadow">
+            <div class="widget-content bg-white padding-20">
+                <button type="button" class="btn btn-floating btn-sm btn-primary">
+                    <i class="icon wb-user"></i>
+                </button>
+                <span class="margin-left-15 font-weight-400">购买人数</span>
+                <div class="content-text text-center margin-bottom-0">
+                    <i class="text-danger icon wb-triangle-up font-size-20"> </i>
+                    <span class="font-size-40 font-weight-100">4,367</span>
+                    <p class="blue-grey-400 font-weight-100 margin-0">+25% 同比增长</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    //折线统计图
+    <div class="col-ms-12 col-xs-12 col-md-12" id="ecommerceChartView">
+        <div class="widget widget-shadow">
+            <div class="widget-header padding-20">
+                <div class="btn-group dropdown chart-menu">
+                    <button type="button" class="btn btn-outline btn-default dropdown-toggle" data-toggle="dropdown">
+                        产品销售 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu animate" role="menu">
+                        <li role="presentation">
+                            <a href="#" role="menuitem">销售</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#" role="menuitem">总销售额</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#" role="menuitem">利润</a>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="nav nav-pills nav-pills-rounded chart-action">
+                    <li class="active">
+                        <a data-toggle="tab" href="#scoreLineToDay">本日</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#scoreLineToWeek">本周</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#scoreLineToMonth">本月</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="widget-content tab-content bg-white padding-20">
+                <div class="ct-chart tab-pane active" id="scoreLineToDay"></div>
+                <div class="ct-chart tab-pane" id="scoreLineToWeek"></div>
+                <div class="ct-chart tab-pane" id="scoreLineToMonth"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/adminui/public/vendor/chartist-js/chartist.js"></script>
+<script src="/adminui/public/vendor/morris-js/morris.min.js"></script>
+<script src="/adminui/public/vendor/raphael/raphael.min.js"></script>
+<script src="/adminui/public/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.js"></script>
+
+
+
+<script>
+    (function () {
+        "use strict";
+
+        var ecommercePage = {
+            run: function () {
+                this.scoreChart();
+            },
+            scoreChart: function () {
+                var scoreChart = function (id, labelList, series1List, series2List) {
+
+                    var scoreChart = new Chartist.Line('#' + id, {
+                        labels: labelList,
+                        series: [series1List, series2List]
+                    }, {
+                        lineSmooth: Chartist.Interpolation.simple({
+                            divisor: 2
+                        }),
+                        fullWidth: true,
+                        chartPadding: {
+                            right: 25
+                        },
+                        series: {
+                            "series-1": {
+                                showArea: true
+                            },
+                            "series-2": {
+                                showArea: true
+                            }
+                        },
+                        axisX: {
+                            showGrid: false
+                        },
+                        axisY: {
+                            labelInterpolationFnc: function (value) {
+                                return (value / 1000) + 'K';
+                            },
+                            scaleMinSpace: 40
+                        },
+                        plugins: [
+                            Chartist.plugins.tooltip()
+                        ],
+                        low: 0,
+                        height: 300
+                    });
+                    scoreChart.on('created', function (data) {
+                        var defs = data.svg.querySelector('defs') || data.svg.elem('defs');
+
+                        var filter = defs
+                            .elem('filter', {
+                                x: 0,
+                                y: "-10%",
+                                id: 'shadow' + id
+                            }, '', true);
+
+                        filter.elem('feBlend', {
+                            in: "SourceGraphic",
+                            mode: "multiply"
+                        });
+
+                        return defs;
+                    }).on('draw', function (data) {
+                        if (data.type === 'line') {
+                            data.element.attr({
+                                filter: 'url(#shadow' + id + ')'
+                            });
+
+                        } else if (data.type === 'point') {
+
+                            var parent = new Chartist.Svg(data.element._node.parentNode);
+                            parent.elem('line', {
+                                x1: data.x,
+                                y1: data.y,
+                                x2: data.x + 0.01,
+                                y2: data.y,
+                                "class": 'ct-point-content'
+                            });
+                        }
+                        if (data.type === 'line' || data.type === 'area') {
+                            data.element.animate({
+                                d: {
+                                    begin: 1000 * data.index,
+                                    dur: 1000,
+                                    from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
+                                    to: data.path.clone().stringify(),
+                                    easing: Chartist.Svg.Easing.easeOutQuint
+                                }
+                            });
+                        }
+
+                    });
+
+                };
+
+                var DayLabelList = ['1:00-3:00', '3:00-6:00', '6:00-9:00', '9:00-12:00', '12:00-15:00', '15:00-18:00', '18:00-21:00', '21:00-1:00'];
+                var DaySeries1List = {
+                    name: "series-1",
+                    data: [2400, 4500, 5000, 6100, 7700, 5000, 1700]
+                };
+                var DaySeries2List = {
+                    name: "series-2",
+                    data: [1300, 4100, 8000, 4000, 6600, 5600, 3800]
+                };
+
+                var WeekLabelList = ['周一', '周二', '周三', '周四', '周五', '周六', '周日', ''];
+                var WeekSeries1List = {
+                    name: "series-1",
+                    data: [18000, 37000, 41000, 29000, 58000, 75000, 43000]
+                };
+                var WeekSeries2List = {
+                    name: "series-2",
+                    data: [30000, 20000, 43000, 68000, 72000, 53000, 66000]
+                };
+
+                var MonthLabelList = ["9.1", "9.2", "9.3", "9.4", "9.5", "9.6", "9.7"];
+                var MonthSeries1List = {
+                    name: "series-1",
+                    data: [100000, 500000, 300000, 700000, 100000, 200000, 700000]
+                };
+                var MonthSeries2List = {
+                    name: "series-2",
+                    data: [300000, 400000, 200000, 600000, 800000, 600000, 300000]
+                };
+
+                var createChart = function (button) {
+                    var btn = button || $("#ecommerceChartView .chart-action").children(".active");
+
+                    var chartId = btn.children("a").attr("href");
+                    switch (chartId) {
+                        case "#scoreLineToDay":
+                            scoreChart("scoreLineToDay", DayLabelList, DaySeries1List, DaySeries2List);
+                            break;
+                        case "#scoreLineToWeek":
+                            scoreChart("scoreLineToWeek", WeekLabelList, WeekSeries1List, WeekSeries2List);
+                            break;
+                        case "#scoreLineToMonth":
+                            scoreChart("scoreLineToMonth", MonthLabelList, MonthSeries1List, MonthSeries2List);
+                            break;
+                    }
+
+                };
+
+                createChart();
+                $(".chart-action li").on("click", function () {
+                    createChart($(this));
+                });
+            },
+        };
+
+        $(function () {
+            ecommercePage.run();
+        });
+
+    })();
+</script>
+
+
