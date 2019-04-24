@@ -19,9 +19,9 @@
                 </button>
                 <span class="margin-left-15 font-weight-400">订单数量</span>
                 <div class="content-text text-center margin-bottom-0">
-                    <i class="text-danger icon wb-triangle-up font-size-20"> </i>
-                    <span class="font-size-40 font-weight-100">399</span>
-                    <p class="blue-grey-400 font-weight-100 margin-0">+45% 同比增长</p>
+                    <i class="icon {$today.order_count>=$yestaday.order_count?'text-danger wb-triangle-up':' text-success wb-triangle-down'} font-size-20"> </i>
+                    <span class="font-size-40 font-weight-100">{$today.order_count}</span>
+                    <p class="blue-grey-400 font-weight-100 margin-0">昨日 {$yestaday.order_count}</p>
                 </div>
             </div>
         </div>
@@ -34,9 +34,9 @@
                 </button>
                 <span class="margin-left-15 font-weight-400">收入金额</span>
                 <div class="content-text text-center margin-bottom-0">
-                    <i class="text-success icon wb-triangle-down font-size-20"> </i>
-                    <span class="font-size-40 font-weight-100">¥18,628</span>
-                    <p class="blue-grey-400 font-weight-100 margin-0">+45% 同比增长</p>
+                    <i class=" icon  {$today.order_price>=$yestaday.order_price?'text-danger wb-triangle-up':' text-success wb-triangle-down'}  font-size-20"> </i>
+                    <span class="font-size-40 font-weight-100">¥{$today.order_price}</span>
+                    <p class="blue-grey-400 font-weight-100 margin-0">昨日 ¥{$yestaday.order_price}</p>
                 </div>
             </div>
         </div>
@@ -50,9 +50,9 @@
                 </button>
                 <span class="margin-left-15 font-weight-400">商品数量</span>
                 <div class="content-text text-center margin-bottom-0">
-                    <i class="text-danger icon wb-triangle-up font-size-20"> </i>
-                    <span class="font-size-40 font-weight-100">23,456</span>
-                    <p class="blue-grey-400 font-weight-100 margin-0">+25% 同比增长</p>
+                    <i class="icon {$today.product_count>=$yestaday.product_count?'text-danger wb-triangle-up':' text-success wb-triangle-down'}  font-size-20"> </i>
+                    <span class="font-size-40 font-weight-100">{$today.product_count}</span>
+                    <p class="blue-grey-400 font-weight-100 margin-0">昨日 {$yestaday.product_count}</p>
                 </div>
             </div>
         </div>
@@ -65,9 +65,9 @@
                 </button>
                 <span class="margin-left-15 font-weight-400">购买人数</span>
                 <div class="content-text text-center margin-bottom-0">
-                    <i class="text-danger icon wb-triangle-up font-size-20"> </i>
-                    <span class="font-size-40 font-weight-100">4,367</span>
-                    <p class="blue-grey-400 font-weight-100 margin-0">+25% 同比增长</p>
+                    <i class=" icon {$today.customer_count>=$yestaday.customer_count?'text-danger wb-triangle-up':' text-success wb-triangle-down'} font-size-20"> </i>
+                    <span class="font-size-40 font-weight-100">{$today.customer_count}</span>
+                    <p class="blue-grey-400 font-weight-100 margin-0">昨日 {$yestaday.customer_count}</p>
                 </div>
             </div>
         </div>
