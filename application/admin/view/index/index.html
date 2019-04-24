@@ -21,7 +21,7 @@
                 <div class="content-text text-center margin-bottom-0">
                     <i class="icon {$today.order_count>=$yestaday.order_count?'text-danger wb-triangle-up':' text-success wb-triangle-down'} font-size-20"> </i>
                     <span class="font-size-40 font-weight-100">{$today.order_count}</span>
-                    <p class="blue-grey-400 font-weight-100 margin-0">昨日 {$yestaday.order_count}</p>
+                    <p class="blue-grey-400 font-weight-100 margin-0">昨日 {$yestaday.order_count} ,合计 {$total.order_count}</p>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
                 <div class="content-text text-center margin-bottom-0">
                     <i class=" icon  {$today.order_price>=$yestaday.order_price?'text-danger wb-triangle-up':' text-success wb-triangle-down'}  font-size-20"> </i>
                     <span class="font-size-40 font-weight-100">¥{$today.order_price}</span>
-                    <p class="blue-grey-400 font-weight-100 margin-0">昨日 ¥{$yestaday.order_price}</p>
+                    <p class="blue-grey-400 font-weight-100 margin-0">昨日 ¥{$yestaday.order_price} ,合计 ¥{$total.order_price}</p>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
                 <div class="content-text text-center margin-bottom-0">
                     <i class="icon {$today.product_count>=$yestaday.product_count?'text-danger wb-triangle-up':' text-success wb-triangle-down'}  font-size-20"> </i>
                     <span class="font-size-40 font-weight-100">{$today.product_count}</span>
-                    <p class="blue-grey-400 font-weight-100 margin-0">昨日 {$yestaday.product_count}</p>
+                    <p class="blue-grey-400 font-weight-100 margin-0">昨日 {$yestaday.product_count} ,合计 {$total.product_count}</p>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@
                 <div class="content-text text-center margin-bottom-0">
                     <i class=" icon {$today.customer_count>=$yestaday.customer_count?'text-danger wb-triangle-up':' text-success wb-triangle-down'} font-size-20"> </i>
                     <span class="font-size-40 font-weight-100">{$today.customer_count}</span>
-                    <p class="blue-grey-400 font-weight-100 margin-0">昨日 {$yestaday.customer_count}</p>
+                    <p class="blue-grey-400 font-weight-100 margin-0">昨日 {$yestaday.customer_count} ,合计 {$total.customer_count}</p>
                 </div>
             </div>
         </div>
@@ -75,21 +75,10 @@
 
 
     <div class="col-ms-12 col-xs-12 col-md-12" id="ecommerceChartView">
-        收入折线统计图
+        30天收入折线统计图
         <div class="widget widget-shadow">
-            <div class="widget-header padding-20">
-                <ul class="nav nav-pills nav-pills-rounded chart-action">
-                    <li class="active">
-                        <a data-toggle="tab" href="#scoreLineToWeek">本周</a>
-                    </li>
-                    <li>
-                        <a data-toggle="tab" href="#scoreLineToMonth">本月</a>
-                    </li>
-                </ul>
-            </div>
             <div class="widget-content tab-content bg-white padding-20">
                 <div class="ct-chart tab-pane active" id="scoreLineToWeek"></div>
-                <div class="ct-chart tab-pane" id="scoreLineToMonth"></div>
             </div>
         </div>
     </div>
@@ -133,9 +122,9 @@
                             showGrid: false
                         },
                         axisY: {
-                            labelInterpolationFnc: function (value) {
-                                return (value / 1000) + 'K';
-                            },
+                            // labelInterpolationFnc: function (value) {
+                            //     return (value / 1000) + 'K';
+                            // },
                             scaleMinSpace: 40
                         },
                         plugins: [
@@ -193,36 +182,9 @@
 
                 };
 
-                var WeekLabelList = ['周一', '周二', '周三', '周四', '周五', '周六', '周日', ''];
-                var WeekSeries1List = {
-                    name: "series-1",
-                    data: [18000, 37000, 41000, 29000, 58000, 75000, 43000]
-                };
-
-                var MonthLabelList = ["9.1", "9.2", "9.3", "9.4", "9.5", "9.6", "9.7"];
-                var MonthSeries1List = {
-                    name: "series-1",
-                    data: [100000, 500000, 300000, 700000, 100000, 200000, 700000]
-                };
-                var createChart = function (button) {
-                    var btn = button || $("#ecommerceChartView .chart-action").children(".active");
-
-                    var chartId = btn.children("a").attr("href");
-                    switch (chartId) {
-                        case "#scoreLineToWeek":
-                            scoreChart("scoreLineToWeek", WeekLabelList, WeekSeries1List);
-                            break;
-                        case "#scoreLineToMonth":
-                            scoreChart("scoreLineToMonth", MonthLabelList, MonthSeries1List);
-                            break;
-                    }
-
-                };
-
-                createChart();
-                $(".chart-action li").on("click", function () {
-                    createChart($(this));
-                });
+                $.post('/admin/index/orderLine',function (data) {
+                    scoreChart("scoreLineToWeek", data.date,  data.count);
+                })
             },
         };
 
