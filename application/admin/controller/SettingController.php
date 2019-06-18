@@ -35,12 +35,12 @@ class SettingController extends BaseController
      */
     public function save(){
         try{
-            $input = array_filter(input('','','trim'));
+            $input = input('','','trim');
             $setting = new SettingModel();
 
             foreach($input as $k => $v){
                 // save方法第二个参数为更新条件
-                if($setting->save(['value'  => $v,'user_id'=>$this->userId],['key' => $k]) === false) {
+                if($setting->force(true)->save(['value'  => $v,'user_id'=>$this->userId],['key' => $k]) === false) {
                     exception('操作失败');
                 }
             }
