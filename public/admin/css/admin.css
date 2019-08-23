@@ -195,3 +195,28 @@ h4.btborder {
     max-width: 50px;
     max-height: 50px;
 }
+
+.panel-body{
+    padding: 10px 20px
+}
+.example {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+table td ,table th .th-inner{
+    color: #333;
+}
+table th .th-inner{
+    padding: 5px !important;
+    /*font-weight: 600;*/
+    /*background: #fff;*/
+}
+
+.bootstrap-table .table>thead>tr>th{
+    border-top: 1px solid #ddd !important;
+}
+.bootstrap-table .table:not(.table-condensed), .bootstrap-table .table:not(.table-condensed)>tbody>tr>td, .bootstrap-table .table:not(.table-condensed)>tbody>tr>th, .bootstrap-table .table:not(.table-condensed)>tfoot>tr>td, .bootstrap-table .table:not(.table-condensed)>tfoot>tr>th, .bootstrap-table .table:not(.table-condensed)>thead>tr>td {
+    padding: 5px !important;
+}
